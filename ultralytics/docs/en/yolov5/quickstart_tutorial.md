@@ -61,19 +61,19 @@ Replicate the YOLOv5 [COCO dataset](https://cocodataset.org/#home) benchmarks by
 
 ```bash
 # Train YOLOv5n on COCO128 for 3 epochs
-python run.py --data coco128.yaml --epochs 3 --weights yolov5n.pt --batch-size 128
+python prepare.py --data coco128.yaml --epochs 3 --weights yolov5n.pt --batch-size 128
 
 # Train YOLOv5s on COCO for 300 epochs
-python run.py --data coco.yaml --epochs 300 --weights '' --cfg yolov5s.yaml --batch-size 64
+python prepare.py --data coco.yaml --epochs 300 --weights '' --cfg yolov5s.yaml --batch-size 64
 
 # Train YOLOv5m on COCO for 300 epochs
-python run.py --data coco.yaml --epochs 300 --weights '' --cfg yolov5m.yaml --batch-size 40
+python prepare.py --data coco.yaml --epochs 300 --weights '' --cfg yolov5m.yaml --batch-size 40
 
 # Train YOLOv5l on COCO for 300 epochs
-python run.py --data coco.yaml --epochs 300 --weights '' --cfg yolov5l.yaml --batch-size 24
+python prepare.py --data coco.yaml --epochs 300 --weights '' --cfg yolov5l.yaml --batch-size 24
 
 # Train YOLOv5x on COCO for 300 epochs
-python run.py --data coco.yaml --epochs 300 --weights '' --cfg yolov5x.yaml --batch-size 16
+python prepare.py --data coco.yaml --epochs 300 --weights '' --cfg yolov5x.yaml --batch-size 16
 ```
 
 <img width="800" src="https://github.com/ultralytics/docs/releases/download/0/yolov5-training-curves.avif" alt="YOLOv5 training curves showing mAP and loss metrics over epochs for different model sizes (n, s, m, l, x) on the COCO dataset">

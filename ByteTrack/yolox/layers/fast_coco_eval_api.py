@@ -129,7 +129,7 @@ class COCOeval_opt(COCOeval):
         print("Accumulating evaluation results...")
         tic = time.time()
         if not hasattr(self, "_evalImgs_cpp"):
-            print("Please run evaluate() first")
+            print("Please prepare evaluate() first")
 
         self.eval = _C.COCOevalAccumulate(self._paramsEval, self._evalImgs_cpp)
 

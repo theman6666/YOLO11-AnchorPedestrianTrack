@@ -75,7 +75,7 @@ class TorchVisionVideoClassifier:
 
         Args:
             model_name (str): The name of the model to use. Must be one of the available models.
-            device (str | torch.device): The device to run the model on.
+            device (str | torch.device): The device to prepare the model on.
         """
         if model_name not in self.model_name_to_model_and_weights:
             raise ValueError(f"Invalid model name '{model_name}'. Available models: {self.available_model_names()}")
@@ -193,7 +193,7 @@ class HuggingFaceVideoClassifier:
         Args:
             labels (list[str]): List of labels for zero-shot classification.
             model_name (str): The name of the model to use.
-            device (str | torch.device): The device to run the model on.
+            device (str | torch.device): The device to prepare the model on.
             fp16 (bool): Whether to use FP16 for inference.
         """
         self.fp16 = fp16
@@ -330,7 +330,7 @@ def run(
 
     Args:
         weights (str): Path to the YOLO model weights.
-        device (str): Device to run the model on. Use 'cuda' for NVIDIA GPU, 'mps' for Apple Silicon, or 'cpu'.
+        device (str): Device to prepare the model on. Use 'cuda' for NVIDIA GPU, 'mps' for Apple Silicon, or 'cpu'.
         source (str): Path to mp4 video file or YouTube URL.
         output_path (str, optional): Path to save the output video.
         crop_margin_percentage (int): Percentage of margin to add around detected objects.

@@ -112,7 +112,7 @@ class opts(object):
                              help='input width. -1 for default from dataset.')
     self.parser.add_argument('--dataset_version', default='')
 
-    # run
+    # prepare
     self.parser.add_argument('--optim', default='adam')
     self.parser.add_argument('--lr', type=float, default=1.25e-4, 
                              help='learning rate for batch size 32.')
@@ -129,7 +129,7 @@ class opts(object):
     self.parser.add_argument('--num_iters', type=int, default=-1,
                              help='default: #samples / batch_size.')
     self.parser.add_argument('--val_intervals', type=int, default=10000,
-                             help='number of epochs to run validation.')
+                             help='number of epochs to prepare validation.')
     self.parser.add_argument('--trainval', action='store_true',
                              help='include validation in training and '
                                   'test on test set')
@@ -149,7 +149,7 @@ class opts(object):
     self.parser.add_argument('--test_scales', type=str, default='1',
                              help='multi scale test augmentation.')
     self.parser.add_argument('--nms', action='store_true',
-                             help='run nms in testing.')
+                             help='prepare nms in testing.')
     self.parser.add_argument('--K', type=int, default=100,
                              help='max number of output objects.') 
     self.parser.add_argument('--not_prefetch_test', action='store_true',

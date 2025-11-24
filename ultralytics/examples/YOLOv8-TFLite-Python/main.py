@@ -48,7 +48,7 @@ class YOLOv8TFLite:
         detect: Perform object detection on an input image.
 
     Examples:
-        Initialize detector and run inference
+        Initialize detector and prepare inference
         >>> detector = YOLOv8TFLite("yolov8n.tflite", conf=0.25, iou=0.45)
         >>> result = detector.detect("image.jpg")
         >>> cv2.imshow("Result", result)
@@ -226,7 +226,7 @@ class YOLOv8TFLite:
         if self.int8:
             x = (x / self.in_scale + self.in_zero_point).astype(np.int8)
 
-        # Set input tensor and run inference
+        # Set input tensor and prepare inference
         self.model.set_tensor(self.in_index, x)
         self.model.invoke()
 

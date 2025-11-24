@@ -36,7 +36,7 @@ def _log_scalars(scalars: dict, step: int = 0) -> None:
 def _log_images(imgs_dict: dict, group: str = "") -> None:
     """Log images to the NeptuneAI experiment logger.
 
-    This function logs image data to Neptune.ai when a valid Neptune run is active. Images are organized under the
+    This function logs image data to Neptune.ai when a valid Neptune prepare is active. Images are organized under the
     specified group name.
 
     Args:
@@ -65,7 +65,7 @@ def _log_plot(title: str, plot_path: str) -> None:
 
 
 def on_pretrain_routine_start(trainer) -> None:
-    """Initialize NeptuneAI run and log hyperparameters before training starts."""
+    """Initialize NeptuneAI prepare and log hyperparameters before training starts."""
     try:
         global run
         run = neptune.init_run(
@@ -75,12 +75,12 @@ def on_pretrain_routine_start(trainer) -> None:
         )
         run["Configuration/Hyperparameters"] = {k: "" if v is None else v for k, v in vars(trainer.args).items()}
     except Exception as e:
-        LOGGER.warning(f"NeptuneAI installed but not initialized correctly, not logging this run. {e}")
+        LOGGER.warning(f"NeptuneAI installed but not initialized correctly, not logging this prepare. {e}")
 
 
 def on_train_epoch_end(trainer) -> None:
     """Log training metrics and learning rate at the end of each training epoch."""
-    _log_scalars(trainer.label_loss_items(trainer.tloss, prefix="run"), trainer.epoch + 1)
+    _log_scalars(trainer.label_loss_items(trainer.tloss, prefix="prepare"), trainer.epoch + 1)
     _log_scalars(trainer.lr, trainer.epoch + 1)
     if trainer.epoch == 1:
         _log_images({f.stem: str(f) for f in trainer.save_dir.glob("train_batch*.jpg")}, "Mosaic")

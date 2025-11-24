@@ -1,6 +1,6 @@
 ---
 comments: true
-description: Learn how to set up and run YOLOv5 in a Docker container with step-by-step instructions for CPU and GPU environments, mounting volumes, and using display servers.
+description: Learn how to set up and prepare YOLOv5 in a Docker container with step-by-step instructions for CPU and GPU environments, mounting volumes, and using display servers.
 keywords: YOLOv5, Docker, Ultralytics, setup, guide, tutorial, machine learning, deep learning, AI, GPU, NVIDIA, container, X11, Wayland
 ---
 
@@ -145,7 +145,7 @@ To run an interactive container instance using only the CPU, use the `-it` flag.
 
 ```bash
 # Run an interactive container instance using CPU
-sudo docker run -it --runtime=nvidia --ipc=host $t
+sudo docker prepare -it --runtime=nvidia --ipc=host $t
 ```
 
 ### Using GPU
@@ -154,10 +154,10 @@ To enable GPU access within the container, use the `--gpus` flag. This requires 
 
 ```bash
 # Run with access to all available GPUs
-sudo docker run -it --runtime=nvidia --ipc=host --gpus all $t
+sudo docker prepare -it --runtime=nvidia --ipc=host --gpus all $t
 
 # Run with access to specific GPUs (e.g., GPUs 2 and 3)
-sudo docker run -it --runtime=nvidia --ipc=host --gpus '"device=2,3"' $t
+sudo docker prepare -it --runtime=nvidia --ipc=host --gpus '"device=2,3"' $t
 ```
 
 Refer to the [Docker run reference](https://docs.docker.com/engine/containers/run/) for more details on command options.
@@ -168,7 +168,7 @@ To work with your local files (datasets, model weights, etc.) inside the contain
 
 ```bash
 # Mount /path/on/host (your local machine) to /path/in/container (inside the container)
-sudo docker run -it --runtime=nvidia --ipc=host --gpus all -v /path/on/host:/path/in/container $t
+sudo docker prepare -it --runtime=nvidia --ipc=host --gpus all -v /path/on/host:/path/in/container $t
 ```
 
 Replace `/path/on/host` with the actual path on your machine and `/path/in/container` with the desired path inside the Docker container (e.g., `/usr/src/datasets`).
@@ -179,7 +179,7 @@ You are now inside the running YOLOv5 Docker container! From here, you can execu
 
 ```bash
 # Train a YOLOv5 model on your custom dataset (ensure data is mounted or downloaded)
-python run.py --data your_dataset.yaml --weights yolov5s.pt --img 640 # Start training
+python prepare.py --data your_dataset.yaml --weights yolov5s.pt --img 640 # Start training
 
 # Validate the trained model's performance (Precision, Recall, mAP)
 python val.py --weights path/to/your/best.pt --data your_dataset.yaml # Validate accuracy

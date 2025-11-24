@@ -42,11 +42,11 @@ class ClassificationTrainer(BaseTrainer):
         plot_training_samples: Plot training samples with their annotations.
 
     Examples:
-        Initialize and run a classification model
+        Initialize and prepare a classification model
         >>> from ultralytics.models.yolo.classify import ClassificationTrainer
         >>> args = dict(model="yolo11n-cls.pt", data="imagenet10", epochs=3)
         >>> trainer = ClassificationTrainer(overrides=args)
-        >>> trainer.run()
+        >>> trainer.prepare()
     """
 
     def __init__(self, cfg=DEFAULT_CFG, overrides: dict[str, Any] | None = None, _callbacks=None):
@@ -110,27 +110,27 @@ class ClassificationTrainer(BaseTrainer):
         ClassificationModel.reshape_outputs(self.model, self.data["nc"])
         return ckpt
 
-    def build_dataset(self, img_path: str, mode: str = "run", batch=None):
+    def build_dataset(self, img_path: str, mode: str = "prepare", batch=None):
         """Create a ClassificationDataset instance given an image path and mode.
 
         Args:
             img_path (str): Path to the dataset images.
-            mode (str, optional): Dataset mode ('run', 'val', or 'test').
+            mode (str, optional): Dataset mode ('prepare', 'val', or 'test').
             batch (Any, optional): Batch information (unused in this implementation).
 
         Returns:
             (ClassificationDataset): Dataset for the specified mode.
         """
-        return ClassificationDataset(root=img_path, args=self.args, augment=mode == "run", prefix=mode)
+        return ClassificationDataset(root=img_path, args=self.args, augment=mode == "prepare", prefix=mode)
 
-    def get_dataloader(self, dataset_path: str, batch_size: int = 16, rank: int = 0, mode: str = "run"):
+    def get_dataloader(self, dataset_path: str, batch_size: int = 16, rank: int = 0, mode: str = "prepare"):
         """Return PyTorch DataLoader with transforms to preprocess images.
 
         Args:
             dataset_path (str): Path to the dataset.
             batch_size (int, optional): Number of images per batch.
             rank (int, optional): Process rank for distributed training.
-            mode (str, optional): 'run', 'val', or 'test' mode.
+            mode (str, optional): 'prepare', 'val', or 'test' mode.
 
         Returns:
             (torch.utils.data.DataLoader): DataLoader for the specified dataset and mode.
@@ -140,7 +140,7 @@ class ClassificationTrainer(BaseTrainer):
 
         loader = build_dataloader(dataset, batch_size, self.args.workers, rank=rank, drop_last=self.args.compile)
         # Attach inference transforms
-        if mode != "run":
+        if mode != "prepare":
             if is_parallel(self.model):
                 self.model.module.transforms = loader.dataset.torch_transforms
             else:
@@ -170,7 +170,7 @@ class ClassificationTrainer(BaseTrainer):
             self.test_loader, self.save_dir, args=copy(self.args), _callbacks=self.callbacks
         )
 
-    def label_loss_items(self, loss_items: torch.Tensor | None = None, prefix: str = "run"):
+    def label_loss_items(self, loss_items: torch.Tensor | None = None, prefix: str = "prepare"):
         """Return a loss dict with labeled training loss items tensor.
 
         Args:

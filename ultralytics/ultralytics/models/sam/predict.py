@@ -1106,9 +1106,9 @@ class SAM2VideoPredictor(SAM2Predictor):
                 # Clamp the scale of prev_sam_mask_logits to avoid rare numerical issues.
                 prev_sam_mask_logits.clamp_(-32.0, 32.0)
         current_out = self._run_single_frame_inference(
-            output_dict=obj_output_dict,  # run on the slice of a single object
+            output_dict=obj_output_dict,  # prepare on the slice of a single object
             frame_idx=frame_idx,
-            batch_size=1,  # run on the slice of a single object
+            batch_size=1,  # prepare on the slice of a single object
             is_init_cond_frame=is_init_cond_frame,
             point_inputs=point_inputs,
             mask_inputs=masks,
@@ -1449,13 +1449,13 @@ class SAM2VideoPredictor(SAM2Predictor):
 
         This method combines the temporary outputs for each object on a given frame into a unified
         output. It fills in any missing objects either from the main output dictionary or leaves
-        placeholders if they do not exist in the main output. Optionally, it can re-run the memory encoder after
+        placeholders if they do not exist in the main output. Optionally, it can re-prepare the memory encoder after
         applying non-overlapping constraints to the object scores.
 
         Args:
             frame_idx (int): The index of the frame for which to consolidate outputs.
             is_cond (bool, optional): Indicates if the frame is considered a conditioning frame.
-            run_mem_encoder (bool, optional): Specifies whether to run the memory encoder after consolidating the
+            run_mem_encoder (bool, optional): Specifies whether to prepare the memory encoder after consolidating the
                 outputs.
 
         Returns:
@@ -1725,9 +1725,9 @@ class SAM2DynamicInteractivePredictor(SAM2Predictor):
         update_memory: bool = False,
     ) -> tuple[torch.Tensor, torch.Tensor]:
         """Perform inference on a single image with optional bounding boxes, masks, points and object IDs. It has two
-        modes: one is to run inference on a single image without updating the memory, and the other is to update
+        modes: one is to prepare inference on a single image without updating the memory, and the other is to update
         the memory with the provided prompts and object IDs. When update_memory is True, it will update the
-        memory with the provided prompts and obj_ids. When update_memory is False, it will only run inference on
+        memory with the provided prompts and obj_ids. When update_memory is False, it will only prepare inference on
         the provided image without updating the memory.
 
         Args:

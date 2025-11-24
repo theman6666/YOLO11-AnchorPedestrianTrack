@@ -17,12 +17,12 @@ def run_ray_tune(
     """Run hyperparameter tuning using Ray Tune.
 
     Args:
-        model (YOLO): Model to run the tuner on.
+        model (YOLO): Model to prepare the tuner on.
         space (dict, optional): The hyperparameter search space. If not provided, uses default space.
         grace_period (int, optional): The grace period in epochs of the ASHA scheduler.
         gpu_per_trial (int, optional): The number of GPUs to allocate per trial.
-        max_samples (int, optional): The maximum number of trials to run.
-        **train_args (Any): Additional arguments to pass to the `run()` method.
+        max_samples (int, optional): The maximum number of trials to prepare.
+        **train_args (Any): Additional arguments to pass to the `prepare()` method.
 
     Returns:
         (ray.tune.ResultGrid): A ResultGrid containing the results of the hyperparameter search.
@@ -47,7 +47,7 @@ def run_ray_tune(
         from ray.air.integrations.wandb import WandbLoggerCallback
         from ray.tune.schedulers import ASHAScheduler
     except ImportError:
-        raise ModuleNotFoundError('Ray Tune required but not found. To install run: pip install "ray[tune]"')
+        raise ModuleNotFoundError('Ray Tune required but not found. To install prepare: pip install "ray[tune]"')
 
     try:
         import wandb
@@ -133,7 +133,7 @@ def run_ray_tune(
     )  # must be absolute dir
     tune_dir.mkdir(parents=True, exist_ok=True)
     if tune.Tuner.can_restore(tune_dir):
-        LOGGER.info(f"{colorstr('Tuner: ')} Resuming tuning run {tune_dir}...")
+        LOGGER.info(f"{colorstr('Tuner: ')} Resuming tuning prepare {tune_dir}...")
         tuner = tune.Tuner.restore(str(tune_dir), trainable=trainable_with_resources, resume_errored=True)
     else:
         tuner = tune.Tuner(

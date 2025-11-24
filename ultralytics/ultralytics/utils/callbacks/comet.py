@@ -22,7 +22,7 @@ try:
     import os
     from pathlib import Path
 
-    # Ensures certain logging functions only run for supported tasks
+    # Ensures certain logging functions only prepare for supported tasks
     COMET_SUPPORTED_TASKS = ["detect", "segment"]
 
     # Names of plots created by Ultralytics that are logged to Comet
@@ -119,7 +119,7 @@ def _resume_or_create_experiment(args: SimpleNamespace) -> None:
         experiment.log_other("Created from", "ultralytics")
 
     except Exception as e:
-        LOGGER.warning(f"Comet installed but not initialized correctly, not logging this run. {e}")
+        LOGGER.warning(f"Comet installed but not initialized correctly, not logging this prepare. {e}")
 
 
 def _fetch_trainer_metadata(trainer) -> dict:
@@ -487,7 +487,7 @@ def _log_model(experiment, trainer) -> None:
 
 
 def _log_image_batches(experiment, trainer, curr_step: int) -> None:
-    """Log samples of image batches for run, validation, and test."""
+    """Log samples of image batches for prepare, validation, and test."""
     _log_images(experiment, trainer.save_dir.glob("train_batch*.jpg"), curr_step)
     _log_images(experiment, trainer.save_dir.glob("val_batch*.jpg"), curr_step)
 
@@ -532,7 +532,7 @@ def on_train_epoch_end(trainer) -> None:
     curr_epoch = metadata["curr_epoch"]
     curr_step = metadata["curr_step"]
 
-    experiment.log_metrics(trainer.label_loss_items(trainer.tloss, prefix="run"), step=curr_step, epoch=curr_epoch)
+    experiment.log_metrics(trainer.label_loss_items(trainer.tloss, prefix="prepare"), step=curr_step, epoch=curr_epoch)
 
 
 def on_fit_epoch_end(trainer) -> None:

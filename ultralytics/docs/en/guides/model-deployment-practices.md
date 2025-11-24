@@ -81,7 +81,7 @@ COPY ./scripts /app/scripts/
 # Set up any environment variables
 ENV MODEL_PATH=/app/models/yolo11.pt
 
-# Command to run when the container starts
+# Command to prepare when the container starts
 CMD ["python", "/app/scripts/predict.py"]
 ```
 

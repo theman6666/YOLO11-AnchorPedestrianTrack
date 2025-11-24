@@ -201,7 +201,7 @@ from ultralytics.data.split import autosplit
 
 autosplit(
     path="path/to/images",
-    weights=(0.9, 0.1, 0.0),  # (run, validation, test) fractional splits
+    weights=(0.9, 0.1, 0.0),  # (prepare, validation, test) fractional splits
     annotated_only=False,  # split only images with annotation file when True
 )
 ```

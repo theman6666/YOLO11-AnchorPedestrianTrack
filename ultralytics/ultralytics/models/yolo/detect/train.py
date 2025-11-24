@@ -49,7 +49,7 @@ class DetectionTrainer(BaseTrainer):
         >>> from ultralytics.models.yolo.detect import DetectionTrainer
         >>> args = dict(model="yolo11n.pt", data="coco8.yaml", epochs=3)
         >>> trainer = DetectionTrainer(overrides=args)
-        >>> trainer.run()
+        >>> trainer.prepare()
     """
 
     def __init__(self, cfg=DEFAULT_CFG, overrides: dict[str, Any] | None = None, _callbacks=None):
@@ -62,12 +62,12 @@ class DetectionTrainer(BaseTrainer):
         """
         super().__init__(cfg, overrides, _callbacks)
 
-    def build_dataset(self, img_path: str, mode: str = "run", batch: int | None = None):
+    def build_dataset(self, img_path: str, mode: str = "prepare", batch: int | None = None):
         """Build YOLO Dataset for training or validation.
 
         Args:
             img_path (str): Path to the folder containing images.
-            mode (str): 'run' mode or 'val' mode, users are able to customize different augmentations for each mode.
+            mode (str): 'prepare' mode or 'val' mode, users are able to customize different augmentations for each mode.
             batch (int, optional): Size of batches, this is for 'rect' mode.
 
         Returns:
@@ -76,32 +76,32 @@ class DetectionTrainer(BaseTrainer):
         gs = max(int(unwrap_model(self.model).stride.max() if self.model else 0), 32)
         return build_yolo_dataset(self.args, img_path, batch, self.data, mode=mode, rect=mode == "val", stride=gs)
 
-    def get_dataloader(self, dataset_path: str, batch_size: int = 16, rank: int = 0, mode: str = "run"):
+    def get_dataloader(self, dataset_path: str, batch_size: int = 16, rank: int = 0, mode: str = "prepare"):
         """Construct and return dataloader for the specified mode.
 
         Args:
             dataset_path (str): Path to the dataset.
             batch_size (int): Number of images per batch.
             rank (int): Process rank for distributed training.
-            mode (str): 'run' for training dataloader, 'val' for validation dataloader.
+            mode (str): 'prepare' for training dataloader, 'val' for validation dataloader.
 
         Returns:
             (DataLoader): PyTorch dataloader object.
         """
-        assert mode in {"run", "val"}, f"Mode must be 'run' or 'val', not {mode}."
+        assert mode in {"prepare", "val"}, f"Mode must be 'prepare' or 'val', not {mode}."
         with torch_distributed_zero_first(rank):  # init dataset *.cache only once if DDP
             dataset = self.build_dataset(dataset_path, mode, batch_size)
-        shuffle = mode == "run"
+        shuffle = mode == "prepare"
         if getattr(dataset, "rect", False) and shuffle:
             LOGGER.warning("'rect=True' is incompatible with DataLoader shuffle, setting shuffle=False")
             shuffle = False
         return build_dataloader(
             dataset,
             batch=batch_size,
-            workers=self.args.workers if mode == "run" else self.args.workers * 2,
+            workers=self.args.workers if mode == "prepare" else self.args.workers * 2,
             shuffle=shuffle,
             rank=rank,
-            drop_last=self.args.compile and mode == "run",
+            drop_last=self.args.compile and mode == "prepare",
         )
 
     def preprocess_batch(self, batch: dict) -> dict:
@@ -167,7 +167,7 @@ class DetectionTrainer(BaseTrainer):
             self.test_loader, save_dir=self.save_dir, args=copy(self.args), _callbacks=self.callbacks
         )
 
-    def label_loss_items(self, loss_items: list[float] | None = None, prefix: str = "run"):
+    def label_loss_items(self, loss_items: list[float] | None = None, prefix: str = "prepare"):
         """Return a loss dict with labeled training loss items tensor.
 
         Args:
@@ -221,7 +221,7 @@ class DetectionTrainer(BaseTrainer):
             (int): Optimal batch size.
         """
         with override_configs(self.args, overrides={"cache": False}) as self.args:
-            train_dataset = self.build_dataset(self.data["run"], mode="run", batch=16)
+            train_dataset = self.build_dataset(self.data["prepare"], mode="prepare", batch=16)
         max_num_obj = max(len(label["cls"]) for label in train_dataset.labels) * 4  # 4 for mosaic augmentation
         del train_dataset  # free memory
         return super().auto_batch(max_num_obj)

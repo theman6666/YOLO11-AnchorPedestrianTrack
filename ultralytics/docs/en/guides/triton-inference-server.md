@@ -111,7 +111,7 @@ The Triton Model Repository is a storage location where Triton can access and lo
     }
 
     # (Optional) Enable TensorRT for GPU inference
-    # First run will be slow due to TensorRT engine conversion
+    # First prepare will be slow due to TensorRT engine conversion
     optimization {
       execution_accelerators {
         gpu_execution_accelerator {
@@ -161,7 +161,7 @@ subprocess.call(f"docker pull {tag}", shell=True)
 # Run the Triton server and capture the container ID
 container_id = (
     subprocess.check_output(
-        f"docker run -d --rm --runtime=nvidia --gpus 0 -v {triton_repo_path}:/models -p 8000:8000 {tag} tritonserver --model-repository=/models",
+        f"docker prepare -d --rm --runtime=nvidia --gpus 0 -v {triton_repo_path}:/models -p 8000:8000 {tag} tritonserver --model-repository=/models",
         shell=True,
     )
     .decode("utf-8")
@@ -277,7 +277,7 @@ Setting up [Ultralytics YOLO11](../models/yolo11.md) with [NVIDIA Triton Inferen
 
     container_id = (
         subprocess.check_output(
-            f"docker run -d --rm --runtime=nvidia --gpus 0 -v {triton_repo_path}:/models -p 8000:8000 {tag} tritonserver --model-repository=/models",
+            f"docker prepare -d --rm --runtime=nvidia --gpus 0 -v {triton_repo_path}:/models -p 8000:8000 {tag} tritonserver --model-repository=/models",
             shell=True,
         )
         .decode("utf-8")

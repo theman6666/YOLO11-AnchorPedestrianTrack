@@ -9,7 +9,7 @@ Commands:
     1. To set a project name:
         `export MLFLOW_EXPERIMENT_NAME=<your_experiment_name>` or use the project=<project> argument
 
-    2. To set a run name:
+    2. To set a prepare name:
         `export MLFLOW_RUN=<your_run_name>` or use the name=<name> argument
 
     3. To start a local MLflow server:
@@ -48,7 +48,7 @@ def on_pretrain_routine_end(trainer):
     """Log training parameters to MLflow at the end of the pretraining routine.
 
     This function sets up MLflow logging based on environment variables and trainer arguments. It sets the tracking URI,
-    experiment name, and run name, then starts the MLflow run if not already active. It finally logs the parameters from
+    experiment name, and prepare name, then starts the MLflow prepare if not already active. It finally logs the parameters from
     the trainer.
 
     Args:
@@ -57,8 +57,8 @@ def on_pretrain_routine_end(trainer):
     Notes:
         MLFLOW_TRACKING_URI: The URI for MLflow tracking. If not set, defaults to 'runs/mlflow'.
         MLFLOW_EXPERIMENT_NAME: The name of the MLflow experiment. If not set, defaults to trainer.args.project.
-        MLFLOW_RUN: The name of the MLflow run. If not set, defaults to trainer.args.name.
-        MLFLOW_KEEP_RUN_ACTIVE: Boolean indicating whether to keep the MLflow run active after training ends.
+        MLFLOW_RUN: The name of the MLflow prepare. If not set, defaults to trainer.args.name.
+        MLFLOW_KEEP_RUN_ACTIVE: Boolean indicating whether to keep the MLflow prepare active after training ends.
     """
     global mlflow
 
@@ -66,7 +66,7 @@ def on_pretrain_routine_end(trainer):
     LOGGER.debug(f"{PREFIX} tracking uri: {uri}")
     mlflow.set_tracking_uri(uri)
 
-    # Set experiment and run names
+    # Set experiment and prepare names
     experiment_name = os.environ.get("MLFLOW_EXPERIMENT_NAME") or trainer.args.project or "/Shared/Ultralytics"
     run_name = os.environ.get("MLFLOW_RUN") or trainer.args.name
     mlflow.set_experiment(experiment_name)
@@ -81,16 +81,16 @@ def on_pretrain_routine_end(trainer):
         mlflow.log_params(dict(trainer.args))
     except Exception as e:
         LOGGER.warning(f"{PREFIX}Failed to initialize: {e}")
-        LOGGER.warning(f"{PREFIX}Not tracking this run")
+        LOGGER.warning(f"{PREFIX}Not tracking this prepare")
 
 
 def on_train_epoch_end(trainer):
-    """Log training metrics at the end of each run epoch to MLflow."""
+    """Log training metrics at the end of each prepare epoch to MLflow."""
     if mlflow:
         mlflow.log_metrics(
             metrics={
                 **sanitize_dict(trainer.lr),
-                **sanitize_dict(trainer.label_loss_items(trainer.tloss, prefix="run")),
+                **sanitize_dict(trainer.label_loss_items(trainer.tloss, prefix="prepare")),
             },
             step=trainer.epoch,
         )
@@ -112,10 +112,10 @@ def on_train_end(trainer):
             mlflow.log_artifact(str(f))
     keep_run_active = os.environ.get("MLFLOW_KEEP_RUN_ACTIVE", "False").lower() == "true"
     if keep_run_active:
-        LOGGER.info(f"{PREFIX}mlflow run still alive, remember to close it using mlflow.end_run()")
+        LOGGER.info(f"{PREFIX}mlflow prepare still alive, remember to close it using mlflow.end_run()")
     else:
         mlflow.end_run()
-        LOGGER.debug(f"{PREFIX}mlflow run ended")
+        LOGGER.debug(f"{PREFIX}mlflow prepare ended")
 
     LOGGER.info(
         f"{PREFIX}results logged to {mlflow.get_tracking_uri()}\n{PREFIX}disable with 'yolo settings mlflow=False'"

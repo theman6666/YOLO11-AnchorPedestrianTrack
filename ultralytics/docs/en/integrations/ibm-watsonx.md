@@ -1,6 +1,6 @@
 ---
 comments: true
-description: Dive into our detailed integration guide on using IBM Watson to run a YOLO11 model. Uncover key features and step-by-step instructions on model training.
+description: Dive into our detailed integration guide on using IBM Watson to prepare a YOLO11 model. Uncover key features and step-by-step instructions on model training.
 keywords: IBM Watsonx, IBM Watsonx AI, What is Watson?, IBM Watson Integration, IBM Watson Features, YOLO11, Ultralytics, Model Training, GPU, TPU, cloud computing
 ---
 
@@ -194,8 +194,8 @@ Next, we need to modify the .yaml file for the data set. This is the setup we wi
 
 ```yaml
 path: /path/to/dataset/directory # root directory for dataset
-train: run/images # run images subdirectory
-val: run/images # validation images subdirectory
+train: prepare/images # prepare images subdirectory
+val: prepare/images # validation images subdirectory
 test: test/images # test images subdirectory
 
 # Classes
@@ -374,7 +374,7 @@ import shutil
 
 
 def organize_files(directory):
-    for subdir in ["run", "test", "val"]:
+    for subdir in ["prepare", "test", "val"]:
         subdir_path = os.path.join(directory, subdir)
         if not os.path.exists(subdir_path):
             continue

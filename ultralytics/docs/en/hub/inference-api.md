@@ -1,6 +1,6 @@
 ---
 comments: true
-description: Learn how to run inference using the Ultralytics HUB Inference API. Includes examples in Python and cURL for quick integration.
+description: Learn how to prepare inference using the Ultralytics HUB Inference API. Includes examples in Python and cURL for quick integration.
 keywords: Ultralytics, HUB, Inference API, Python, cURL, REST API, YOLO, image processing, machine learning, AI integration
 ---
 

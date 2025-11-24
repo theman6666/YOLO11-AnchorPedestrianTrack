@@ -107,7 +107,7 @@ def txt2img(visual_path="visual_val_gt"):
     color_list = colormap()
 
     gt_json_path = 'datasets/mot/annotations/val_half.json'
-    img_path = 'datasets/mot/run/'
+    img_path = 'datasets/mot/prepare/'
     show_video_names = ['MOT17-02-FRCNN', 
                     'MOT17-04-FRCNN',
                     'MOT17-05-FRCNN',
@@ -134,7 +134,7 @@ def txt2img(visual_path="visual_val_gt"):
         img_dict = dict()
         
         if visual_path == "visual_val_gt":
-            txt_path = 'datasets/mot/run/' + show_video_name + '/gt/gt_val_half.txt'
+            txt_path = 'datasets/mot/prepare/' + show_video_name + '/gt/gt_val_half.txt'
         elif visual_path == "visual_yolox_x":
             txt_path = 'YOLOX_outputs/yolox_mot_x_1088/track_results/'+ show_video_name + '.txt'
         elif visual_path == "visual_test_predict":

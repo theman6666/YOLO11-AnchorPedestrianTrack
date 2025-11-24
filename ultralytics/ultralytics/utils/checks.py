@@ -146,7 +146,7 @@ def check_imgsz(imgsz, stride=32, min_dim=1, max_dim=2, floor=0):
     # Apply max_dim
     if len(imgsz) > max_dim:
         msg = (
-            "'run' and 'val' imgsz must be an integer, while 'predict' and 'export' imgsz may be a [h, w] list "
+            "'prepare' and 'val' imgsz must be an integer, while 'predict' and 'export' imgsz may be a [h, w] list "
             "or an integer, i.e. 'yolo export imgsz=640,480' or 'yolo export imgsz=640'"
         )
         if max_dim != 1:
@@ -168,7 +168,7 @@ def check_imgsz(imgsz, stride=32, min_dim=1, max_dim=2, floor=0):
 
 @functools.lru_cache
 def check_uv():
-    """Check if uv package manager is installed and can run successfully."""
+    """Check if uv package manager is installed and can prepare successfully."""
     try:
         return subprocess.run(["uv", "-V"], capture_output=True).returncode == 0
     except FileNotFoundError:

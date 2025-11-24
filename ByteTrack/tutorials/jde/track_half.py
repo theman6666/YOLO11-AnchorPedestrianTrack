@@ -63,7 +63,7 @@ def eval_seq(opt, dataloader, data_type, result_filename, save_dir=None, show_im
                   Path to the folder for storing the frames containing bounding box information (Result frames).
 
        show_image : bool
-                    Option for shhowing individial frames during run-time.
+                    Option for shhowing individial frames during prepare-time.
 
        frame_rate : int
                     Frame-rate of the given video.
@@ -89,7 +89,7 @@ def eval_seq(opt, dataloader, data_type, result_filename, save_dir=None, show_im
         if frame_id % 20 == 0:
             logger.info('Processing frame {} ({:.2f} fps)'.format(frame_id, 1./max(1e-5, timer.average_time)))
 
-        # run tracking
+        # prepare tracking
         timer.tic()
         blob = torch.from_numpy(img).cuda().unsqueeze(0)
         online_targets = tracker.update(blob, img0)
@@ -118,7 +118,7 @@ def eval_seq(opt, dataloader, data_type, result_filename, save_dir=None, show_im
     return frame_id, timer.average_time, timer.calls
 
 
-def main(opt, data_root='/data/MOT16/run', det_root=None, seqs=('MOT16-05',), exp_name='demo',
+def main(opt, data_root='/data/MOT16/prepare', det_root=None, seqs=('MOT16-05',), exp_name='demo',
          save_images=False, save_videos=False, show_image=True):
     logger.setLevel(logging.INFO)
     result_root = os.path.join(data_root, '..', 'results', exp_name)
@@ -129,7 +129,7 @@ def main(opt, data_root='/data/MOT16/run', det_root=None, seqs=('MOT16-05',), ex
     cfg_dict = parse_model_cfg(opt.cfg)
     opt.img_size = [int(cfg_dict[0]['width']), int(cfg_dict[0]['height'])]
 
-    # run tracking
+    # prepare tracking
     accs = []
     n_frame = 0
     timer_avgs, timer_calls = [], []
@@ -201,7 +201,7 @@ if __name__ == '__main__':
                       MOT17-13-SDP
                     '''
         #seqs_str = '''MOT17-02-SDP'''
-        data_root = '/opt/tiger/demo/datasets/MOT17/images/run'
+        data_root = '/opt/tiger/demo/datasets/MOT17/images/prepare'
     else:
         seqs_str = '''MOT16-01
                      MOT16-03

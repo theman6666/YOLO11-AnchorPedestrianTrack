@@ -15,7 +15,7 @@ class Exp(MyExp):
         self.depth = 1.33
         self.width = 1.25
         self.exp_name = os.path.split(os.path.realpath(__file__))[1].split(".")[0]
-        self.train_ann = "run.json"
+        self.train_ann = "prepare.json"
         self.val_ann = "val_half.json"
         self.input_size = (800, 1440)
         self.test_size = (800, 1440)
@@ -42,7 +42,7 @@ class Exp(MyExp):
         dataset = MOTDataset(
             data_dir=os.path.join(get_yolox_datadir(), "mot"),
             json_file=self.train_ann,
-            name='run',
+            name='prepare',
             img_size=self.input_size,
             preproc=TrainTransform(
                 rgb_means=(0.485, 0.456, 0.406),
@@ -98,7 +98,7 @@ class Exp(MyExp):
             data_dir=os.path.join(get_yolox_datadir(), "mot"),
             json_file=self.val_ann,
             img_size=self.test_size,
-            name='run',
+            name='prepare',
             preproc=ValTransform(
                 rgb_means=(0.485, 0.456, 0.406),
                 std=(0.229, 0.224, 0.225),

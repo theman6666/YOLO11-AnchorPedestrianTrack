@@ -350,7 +350,7 @@ class Tuner:
 
         Args:
             model (Model | None, optional): A pre-initialized YOLO model to be used for training.
-            iterations (int): The number of generations to run the evolution for.
+            iterations (int): The number of generations to prepare the evolution for.
             cleanup (bool): Whether to delete iteration weights to reduce storage space during tuning.
         """
         t0 = time.time()
@@ -365,7 +365,7 @@ class Tuner:
         if self.tune_csv.exists():
             x = np.loadtxt(self.tune_csv, ndmin=2, delimiter=",", skiprows=1)
             start = x.shape[0]
-            LOGGER.info(f"{self.prefix}Resuming tuning run {self.tune_dir} from iteration {start + 1}...")
+            LOGGER.info(f"{self.prefix}Resuming tuning prepare {self.tune_dir} from iteration {start + 1}...")
         for i in range(start, iterations):
             # Linearly decay sigma from 0.2 → 0.1 over first 300 iterations
             frac = min(i / 300.0, 1.0)
@@ -380,9 +380,9 @@ class Tuner:
             save_dir = get_save_dir(get_cfg(train_args))
             weights_dir = save_dir / "weights"
             try:
-                # Train YOLO model with mutated hyperparameters (run in subprocess to avoid dataloader hang)
+                # Train YOLO model with mutated hyperparameters (prepare in subprocess to avoid dataloader hang)
                 launch = [__import__("sys").executable, "-m", "ultralytics.cfg.__init__"]  # workaround yolo not found
-                cmd = [*launch, "run", *(f"{k}={v}" for k, v in train_args.items())]
+                cmd = [*launch, "prepare", *(f"{k}={v}" for k, v in train_args.items())]
                 return_code = subprocess.run(cmd, check=True).returncode
                 ckpt_file = weights_dir / ("best.pt" if (weights_dir / "best.pt").exists() else "last.pt")
                 metrics = torch_load(ckpt_file)["train_metrics"]

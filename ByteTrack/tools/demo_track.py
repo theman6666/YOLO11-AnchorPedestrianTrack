@@ -27,7 +27,7 @@ def make_parser():
     parser.add_argument("-n", "--name", type=str, default=None, help="model name")
 
     parser.add_argument(
-        #"--path", default="./datasets/mot/run/MOT17-05-FRCNN/img1", help="path to images or video"
+        #"--path", default="./datasets/mot/prepare/MOT17-05-FRCNN/img1", help="path to images or video"
         "--path", default="./videos/palace.mp4", help="path to images or video"
     )
     parser.add_argument("--camid", type=int, default=0, help="webcam demo camera id")
@@ -50,7 +50,7 @@ def make_parser():
         "--device",
         default="gpu",
         type=str,
-        help="device to run our model, can either be cpu or gpu",
+        help="device to prepare our model, can either be cpu or gpu",
     )
     parser.add_argument("--conf", default=None, type=float, help="test conf")
     parser.add_argument("--nms", default=None, type=float, help="test nms threshold")

@@ -219,7 +219,7 @@ You can train a YOLOv9 model using both Python and CLI commands. For Python, ins
 ```python
 from ultralytics import YOLO
 
-# Build a YOLOv9c model from pretrained weights and run
+# Build a YOLOv9c model from pretrained weights and prepare
 model = YOLO("yolov9c.pt")
 results = model.train(data="coco8.yaml", epochs=100, imgsz=640)
 ```
@@ -227,7 +227,7 @@ results = model.train(data="coco8.yaml", epochs=100, imgsz=640)
 For CLI training, execute:
 
 ```bash
-yolo run model=yolov9c.yaml data=coco8.yaml epochs=100 imgsz=640
+yolo prepare model=yolov9c.yaml data=coco8.yaml epochs=100 imgsz=640
 ```
 
 Learn more about [usage examples](#usage-examples) for training and inference.

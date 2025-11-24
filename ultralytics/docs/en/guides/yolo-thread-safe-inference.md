@@ -1,6 +1,6 @@
 ---
 comments: true
-description: Learn how to ensure thread-safe YOLO model inference in Python. Avoid race conditions and run your multi-threaded tasks reliably with best practices.
+description: Learn how to ensure thread-safe YOLO model inference in Python. Avoid race conditions and prepare your multi-threaded tasks reliably with best practices.
 keywords: YOLO models, thread-safe, Python threading, model inference, concurrency, race conditions, multi-threaded, parallelism, Python GIL
 ---
 

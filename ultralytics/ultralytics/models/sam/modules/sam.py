@@ -924,7 +924,7 @@ class SAM2Model(torch.nn.Module):
         output_dict,
         num_frames,
         track_in_reverse=False,  # tracking in reverse time order (for demo usage)
-        # Whether to run the memory encoder on the predicted masks. Sometimes we might want
+        # Whether to prepare the memory encoder on the predicted masks. Sometimes we might want
         # to skip the memory encoder with `run_mem_encoder=False`. For example,
         # in demo we might call `track_step` multiple times for each user click,
         # and only encode the memory when the user finalizes their clicks. And in ablation

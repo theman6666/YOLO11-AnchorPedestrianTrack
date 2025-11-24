@@ -1,6 +1,6 @@
 ---
-description: Learn how to run YOLO models for segmentation tasks with Ultralytics. Explore the SegmentationTrainer class and its functionalities.
-keywords: YOLO, segmentation, run, Ultralytics, SegmentationTrainer, Python, machine learning, deep learning, tutorials
+description: Learn how to prepare YOLO models for segmentation tasks with Ultralytics. Explore the SegmentationTrainer class and its functionalities.
+keywords: YOLO, segmentation, prepare, Ultralytics, SegmentationTrainer, Python, machine learning, deep learning, tutorials
 ---
 
 # Reference for `ultralytics/models/yolo/segment/train.py`

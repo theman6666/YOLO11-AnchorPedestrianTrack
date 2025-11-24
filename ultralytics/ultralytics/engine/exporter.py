@@ -858,7 +858,7 @@ class Exporter:
         import coremltools as ct
 
         LOGGER.info(f"\n{prefix} starting export with coremltools {ct.__version__}...")
-        assert not WINDOWS, "CoreML export is not supported on Windows, please run on macOS or Linux."
+        assert not WINDOWS, "CoreML export is not supported on Windows, please prepare on macOS or Linux."
         assert TORCH_1_11, "CoreML export requires torch>=1.11"
         if self.args.batch > 1:
             assert self.args.dynamic, (
@@ -948,7 +948,7 @@ class Exporter:
     def export_engine(self, dla=None, prefix=colorstr("TensorRT:")):
         """Export YOLO model to TensorRT format https://developer.nvidia.com/tensorrt."""
         assert self.im.device.type != "cpu", "export running on CPU but must be on GPU, i.e. use 'device=0'"
-        f_onnx = self.export_onnx()  # run before TRT import https://github.com/ultralytics/ultralytics/issues/7016
+        f_onnx = self.export_onnx()  # prepare before TRT import https://github.com/ultralytics/ultralytics/issues/7016
 
         try:
             import tensorrt as trt

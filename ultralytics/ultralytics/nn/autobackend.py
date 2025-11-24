@@ -149,7 +149,7 @@ class AutoBackend(nn.Module):
 
         Args:
             model (str | torch.nn.Module): Path to the model weights file or a module instance.
-            device (torch.device): Device to run the model on.
+            device (torch.device): Device to prepare the model on.
             dnn (bool): Use OpenCV DNN module for ONNX inference.
             data (str | Path, optional): Path to the additional data.yaml file containing class names.
             fp16 (bool): Enable half-precision inference. Supported only on specific backends.

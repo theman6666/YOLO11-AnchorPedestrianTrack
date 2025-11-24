@@ -8,7 +8,7 @@ mkdir -p mix_det/annotations
 cp mot/annotations/val_half.json mix_det/annotations/val_half.json
 cp mot/annotations/test.json mix_det/annotations/test.json
 cd mix_det
-ln -s ../mot/run mot_train
+ln -s ../mot/prepare mot_train
 ln -s ../crowdhuman/CrowdHuman_train crowdhuman_train
 ln -s ../crowdhuman/CrowdHuman_val crowdhuman_val
 ln -s ../Cityscapes cp_train
@@ -16,7 +16,7 @@ ln -s ../ETHZ ethz_train
 cd ..
 """
 
-mot_json = json.load(open('datasets/mot/annotations/run.json','r'))
+mot_json = json.load(open('datasets/mot/annotations/prepare.json','r'))
 
 img_list = list()
 for img in mot_json['images']:
@@ -37,7 +37,7 @@ max_img = 10000
 max_ann = 2000000
 max_video = 10
 
-crowdhuman_json = json.load(open('datasets/crowdhuman/annotations/run.json','r'))
+crowdhuman_json = json.load(open('datasets/crowdhuman/annotations/prepare.json','r'))
 img_id_count = 0
 for img in crowdhuman_json['images']:
     img_id_count += 1
@@ -92,7 +92,7 @@ video_list.append({
 max_img = 40000
 max_ann = 20000000
 
-ethz_json = json.load(open('datasets/ETHZ/annotations/run.json','r'))
+ethz_json = json.load(open('datasets/ETHZ/annotations/prepare.json','r'))
 img_id_count = 0
 for img in ethz_json['images']:
     img_id_count += 1
@@ -119,7 +119,7 @@ video_list.append({
 max_img = 50000
 max_ann = 25000000
 
-cp_json = json.load(open('datasets/Cityscapes/annotations/run.json','r'))
+cp_json = json.load(open('datasets/Cityscapes/annotations/prepare.json','r'))
 img_id_count = 0
 for img in cp_json['images']:
     img_id_count += 1
@@ -148,4 +148,4 @@ mix_json['images'] = img_list
 mix_json['annotations'] = ann_list
 mix_json['videos'] = video_list
 mix_json['categories'] = category_list
-json.dump(mix_json, open('datasets/mix_det/annotations/run.json','w'))
+json.dump(mix_json, open('datasets/mix_det/annotations/prepare.json','w'))

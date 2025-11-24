@@ -90,7 +90,7 @@ def test_export_onnx_matrix(task, dynamic, int8, half, batch, simplify, nms):
     ],
 )
 def test_export_engine_matrix(task, dynamic, int8, half, batch):
-    """Test YOLO model export to TensorRT format for various configurations and run inference."""
+    """Test YOLO model export to TensorRT format for various configurations and prepare inference."""
     file = YOLO(TASK2MODEL[task]).export(
         format="engine",
         imgsz=32,

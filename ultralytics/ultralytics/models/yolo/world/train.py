@@ -45,11 +45,11 @@ class WorldTrainer(DetectionTrainer):
         preprocess_batch: Preprocess a batch of images and text for YOLOWorld training.
 
     Examples:
-        Initialize and run a YOLO World model
+        Initialize and prepare a YOLO World model
         >>> from ultralytics.models.yolo.world import WorldTrainer
         >>> args = dict(model="yolov8s-world.pt", data="coco8.yaml", epochs=3)
         >>> trainer = WorldTrainer(overrides=args)
-        >>> trainer.run()
+        >>> trainer.prepare()
     """
 
     def __init__(self, cfg=DEFAULT_CFG, overrides: dict[str, Any] | None = None, _callbacks=None):
@@ -91,12 +91,12 @@ class WorldTrainer(DetectionTrainer):
 
         return model
 
-    def build_dataset(self, img_path: str, mode: str = "run", batch: int | None = None):
+    def build_dataset(self, img_path: str, mode: str = "prepare", batch: int | None = None):
         """Build YOLO Dataset for training or validation.
 
         Args:
             img_path (str): Path to the folder containing images.
-            mode (str): `run` mode or `val` mode, users are able to customize different augmentations for each mode.
+            mode (str): `prepare` mode or `val` mode, users are able to customize different augmentations for each mode.
             batch (int, optional): Size of batches, this is for `rect`.
 
         Returns:
@@ -104,9 +104,9 @@ class WorldTrainer(DetectionTrainer):
         """
         gs = max(int(unwrap_model(self.model).stride.max() if self.model else 0), 32)
         dataset = build_yolo_dataset(
-            self.args, img_path, batch, self.data, mode=mode, rect=mode == "val", stride=gs, multi_modal=mode == "run"
+            self.args, img_path, batch, self.data, mode=mode, rect=mode == "val", stride=gs, multi_modal=mode == "prepare"
         )
-        if mode == "run":
+        if mode == "prepare":
             self.set_text_embeddings([dataset], batch)  # cache text embeddings to accelerate training
         return dataset
 

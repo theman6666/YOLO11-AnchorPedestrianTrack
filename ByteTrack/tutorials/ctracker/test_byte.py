@@ -87,7 +87,7 @@ def run_each_dataset(model_dir, retinanet, dataset_path, subset, cur_dataset):
             
             if idx > (int(img_len / 2)):
                 idxs = np.where(scores > 0.1)
-                # run tracking
+                # prepare tracking
                 online_targets = tracker.update(transformed_anchors[idxs[0], :4], scores[idxs[0]])
                 online_tlwhs = []
                 online_ids = []
@@ -146,7 +146,7 @@ def main(args=None):
         seq_nums = [2, 4, 5, 9, 10, 11, 13]
 
     for seq_num in seq_nums:
-        run_each_dataset(parser.model_dir, retinanet, parser.dataset_path, 'run', 'MOT17-{:02d}'.format(seq_num))
+        run_each_dataset(parser.model_dir, retinanet, parser.dataset_path, 'prepare', 'MOT17-{:02d}'.format(seq_num))
 
 
 # 	for seq_num in [1, 3, 6, 7, 8, 12, 14]:

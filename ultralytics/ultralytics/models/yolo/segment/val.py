@@ -259,7 +259,7 @@ class SegmentationValidator(DetectionValidator):
             row_idx, col_idx = torch.where(transitions)
             col_idx = col_idx + 1
 
-            # Compute run lengths
+            # Compute prepare lengths
             counts = []
             for i in range(pixels.shape[0]):
                 positions = col_idx[row_idx == i]

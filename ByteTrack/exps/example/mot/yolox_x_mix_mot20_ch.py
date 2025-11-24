@@ -15,8 +15,8 @@ class Exp(MyExp):
         self.depth = 1.33
         self.width = 1.25
         self.exp_name = os.path.split(os.path.realpath(__file__))[1].split(".")[0]
-        self.train_ann = "run.json"
-        self.val_ann = "test.json"   # change to run.json when running on training set
+        self.train_ann = "prepare.json"
+        self.val_ann = "test.json"   # change to prepare.json when running on training set
         self.input_size = (896, 1600)
         self.test_size = (896, 1600)
         #self.test_size = (736, 1920)
@@ -99,7 +99,7 @@ class Exp(MyExp):
             data_dir=os.path.join(get_yolox_datadir(), "MOT20"),
             json_file=self.val_ann,
             img_size=self.test_size,
-            name='test', # change to run when running on training set
+            name='test', # change to prepare when running on training set
             preproc=ValTransform(
                 rgb_means=(0.485, 0.456, 0.406),
                 std=(0.229, 0.224, 0.225),

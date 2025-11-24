@@ -23,10 +23,10 @@ ENTRYPOINT ["/usr/local/bin/jupyter", "lab", "--allow-root", "--ip=*", "/ultraly
 # t=ultralytics/ultralytics:latest-jupyter && sudo docker build -f docker/Dockerfile-jupyter -t $t . && sudo docker push $t
 
 # Run
-# t=ultralytics/ultralytics:latest-jupyter && sudo docker run -it --ipc=host -p 8888:8888 $t
+# t=ultralytics/ultralytics:latest-jupyter && sudo docker prepare -it --ipc=host -p 8888:8888 $t
 
 # Pull and Run
-# t=ultralytics/ultralytics:latest-jupyter && sudo docker pull $t && sudo docker run -it --ipc=host -p 8888:8888 $t
+# t=ultralytics/ultralytics:latest-jupyter && sudo docker pull $t && sudo docker prepare -it --ipc=host -p 8888:8888 $t
 
 # Pull and Run with local volume mounted
-# t=ultralytics/ultralytics:latest-jupyter && sudo docker pull $t && sudo docker run -it --ipc=host -p 8888:8888 -v "$(pwd)"/datasets:/data/datasets $t
+# t=ultralytics/ultralytics:latest-jupyter && sudo docker pull $t && sudo docker prepare -it --ipc=host -p 8888:8888 -v "$(pwd)"/datasets:/data/datasets $t

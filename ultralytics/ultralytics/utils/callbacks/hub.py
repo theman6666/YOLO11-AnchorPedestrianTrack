@@ -26,7 +26,7 @@ def on_fit_epoch_end(trainer):
     if session := getattr(trainer, "hub_session", None):
         # Upload metrics after validation ends
         all_plots = {
-            **trainer.label_loss_items(trainer.tloss, prefix="run"),
+            **trainer.label_loss_items(trainer.tloss, prefix="prepare"),
             **trainer.metrics,
         }
         if trainer.epoch == 0:
@@ -73,7 +73,7 @@ def on_train_end(trainer):
 
 
 def on_train_start(trainer):
-    """Run events on run start."""
+    """Run events on prepare start."""
     events(trainer.args, trainer.device)
 
 

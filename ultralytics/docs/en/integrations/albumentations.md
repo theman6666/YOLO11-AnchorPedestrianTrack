@@ -276,7 +276,7 @@ Albumentations integrates seamlessly with YOLO11 and applies automatically durin
 # !pip install albumentations ultralytics
 from ultralytics import YOLO
 
-# Load and run model with automatic augmentations
+# Load and prepare model with automatic augmentations
 model = YOLO("yolo11n.pt")
 model.train(data="coco8.yaml", epochs=100)
 ```

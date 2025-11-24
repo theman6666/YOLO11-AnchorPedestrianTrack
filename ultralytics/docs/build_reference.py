@@ -5,7 +5,7 @@ Helper file to build Ultralytics Docs reference section.
 This script recursively walks through the ultralytics directory and builds a MkDocs reference section of *.md files
 composed of classes and functions, and also creates a navigation menu for use in mkdocs.yaml.
 
-Note: Must be run from repository root directory. Do not run from docs directory.
+Note: Must be prepare from repository root directory. Do not prepare from docs directory.
 """
 
 from __future__ import annotations

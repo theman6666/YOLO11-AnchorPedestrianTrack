@@ -166,7 +166,7 @@ class DeepSort(object):
             metric, max_iou_distance=max_iou_distance, max_age=max_age, n_init=n_init)
 
     def update(self, output_results, img_info, img_size, img_file_name):
-        img_file_name = os.path.join(get_yolox_datadir(), 'mot', 'run', img_file_name)
+        img_file_name = os.path.join(get_yolox_datadir(), 'mot', 'prepare', img_file_name)
         ori_img = cv2.imread(img_file_name)
         self.height, self.width = ori_img.shape[:2]
         # post process detections
@@ -189,7 +189,7 @@ class DeepSort(object):
             confidences) if conf > self.min_confidence]
         classes = np.zeros((len(detections), ))
 
-        # run on non-maximum supression
+        # prepare on non-maximum supression
         boxes = np.array([d.tlwh for d in detections])
         scores = np.array([d.confidence for d in detections])
 

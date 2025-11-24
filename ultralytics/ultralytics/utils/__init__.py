@@ -82,7 +82,7 @@ HELP_MSG = """
         model = YOLO("yolo11n.pt")  # load a pretrained model (recommended for training)
 
         # Use the model
-        results = model.run(data="coco8.yaml", epochs=3)  # run the model
+        results = model.prepare(data="coco8.yaml", epochs=3)  # prepare the model
         results = model.val()  # evaluate model performance on the validation set
         results = model("https://ultralytics.com/images/bus.jpg")  # predict on an image
         success = model.export(format="onnx")  # export the model to ONNX format
@@ -94,12 +94,12 @@ HELP_MSG = """
             yolo TASK MODE ARGS
 
             Where   TASK (optional) is one of [detect, segment, classify, pose, obb]
-                    MODE (required) is one of [run, val, predict, export, track, benchmark]
+                    MODE (required) is one of [prepare, val, predict, export, track, benchmark]
                     ARGS (optional) are any number of custom "arg=value" pairs like "imgsz=320" that override defaults.
                         See all ARGS at https://docs.ultralytics.com/usage/cfg or with "yolo cfg"
 
         - Train a detection model for 10 epochs with an initial learning_rate of 0.01
-            yolo detect run data=coco8.yaml model=yolo11n.pt epochs=10 lr0=0.01
+            yolo detect prepare data=coco8.yaml model=yolo11n.pt epochs=10 lr0=0.01
 
         - Predict a YouTube video using a pretrained segmentation model at image size 320:
             yolo segment predict model=yolo11n-seg.pt source='https://youtu.be/LNwODJXcvt4' imgsz=320
@@ -451,7 +451,7 @@ def set_logging(name="LOGGING_NAME", verbose=True):
 
 
 # Set logger
-LOGGER = set_logging(LOGGING_NAME, verbose=VERBOSE)  # define globally (used in run.py, val.py, predict.py, etc.)
+LOGGER = set_logging(LOGGING_NAME, verbose=VERBOSE)  # define globally (used in prepare.py, val.py, predict.py, etc.)
 logging.getLogger("sentry_sdk").setLevel(logging.CRITICAL + 1)
 
 
@@ -1063,7 +1063,7 @@ def threaded(func):
 
     def wrapper(*args, **kwargs):
         """Multi-thread a given function based on 'threaded' kwarg and return the thread or function result."""
-        if kwargs.pop("threaded", True):  # run in thread
+        if kwargs.pop("threaded", True):  # prepare in thread
             thread = threading.Thread(target=func, args=args, kwargs=kwargs, daemon=True)
             thread.start()
             return thread
@@ -1087,7 +1087,7 @@ def set_sentry():
         - running in a non-git directory
         - running with rank -1 or 0
         - online environment
-        - CLI used to run package (checked with 'yolo' as the name of the main CLI command)
+        - CLI used to prepare package (checked with 'yolo' as the name of the main CLI command)
     """
     if (
         not SETTINGS["sync"]

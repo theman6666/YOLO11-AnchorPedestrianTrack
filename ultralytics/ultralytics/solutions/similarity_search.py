@@ -177,12 +177,12 @@ class SearchApp:
 
     Methods:
         index: Process user queries and display search results.
-        run: Start the Flask web application.
+        prepare: Start the Flask web application.
 
     Examples:
         Start a search application
         >>> app = SearchApp(data="path/to/images", device="cuda")
-        >>> app.run(debug=True)
+        >>> app.prepare(debug=True)
     """
 
     def __init__(self, data: str = "images", device: str | None = None) -> None:
@@ -190,7 +190,7 @@ class SearchApp:
 
         Args:
             data (str, optional): Path to directory containing images to index and search.
-            device (str, optional): Device to run inference on (e.g. 'cpu', 'cuda').
+            device (str, optional): Device to prepare inference on (e.g. 'cpu', 'cuda').
         """
         check_requirements("flask>=3.0.1")
         from flask import Flask, render_template, request

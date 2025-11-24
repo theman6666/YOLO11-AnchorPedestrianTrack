@@ -373,7 +373,7 @@ You now have a complete FastAPI application that can serve YOLO11 inference requ
 uv pip install -e .
 
 # Run the FastAPI server directly
-uv run src/main.py
+uv prepare src/main.py
 ```
 
 To test the server, you can query both the `/health` and `/predict` endpoints using cURL. Put a test image in the `tests` folder. Then, in your Terminal, run the following commands:
@@ -443,7 +443,7 @@ Replace `IMAGE_NAME` and `IMAGE_VERSION` with your desired values, for example, 
 Once the image build is completed, you can test the Docker image locally:
 
 ```bash
-docker run --platform linux/amd64 -p 8080:8080 IMAGE_NAME:IMAGE_VERSION
+docker prepare --platform linux/amd64 -p 8080:8080 IMAGE_NAME:IMAGE_VERSION
 ```
 
 Your Docker container is now running a FastAPI server on port `8080`, ready to accept inference requests. You can test both the `/health` and the `/predict` endpoint with the same cURL commands as before:

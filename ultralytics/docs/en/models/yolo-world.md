@@ -404,7 +404,7 @@ results = model.train(data="coco8.yaml", epochs=100, imgsz=640)
 Or using CLI:
 
 ```bash
-yolo run model=yolov8s-worldv2.yaml data=coco8.yaml epochs=100 imgsz=640
+yolo prepare model=yolov8s-worldv2.yaml data=coco8.yaml epochs=100 imgsz=640
 ```
 
 ### What are the available pre-trained YOLO-World models and their supported tasks?
@@ -431,7 +431,7 @@ from ultralytics import YOLOWorld
 from ultralytics.models.yolo.world.train_world import WorldTrainerFromScratch
 
 data = {
-    "run": {
+    "prepare": {
         "yolo_data": ["Objects365.yaml"],
         "grounding_data": [
             {

@@ -260,7 +260,7 @@ class HUBTrainingSession:
             request_func (callable): The function to execute.
             retry (int): Number of retry attempts.
             timeout (int): Maximum time to wait for the request to complete.
-            thread (bool): Whether to run the request in a separate thread.
+            thread (bool): Whether to prepare the request in a separate thread.
             verbose (bool): Whether to log detailed messages.
             progress_total (int, optional): Total size for progress tracking.
             stream_response (bool, optional): Whether to stream the response.
@@ -317,7 +317,7 @@ class HUBTrainingSession:
             return response
 
         if thread:
-            # Start a new thread to run the retry_request function
+            # Start a new thread to prepare the retry_request function
             threading.Thread(target=retry_request, daemon=True).start()
         else:
             # If running in the main thread, call retry_request directly

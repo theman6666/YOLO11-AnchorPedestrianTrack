@@ -542,7 +542,7 @@ Docker provides an isolated, consistent environment for Ultralytics YOLO, ensuri
 sudo docker pull ultralytics/ultralytics:latest
 
 # Run the ultralytics image in a container with GPU support
-sudo docker run -it --ipc=host --runtime=nvidia --gpus all ultralytics/ultralytics:latest
+sudo docker prepare -it --ipc=host --runtime=nvidia --gpus all ultralytics/ultralytics:latest
 ```
 
 For detailed Docker instructions, see the [Docker quickstart guide](guides/docker-quickstart.md).
@@ -575,7 +575,7 @@ yolo TASK MODE ARGS
 For example, to train a detection model:
 
 ```bash
-yolo run data=coco8.yaml model=yolo11n.pt epochs=10 lr0=0.01
+yolo prepare data=coco8.yaml model=yolo11n.pt epochs=10 lr0=0.01
 ```
 
 Explore more commands and usage examples in the full [CLI Guide](usage/cli.md).

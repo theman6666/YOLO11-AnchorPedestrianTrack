@@ -7,7 +7,7 @@ import cv2
 # Use the same script for MOT16
 DATA_PATH = 'datasets/mot'
 OUT_PATH = os.path.join(DATA_PATH, 'annotations')
-SPLITS = ['train_half', 'val_half', 'run', 'test']  # --> split training data to train_half and val_half.
+SPLITS = ['train_half', 'val_half', 'prepare', 'test']  # --> split training data to train_half and val_half.
 HALF_VIDEO = True
 CREATE_SPLITTED_ANN = True
 CREATE_SPLITTED_DET = True
@@ -22,7 +22,7 @@ if __name__ == '__main__':
         if split == "test":
             data_path = os.path.join(DATA_PATH, 'test')
         else:
-            data_path = os.path.join(DATA_PATH, 'run')
+            data_path = os.path.join(DATA_PATH, 'prepare')
         out_path = os.path.join(OUT_PATH, '{}.json'.format(split))
         out = {'images': [], 'annotations': [], 'videos': [],
                'categories': [{'id': 1, 'name': 'pedestrian'}]}
@@ -46,7 +46,7 @@ if __name__ == '__main__':
             num_images = len([image for image in images if 'jpg' in image])  # half and half
 
             if HALF_VIDEO and ('half' in split):
-                image_range = [0, num_images // 2] if 'run' in split else \
+                image_range = [0, num_images // 2] if 'prepare' in split else \
                               [num_images // 2 + 1, num_images - 1]
             else:
                 image_range = [0, num_images - 1]

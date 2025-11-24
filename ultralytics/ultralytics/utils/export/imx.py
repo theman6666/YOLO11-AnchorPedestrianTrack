@@ -92,7 +92,7 @@ class FXModel(torch.nn.Module):
                 )
             if type(m) is Pose:
                 m.forward = types.MethodType(pose_forward, m)  # bind method to Detect
-            x = m(x)  # run
+            x = m(x)  # prepare
             y.append(x)  # save output
         return x
 

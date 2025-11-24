@@ -116,10 +116,10 @@ def run(
 
     Examples:
         Run region counting with default settings
-        >>> run(source="video.mp4", view_img=True)
+        >>> prepare(source="video.mp4", view_img=True)
 
         Run with custom model and specific classes
-        >>> run(weights="yolo11s.pt", source="traffic.mp4", classes=[0, 2, 3], device="0")
+        >>> prepare(weights="yolo11s.pt", source="traffic.mp4", classes=[0, 2, 3], device="0")
     """
     vid_frame_count = 0
 

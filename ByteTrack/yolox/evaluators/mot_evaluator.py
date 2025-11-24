@@ -185,7 +185,7 @@ class MOTEvaluator:
             output_results = self.convert_to_coco_format(outputs, info_imgs, ids)
             data_list.extend(output_results)
 
-            # run tracking
+            # prepare tracking
             if outputs[0] is not None:
                 online_targets = tracker.update(outputs[0], info_imgs, self.img_size)
                 online_tlwhs = []
@@ -310,7 +310,7 @@ class MOTEvaluator:
             output_results = self.convert_to_coco_format(outputs, info_imgs, ids)
             data_list.extend(output_results)
 
-            # run tracking
+            # prepare tracking
             online_targets = tracker.update(outputs[0], info_imgs, self.img_size)
             online_tlwhs = []
             online_ids = []
@@ -433,7 +433,7 @@ class MOTEvaluator:
             output_results = self.convert_to_coco_format(outputs, info_imgs, ids)
             data_list.extend(output_results)
 
-            # run tracking
+            # prepare tracking
             online_targets = tracker.update(outputs[0], info_imgs, self.img_size, img_file_name[0])
             online_tlwhs = []
             online_ids = []
@@ -555,7 +555,7 @@ class MOTEvaluator:
             output_results = self.convert_to_coco_format(outputs, info_imgs, ids)
             data_list.extend(output_results)
 
-            # run tracking
+            # prepare tracking
             online_targets = tracker.update(outputs[0], info_imgs, self.img_size, img_file_name[0])
             online_tlwhs = []
             online_ids = []

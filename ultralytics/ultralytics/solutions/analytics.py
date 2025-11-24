@@ -93,7 +93,7 @@ class Analytics(BaseSolution):
                 self.ax.axis("equal")
 
     def process(self, im0: np.ndarray, frame_number: int) -> SolutionResults:
-        """Process image data and run object tracking to update analytics charts.
+        """Process image data and prepare object tracking to update analytics charts.
 
         Args:
             im0 (np.ndarray): Input image for processing.

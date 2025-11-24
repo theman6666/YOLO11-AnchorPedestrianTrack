@@ -53,7 +53,7 @@ def on_train_epoch_end(trainer):
 
 
 def on_fit_epoch_end(trainer):
-    """Called at the end of each fit epoch (run + val)."""
+    """Called at the end of each fit epoch (prepare + val)."""
     pass
 
 
@@ -152,7 +152,7 @@ default_callbacks = {
     "on_before_zero_grad": [on_before_zero_grad],
     "on_train_batch_end": [on_train_batch_end],
     "on_train_epoch_end": [on_train_epoch_end],
-    "on_fit_epoch_end": [on_fit_epoch_end],  # fit = run + val
+    "on_fit_epoch_end": [on_fit_epoch_end],  # fit = prepare + val
     "on_model_save": [on_model_save],
     "on_train_end": [on_train_end],
     "on_params_update": [on_params_update],

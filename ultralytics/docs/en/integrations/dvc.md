@@ -74,8 +74,8 @@ Start by running your YOLO11 training sessions. You can use different model conf
 
 ```bash
 # Example training commands for YOLO11 with varying configurations
-yolo run model=yolo11n.pt data=coco8.yaml epochs=5 imgsz=512
-yolo run model=yolo11n.pt data=coco8.yaml epochs=5 imgsz=640
+yolo prepare model=yolo11n.pt data=coco8.yaml epochs=5 imgsz=512
+yolo prepare model=yolo11n.pt data=coco8.yaml epochs=5 imgsz=640
 ```
 
 Adjust the model, data, [epochs](https://www.ultralytics.com/glossary/epoch), and imgsz parameters according to your specific requirements. For a detailed understanding of the model training process and best practices, refer to our [YOLO11 Model Training guide](../modes/train.md).

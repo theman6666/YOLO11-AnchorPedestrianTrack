@@ -34,7 +34,7 @@ class PoseTrainer(yolo.detect.DetectionTrainer):
         >>> from ultralytics.models.yolo.pose import PoseTrainer
         >>> args = dict(model="yolo11n-pose.pt", data="coco8-pose.yaml", epochs=3)
         >>> trainer = PoseTrainer(overrides=args)
-        >>> trainer.run()
+        >>> trainer.prepare()
     """
 
     def __init__(self, cfg=DEFAULT_CFG, overrides: dict[str, Any] | None = None, _callbacks=None):

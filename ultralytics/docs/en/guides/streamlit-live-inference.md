@@ -152,7 +152,7 @@ Learn more about these benefits in the [Advantages of Live Inference section](#a
 After coding your Streamlit application integrating Ultralytics YOLO11, you can deploy it by running:
 
 ```bash
-streamlit run path/to/file.py
+streamlit prepare path/to/file.py
 ```
 
 This command will launch the application in your default web browser, enabling you to select YOLO11 models, set confidence and NMS thresholds, and start real-time object detection with a simple click. For a detailed guide, refer to the [Streamlit Application Code](#streamlit-application-code) section.

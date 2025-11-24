@@ -1,0 +1,106 @@
+# ======================
+# Python & Virtual Env
+# ======================
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.so
+*.pkl
+*.pickle
+
+.env
+.venv/
+venv/
+env/
+
+# ======================
+# IDE / Editor
+# ======================
+.vscode/
+.idea/
+*.swp
+
+# ======================
+# OS / System Files
+# ======================
+.DS_Store
+Thumbs.db
+
+# ======================
+# Deep Learning Outputs
+# ======================
+runs/
+results/
+logs/
+log/
+tensorboard/
+wandb/
+tb_logs/
+
+# ======================
+# Model Weights (DO NOT UPLOAD)
+# ======================
+*.pt
+*.pth
+*.onnx
+*.engine
+*.trt
+*.tflite
+*.pb
+*.weights
+
+# ======================
+# Datasets (DON'T UPLOAD COPYRIGHT DATA)
+# ======================
+data/
+datasets/
+dataset/
+images/
+labels/
+annotations/
+VOC/
+COCO/
+*.zip
+*.rar
+*.7z
+
+# To keep folder structure but ignore contents:
+data/*
+!data/.gitkeep
+
+# ======================
+# Cache Files
+# ======================
+*.cache
+*.npy
+*.npz
+*.tmp
+
+# ======================
+# Jupyter
+# ======================
+.ipynb_checkpoints/
+
+# ======================
+# Project Specific
+# ======================
+
+# YOLO11 training cache
+*.yaml.cache
+
+# ByteTrack tracking temp files
+tracks/
+track_outputs/
+
+# Exported videos / demo outputs
+*.mp4
+*.avi
+*.mov
+*.gif
+
+# ======================
+# Misc
+# ======================
+*.bak
+*.backup

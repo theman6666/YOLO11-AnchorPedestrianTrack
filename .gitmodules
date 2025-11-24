@@ -1,0 +1,3 @@
+[submodule "YOLO11"]
+	path = YOLO11
+	url = git@github.com:theman6666/YOLO11-AnchorPedestrianTrack.git

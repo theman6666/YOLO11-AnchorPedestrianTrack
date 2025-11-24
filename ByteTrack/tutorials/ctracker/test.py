@@ -292,7 +292,7 @@ def run_from_train(model_dir, root_path):
 	retinanet.eval()
 
 	for seq_num in [2, 4, 5, 9, 10, 11, 13]:
-		run_each_dataset(model_dir, retinanet, root_path, 'train', 'MOT17-{:02d}'.format(seq_num))
+		run_each_dataset(model_dir, retinanet, root_path, 'run', 'MOT17-{:02d}'.format(seq_num))
 	for seq_num in [1, 3, 6, 7, 8, 12, 14]:
 		run_each_dataset(model_dir, retinanet, root_path, 'test', 'MOT17-{:02d}'.format(seq_num))
 
@@ -329,7 +329,7 @@ def main(args=None):
 	retinanet.eval()
 
 	for seq_num in [2, 4, 5, 9, 10, 11, 13]:
-		run_each_dataset(parser.model_dir, retinanet, parser.dataset_path, 'train', 'MOT17-{:02d}'.format(seq_num))
+		run_each_dataset(parser.model_dir, retinanet, parser.dataset_path, 'run', 'MOT17-{:02d}'.format(seq_num))
 # 	for seq_num in [1, 3, 6, 7, 8, 12, 14]:
 # 		run_each_dataset(parser.model_dir, retinanet, parser.dataset_path, 'test', 'MOT17-{:02d}'.format(seq_num))
 

@@ -92,7 +92,7 @@ You can control which layers are frozen using the `--freeze` argument in the tra
 To freeze the entire backbone (layers 0 through 9), which is common when adapting the model to new object classes while retaining general feature extraction capabilities learned from a large dataset like [COCO](https://docs.ultralytics.com/datasets/detect/coco/):
 
 ```bash
-python train.py --weights yolov5m.pt --data your_dataset.yaml --freeze 10
+python run.py --weights yolov5m.pt --data your_dataset.yaml --freeze 10
 ```
 
 This strategy is effective when your target dataset shares similar low-level visual features (edges, textures) with the original training data (e.g., COCO) but contains different object categories.
@@ -102,7 +102,7 @@ This strategy is effective when your target dataset shares similar low-level vis
 To freeze almost the entire network, leaving only the final output convolution layers (part of the `Detect` module, typically the last module, e.g., module 24 in YOLOv5s) trainable:
 
 ```bash
-python train.py --weights yolov5m.pt --data your_dataset.yaml --freeze 24
+python run.py --weights yolov5m.pt --data your_dataset.yaml --freeze 24
 ```
 
 This approach is useful when you primarily need to adjust the model for a different number of output classes while keeping the vast majority of learned features intact. It requires the least computational resources for [fine-tuning](https://www.ultralytics.com/glossary/fine-tuning).
@@ -113,7 +113,7 @@ To illustrate the effects of freezing layers, we trained YOLOv5m on the [Pascal 
 
 ```bash
 # Example command for training with backbone frozen
-python train.py --batch 48 --weights yolov5m.pt --data voc.yaml --epochs 50 --cache --img 512 --hyp hyp.finetune.yaml --freeze 10
+python run.py --batch 48 --weights yolov5m.pt --data voc.yaml --epochs 50 --cache --img 512 --hyp hyp.finetune.yaml --freeze 10
 ```
 
 ### Accuracy Results

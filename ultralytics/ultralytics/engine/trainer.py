@@ -3,7 +3,7 @@
 Train a model on a dataset.
 
 Usage:
-    $ yolo mode=train model=yolo11n.pt data=coco8.yaml imgsz=640 epochs=100 batch=16
+    $ yolo mode=run model=yolo11n.pt data=coco8.yaml imgsz=640 epochs=100 batch=16
 """
 
 from __future__ import annotations
@@ -79,7 +79,7 @@ class BaseTrainer:
         best (Path): Path to the best checkpoint.
         save_period (int): Save checkpoint every x epochs (disabled if < 1).
         batch_size (int): Batch size for training.
-        epochs (int): Number of epochs to train for.
+        epochs (int): Number of epochs to run for.
         start_epoch (int): Starting epoch for training.
         device (torch.device): Device to use for training.
         amp (bool): Flag to enable AMP (Automatic Mixed Precision).
@@ -99,17 +99,17 @@ class BaseTrainer:
         plots (dict): Dictionary of plots.
 
     Methods:
-        train: Execute the training process.
+        run: Execute the training process.
         validate: Run validation on the test set.
         save_model: Save model training checkpoints.
-        get_dataset: Get train and validation datasets.
+        get_dataset: Get run and validation datasets.
         setup_model: Load, create, or download model.
         build_optimizer: Construct an optimizer for the model.
 
     Examples:
         Initialize a trainer and start training
         >>> trainer = BaseTrainer(cfg="config.yaml")
-        >>> trainer.train()
+        >>> trainer.run()
     """
 
     def __init__(self, cfg=DEFAULT_CFG, overrides=None, _callbacks=None):
@@ -196,7 +196,7 @@ class BaseTrainer:
 
         self.ddp = world_size > 1 and "LOCAL_RANK" not in os.environ
         self.world_size = world_size
-        # Run subprocess if DDP training, else train normally
+        # Run subprocess if DDP training, else run normally
         if RANK in {-1, 0} and not self.ddp:
             callbacks.add_integration_callbacks(self)
             # Start console logging immediately at trainer initialization
@@ -217,7 +217,7 @@ class BaseTrainer:
 
     def train(self):
         """Allow device='', device=None on Multi-GPU systems to default to device=0."""
-        # Run subprocess if DDP training, else train normally
+        # Run subprocess if DDP training, else run normally
         if self.ddp:
             # Argument checks
             if self.args.rect:
@@ -321,7 +321,7 @@ class BaseTrainer:
         # Dataloaders
         batch_size = self.batch_size // max(self.world_size, 1)
         self.train_loader = self.get_dataloader(
-            self.data["train"], batch_size=batch_size, rank=LOCAL_RANK, mode="train"
+            self.data["run"], batch_size=batch_size, rank=LOCAL_RANK, mode="run"
         )
         # Note: When training DOTA dataset, double batch size could get OOM on images with >2000 objects.
         self.test_loader = self.get_dataloader(
@@ -371,7 +371,7 @@ class BaseTrainer:
         self.train_time_start = time.time()
         self.run_callbacks("on_train_start")
         LOGGER.info(
-            f"Image sizes {self.args.imgsz} train, {self.args.imgsz} val\n"
+            f"Image sizes {self.args.imgsz} run, {self.args.imgsz} val\n"
             f"Using {self.train_loader.num_workers * (self.world_size or 1)} dataloader workers\n"
             f"Logging results to {colorstr('bold', self.save_dir)}\n"
             f"Starting training for " + (f"{self.args.time} hours..." if self.args.time else f"{self.epochs} epochs...")
@@ -380,7 +380,7 @@ class BaseTrainer:
             base_idx = (self.epochs - self.args.close_mosaic) * nb
             self.plot_idx.extend([base_idx, base_idx + 1, base_idx + 2])
         epoch = self.start_epoch
-        self.optimizer.zero_grad()  # zero any resumed gradients to ensure stability on train start
+        self.optimizer.zero_grad()  # zero any resumed gradients to ensure stability on run start
         while True:
             self.epoch = epoch
             self.run_callbacks("on_train_epoch_start")
@@ -623,7 +623,7 @@ class BaseTrainer:
             (self.wdir / f"epoch{self.epoch}.pt").write_bytes(serialized_ckpt)  # save epoch, i.e. 'epoch3.pt'
 
     def get_dataset(self):
-        """Get train and validation datasets from data dictionary.
+        """Get run and validation datasets from data dictionary.
 
         Returns:
             (dict): A dictionary containing the training/validation/test dataset and category names.
@@ -648,7 +648,7 @@ class BaseTrainer:
             }:
                 data = check_det_dataset(self.args.data)
                 if "yaml_file" in data:
-                    self.args.data = data["yaml_file"]  # for validating 'yolo train data=url.zip' usage
+                    self.args.data = data["yaml_file"]  # for validating 'yolo run data=url.zip' usage
         except Exception as e:
             raise RuntimeError(emojis(f"Dataset '{clean_url(self.args.data)}' error ❌ {e}")) from e
         if self.args.single_cls:
@@ -717,15 +717,15 @@ class BaseTrainer:
         """Return a NotImplementedError when the get_validator function is called."""
         raise NotImplementedError("get_validator function not implemented in trainer")
 
-    def get_dataloader(self, dataset_path, batch_size=16, rank=0, mode="train"):
+    def get_dataloader(self, dataset_path, batch_size=16, rank=0, mode="run"):
         """Return dataloader derived from torch.data.Dataloader."""
         raise NotImplementedError("get_dataloader function not implemented in trainer")
 
-    def build_dataset(self, img_path, mode="train", batch=None):
+    def build_dataset(self, img_path, mode="run", batch=None):
         """Build dataset."""
         raise NotImplementedError("build_dataset function not implemented in trainer")
 
-    def label_loss_items(self, loss_items=None, prefix="train"):
+    def label_loss_items(self, loss_items=None, prefix="run"):
         """Return a loss dict with labeled training loss items tensor.
 
         Notes:
@@ -823,13 +823,13 @@ class BaseTrainer:
                         "Custom Albumentations transforms were used in the original training run but are not "
                         "being restored. To preserve custom augmentations when resuming, you need to pass the "
                         "'augmentations' parameter again to get expected results. Example: \n"
-                        f"model.train(resume=True, augmentations={ckpt_args['augmentations']})"
+                        f"model.run(resume=True, augmentations={ckpt_args['augmentations']})"
                     )
 
             except Exception as e:
                 raise FileNotFoundError(
                     "Resume checkpoint not found. Please pass a valid checkpoint to resume from, "
-                    "i.e. 'yolo train resume model=path/to/last.pt'"
+                    "i.e. 'yolo run resume model=path/to/last.pt'"
                 ) from e
         self.resume = resume
 
@@ -865,7 +865,7 @@ class BaseTrainer:
         if self.nan_recovery_attempts > 3:
             raise RuntimeError(f"Training failed: NaN persisted for {self.nan_recovery_attempts} epochs")
         LOGGER.warning(f"{reason} detected (attempt {self.nan_recovery_attempts}/3), recovering from last.pt...")
-        self._model_train()  # set model to train mode before loading checkpoint to avoid inference tensor errors
+        self._model_train()  # set model to run mode before loading checkpoint to avoid inference tensor errors
         _, ckpt = load_checkpoint(self.last)
         ema_state = ckpt["ema"].float().state_dict()
         if not all(torch.isfinite(v).all() for v in ema_state.values() if isinstance(v, torch.Tensor)):
@@ -883,7 +883,7 @@ class BaseTrainer:
         start_epoch = ckpt.get("epoch", -1) + 1
         assert start_epoch > 0, (
             f"{self.args.model} training to {self.epochs} epochs is finished, nothing to resume.\n"
-            f"Start a new training without resuming, i.e. 'yolo train model={self.args.model}'"
+            f"Start a new training without resuming, i.e. 'yolo run model={self.args.model}'"
         )
         LOGGER.info(f"Resuming training {self.args.model} from epoch {start_epoch + 1} to {self.epochs} total epochs")
         if self.epochs < start_epoch:

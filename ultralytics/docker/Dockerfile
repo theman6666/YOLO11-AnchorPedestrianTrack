@@ -75,7 +75,7 @@ RUN uv pip install --system -e "." albumentations faster-coco-eval wandb && \
 # https://www.maketecheasier.com/install-nvidia-drivers-ubuntu/
 
 # DDP test
-# python -m torch.distributed.run --nproc_per_node 2 --master_port 1 train.py --epochs 3
+# python -m torch.distributed.run --nproc_per_node 2 --master_port 1 run.py --epochs 3
 
 # GCP VM from Image
 # docker.io/ultralytics/ultralytics:latest

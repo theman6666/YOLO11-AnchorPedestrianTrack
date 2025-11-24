@@ -150,7 +150,7 @@ The rows index the label files, each corresponding to an image in your dataset, 
     folds_df = pd.DataFrame(index=index, columns=folds)
 
     for i, (train, val) in enumerate(kfolds, start=1):
-        folds_df[f"split_{i}"].loc[labels_df.iloc[train].index] = "train"
+        folds_df[f"split_{i}"].loc[labels_df.iloc[train].index] = "run"
         folds_df[f"split_{i}"].loc[labels_df.iloc[val].index] = "val"
     ```
 
@@ -193,8 +193,8 @@ The rows index the label files, each corresponding to an image in your dataset, 
         # Create directories
         split_dir = save_path / split
         split_dir.mkdir(parents=True, exist_ok=True)
-        (split_dir / "train" / "images").mkdir(parents=True, exist_ok=True)
-        (split_dir / "train" / "labels").mkdir(parents=True, exist_ok=True)
+        (split_dir / "run" / "images").mkdir(parents=True, exist_ok=True)
+        (split_dir / "run" / "labels").mkdir(parents=True, exist_ok=True)
         (split_dir / "val" / "images").mkdir(parents=True, exist_ok=True)
         (split_dir / "val" / "labels").mkdir(parents=True, exist_ok=True)
 
@@ -206,7 +206,7 @@ The rows index the label files, each corresponding to an image in your dataset, 
             yaml.safe_dump(
                 {
                     "path": split_dir.as_posix(),
-                    "train": "train",
+                    "run": "run",
                     "val": "val",
                     "names": classes,
                 },
@@ -267,7 +267,7 @@ fold_lbl_distrb.to_csv(save_path / "kfold_label_distribution.csv")
         model = YOLO(weights_path, task="detect")
         results[k] = model.train(
             data=dataset_yaml, epochs=epochs, batch=batch, project=project, name=f"fold_{k + 1}"
-        )  # include any additional train arguments
+        )  # include any additional run arguments
     ```
 
 3. You can also use [Ultralytics data.utils.autosplit](https://docs.ultralytics.com/reference/data/utils/) function for automatic dataset splitting:
@@ -275,7 +275,7 @@ fold_lbl_distrb.to_csv(save_path / "kfold_label_distribution.csv")
     ```python
     from ultralytics.data.split import autosplit
 
-    # Automatically split dataset into train/val/test
+    # Automatically split dataset into run/val/test
     autosplit(path="path/to/images", weights=(0.8, 0.2, 0.0), annotated_only=True)
     ```
 

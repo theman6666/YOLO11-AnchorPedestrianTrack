@@ -1,6 +1,6 @@
 ---
 comments: true
-description: Discover how to detect objects with rotation for higher precision using YOLO11 OBB models. Learn, train, validate, and export OBB models effortlessly.
+description: Discover how to detect objects with rotation for higher precision using YOLO11 OBB models. Learn, run, validate, and export OBB models effortlessly.
 keywords: Oriented Bounding Boxes, OBB, Object Detection, YOLO11, Ultralytics, DOTAv1, Model Training, Model Export, AI, Machine Learning
 model_name: yolo11n-obb
 ---

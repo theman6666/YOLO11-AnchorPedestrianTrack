@@ -4,7 +4,7 @@ import json
 from PIL import Image
 
 DATA_PATH = 'datasets/Cityscapes/'
-DATA_FILE_PATH = 'datasets/data_path/citypersons.train'
+DATA_FILE_PATH = 'datasets/data_path/citypersons.run'
 OUT_PATH = DATA_PATH + 'annotations/'
 
 def load_paths(data_path):
@@ -19,7 +19,7 @@ if __name__ == '__main__':
     if not os.path.exists(OUT_PATH):
         os.mkdir(OUT_PATH)
 
-    out_path = OUT_PATH + 'train.json'
+    out_path = OUT_PATH + 'run.json'
     out = {'images': [], 'annotations': [], 'categories': [{'id': 1, 'name': 'person'}]}
     img_paths, label_paths = load_paths(DATA_FILE_PATH)
     image_cnt = 0
@@ -55,5 +55,5 @@ if __name__ == '__main__':
                     'area': fbox[2] * fbox[3],
                     'iscrowd': 0}
             out['annotations'].append(ann)
-    print('loaded train for {} images and {} samples'.format(len(out['images']), len(out['annotations'])))
+    print('loaded run for {} images and {} samples'.format(len(out['images']), len(out['annotations'])))
     json.dump(out, open(out_path, 'w'))

@@ -8,13 +8,13 @@ mkdir -p mix_mot20_ch/annotations
 cp MOT20/annotations/val_half.json mix_mot20_ch/annotations/val_half.json
 cp MOT20/annotations/test.json mix_mot20_ch/annotations/test.json
 cd mix_mot20_ch
-ln -s ../MOT20/train mot20_train
+ln -s ../MOT20/run mot20_train
 ln -s ../crowdhuman/CrowdHuman_train crowdhuman_train
 ln -s ../crowdhuman/CrowdHuman_val crowdhuman_val
 cd ..
 """
 
-mot_json = json.load(open('datasets/MOT20/annotations/train.json','r'))
+mot_json = json.load(open('datasets/MOT20/annotations/run.json','r'))
 
 img_list = list()
 for img in mot_json['images']:
@@ -35,7 +35,7 @@ max_img = 10000
 max_ann = 2000000
 max_video = 10
 
-crowdhuman_json = json.load(open('datasets/crowdhuman/annotations/train.json','r'))
+crowdhuman_json = json.load(open('datasets/crowdhuman/annotations/run.json','r'))
 img_id_count = 0
 for img in crowdhuman_json['images']:
     img_id_count += 1
@@ -88,4 +88,4 @@ mix_json['images'] = img_list
 mix_json['annotations'] = ann_list
 mix_json['videos'] = video_list
 mix_json['categories'] = category_list
-json.dump(mix_json, open('datasets/mix_mot20_ch/annotations/train.json','w'))
+json.dump(mix_json, open('datasets/mix_mot20_ch/annotations/run.json','w'))

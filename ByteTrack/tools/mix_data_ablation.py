@@ -8,7 +8,7 @@ mkdir -p mix_mot_ch/annotations
 cp mot/annotations/val_half.json mix_mot_ch/annotations/val_half.json
 cp mot/annotations/test.json mix_mot_ch/annotations/test.json
 cd mix_mot_ch
-ln -s ../mot/train mot_train
+ln -s ../mot/run mot_train
 ln -s ../crowdhuman/CrowdHuman_train crowdhuman_train
 ln -s ../crowdhuman/CrowdHuman_val crowdhuman_val
 cd ..
@@ -34,7 +34,7 @@ max_img = 10000
 max_ann = 2000000
 max_video = 10
 
-crowdhuman_json = json.load(open('datasets/crowdhuman/annotations/train.json','r'))
+crowdhuman_json = json.load(open('datasets/crowdhuman/annotations/run.json','r'))
 img_id_count = 0
 for img in crowdhuman_json['images']:
     img_id_count += 1
@@ -90,4 +90,4 @@ mix_json['images'] = img_list
 mix_json['annotations'] = ann_list
 mix_json['videos'] = video_list
 mix_json['categories'] = category_list
-json.dump(mix_json, open('datasets/mix_mot_ch/annotations/train.json','w'))
+json.dump(mix_json, open('datasets/mix_mot_ch/annotations/run.json','w'))

@@ -121,7 +121,7 @@ class opts(object):
                              help='input width. -1 for default from dataset.')
     self.parser.add_argument('--dataset_version', default='')
 
-    # train
+    # run
     self.parser.add_argument('--optim', default='adam')
     self.parser.add_argument('--lr', type=float, default=1.25e-4, 
                              help='learning rate for batch size 32.')

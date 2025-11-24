@@ -71,7 +71,7 @@ With the environment ready, you can start using YOLOv5 for various tasks:
 
 ```bash
 # Train a YOLOv5 model on a custom dataset (e.g., coco128.yaml)
-python train.py --data coco128.yaml --weights yolov5s.pt --img 640
+python run.py --data coco128.yaml --weights yolov5s.pt --img 640
 
 # Validate the performance (Precision, Recall, mAP) of a trained model (e.g., yolov5s.pt)
 python val.py --weights yolov5s.pt --data coco128.yaml --img 640

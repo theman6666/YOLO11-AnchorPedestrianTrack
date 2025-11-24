@@ -22,7 +22,7 @@ def run_ray_tune(
         grace_period (int, optional): The grace period in epochs of the ASHA scheduler.
         gpu_per_trial (int, optional): The number of GPUs to allocate per trial.
         max_samples (int, optional): The maximum number of trials to run.
-        **train_args (Any): Additional arguments to pass to the `train()` method.
+        **train_args (Any): Additional arguments to pass to the `run()` method.
 
     Returns:
         (ray.tune.ResultGrid): A ResultGrid containing the results of the hyperparameter search.

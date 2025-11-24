@@ -1,6 +1,6 @@
 ---
 comments: true
-description: Learn how to use JupyterLab to train and experiment with Ultralytics YOLO11 models. Discover key features, setup instructions, and solutions to common issues.
+description: Learn how to use JupyterLab to run and experiment with Ultralytics YOLO11 models. Discover key features, setup instructions, and solutions to common issues.
 keywords: JupyterLab, YOLO11, Ultralytics, Model Training, Deep Learning, Interactive Coding, Data Science, Machine Learning, Jupyter Notebook, Model Development
 ---
 

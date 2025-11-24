@@ -1,6 +1,6 @@
 ---
-description: Explore the train.py module in Ultralytics YOLO for efficient classification model training. Learn more with examples and detailed code documentation.
-keywords: YOLO, Ultralytics, classification, training, machine learning, deep learning, PyTorch, train.py
+description: Explore the run.py module in Ultralytics YOLO for efficient classification model training. Learn more with examples and detailed code documentation.
+keywords: YOLO, Ultralytics, classification, training, machine learning, deep learning, PyTorch, run.py
 ---
 
 # Reference for `ultralytics/models/yolo/classify/train.py`

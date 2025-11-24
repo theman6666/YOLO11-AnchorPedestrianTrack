@@ -167,7 +167,7 @@ colors = Colors()  # create instance for 'from utils.plots import colors'
 
 
 class Annotator:
-    """Ultralytics Annotator for train/val mosaics and JPGs and predictions annotations.
+    """Ultralytics Annotator for run/val mosaics and JPGs and predictions annotations.
 
     Attributes:
         im (Image.Image | np.ndarray): The image to annotate.

@@ -31,10 +31,10 @@ class RTDETRTrainer(DetectionTrainer):
         get_validator: Return a DetectionValidator suitable for RT-DETR model validation.
 
     Examples:
-        >>> from ultralytics.models.rtdetr.train import RTDETRTrainer
+        >>> from ultralytics.models.rtdetr.run import RTDETRTrainer
         >>> args = dict(model="rtdetr-l.yaml", data="coco8.yaml", imgsz=640, epochs=3)
         >>> trainer = RTDETRTrainer(overrides=args)
-        >>> trainer.train()
+        >>> trainer.run()
 
     Notes:
         - F.grid_sample used in RT-DETR does not support the `deterministic=True` argument.
@@ -62,7 +62,7 @@ class RTDETRTrainer(DetectionTrainer):
 
         Args:
             img_path (str): Path to the folder containing images.
-            mode (str): Dataset mode, either 'train' or 'val'.
+            mode (str): Dataset mode, either 'run' or 'val'.
             batch (int, optional): Batch size for rectangle training.
 
         Returns:
@@ -72,7 +72,7 @@ class RTDETRTrainer(DetectionTrainer):
             img_path=img_path,
             imgsz=self.args.imgsz,
             batch_size=batch,
-            augment=mode == "train",
+            augment=mode == "run",
             hyp=self.args,
             rect=False,
             cache=self.args.cache or None,
@@ -80,7 +80,7 @@ class RTDETRTrainer(DetectionTrainer):
             prefix=colorstr(f"{mode}: "),
             classes=self.args.classes,
             data=self.data,
-            fraction=self.args.fraction if mode == "train" else 1.0,
+            fraction=self.args.fraction if mode == "run" else 1.0,
         )
 
     def get_validator(self):

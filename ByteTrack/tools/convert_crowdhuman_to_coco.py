@@ -5,7 +5,7 @@ from PIL import Image
 
 DATA_PATH = 'datasets/crowdhuman/'
 OUT_PATH = DATA_PATH + 'annotations/'
-SPLITS = ['val', 'train']
+SPLITS = ['val', 'run']
 DEBUG = False
 
 def load_func(fpath):

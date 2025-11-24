@@ -1,7 +1,7 @@
 ---
 comments: true
-description: Master image classification using YOLO11. Learn to train, validate, predict, and export models efficiently.
-keywords: YOLO11, image classification, AI, machine learning, pretrained models, ImageNet, model export, predict, train, validate
+description: Master image classification using YOLO11. Learn to run, validate, predict, and export models efficiently.
+keywords: YOLO11, image classification, AI, machine learning, pretrained models, ImageNet, model export, predict, run, validate
 model_name: yolo11n-cls
 ---
 

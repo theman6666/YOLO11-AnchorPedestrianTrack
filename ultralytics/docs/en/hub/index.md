@@ -1,7 +1,7 @@
 ---
 comments: true
 description: Discover Ultralytics HUB, the all-in-one web tool for training and deploying YOLO models. Get started quickly with pre-trained models and user-friendly features.
-keywords: Ultralytics HUB, YOLO models, train YOLO, YOLOv5, YOLOv8, YOLO11, object detection, model deployment, machine learning, deep learning, AI tools, dataset upload, model training
+keywords: Ultralytics HUB, YOLO models, run YOLO, YOLOv5, YOLOv8, YOLO11, object detection, model deployment, machine learning, deep learning, AI tools, dataset upload, model training
 ---
 
 # Ultralytics HUB

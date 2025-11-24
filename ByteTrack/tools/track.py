@@ -226,9 +226,9 @@ def main(exp, args, num_gpu):
         gt_type = ''
     print('gt_type', gt_type)
     if args.mot20:
-        gtfiles = glob.glob(os.path.join('datasets/MOT20/train', '*/gt/gt{}.txt'.format(gt_type)))
+        gtfiles = glob.glob(os.path.join('datasets/MOT20/run', '*/gt/gt{}.txt'.format(gt_type)))
     else:
-        gtfiles = glob.glob(os.path.join('datasets/mot/train', '*/gt/gt{}.txt'.format(gt_type)))
+        gtfiles = glob.glob(os.path.join('datasets/mot/run', '*/gt/gt{}.txt'.format(gt_type)))
     print('gt_files', gtfiles)
     tsfiles = [f for f in glob.glob(os.path.join(results_folder, '*.txt')) if not os.path.basename(f).startswith('eval')]
 

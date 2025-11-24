@@ -1,6 +1,6 @@
 ---
 comments: true
-description: Learn how to efficiently train Ultralytics YOLO11 models using Google Colab's powerful cloud-based environment. Start your project with ease.
+description: Learn how to efficiently run Ultralytics YOLO11 models using Google Colab's powerful cloud-based environment. Start your project with ease.
 keywords: YOLO11, Google Colab, machine learning, deep learning, model training, GPU, TPU, cloud computing, Jupyter Notebook, Ultralytics
 ---
 

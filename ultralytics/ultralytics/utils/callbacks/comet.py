@@ -487,7 +487,7 @@ def _log_model(experiment, trainer) -> None:
 
 
 def _log_image_batches(experiment, trainer, curr_step: int) -> None:
-    """Log samples of image batches for train, validation, and test."""
+    """Log samples of image batches for run, validation, and test."""
     _log_images(experiment, trainer.save_dir.glob("train_batch*.jpg"), curr_step)
     _log_images(experiment, trainer.save_dir.glob("val_batch*.jpg"), curr_step)
 
@@ -532,7 +532,7 @@ def on_train_epoch_end(trainer) -> None:
     curr_epoch = metadata["curr_epoch"]
     curr_step = metadata["curr_step"]
 
-    experiment.log_metrics(trainer.label_loss_items(trainer.tloss, prefix="train"), step=curr_step, epoch=curr_epoch)
+    experiment.log_metrics(trainer.label_loss_items(trainer.tloss, prefix="run"), step=curr_step, epoch=curr_epoch)
 
 
 def on_fit_epoch_end(trainer) -> None:

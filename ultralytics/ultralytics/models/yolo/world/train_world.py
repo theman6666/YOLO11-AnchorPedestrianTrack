@@ -19,12 +19,12 @@ class WorldTrainerFromScratch(WorldTrainer):
         cfg (dict): Configuration dictionary with default parameters for model training.
         overrides (dict): Dictionary of parameter overrides to customize the configuration.
         _callbacks (list): List of callback functions to be executed during different stages of training.
-        data (dict): Final processed data configuration containing train/val paths and metadata.
+        data (dict): Final processed data configuration containing run/val paths and metadata.
         training_data (dict): Dictionary mapping training dataset paths to their configurations.
 
     Methods:
         build_dataset: Build YOLO Dataset for training or validation with mixed dataset support.
-        get_dataset: Get train and validation paths from data dictionary.
+        get_dataset: Get run and validation paths from data dictionary.
         plot_training_labels: Skip label plotting for YOLO-World training.
         final_eval: Perform final evaluation and validation for the YOLO-World model.
 
@@ -32,7 +32,7 @@ class WorldTrainerFromScratch(WorldTrainer):
         >>> from ultralytics.models.yolo.world.train_world import WorldTrainerFromScratch
         >>> from ultralytics import YOLOWorld
         >>> data = dict(
-        ...     train=dict(
+        ...     run=dict(
         ...         yolo_data=["Objects365.yaml"],
         ...         grounding_data=[
         ...             dict(
@@ -48,7 +48,7 @@ class WorldTrainerFromScratch(WorldTrainer):
         ...     val=dict(yolo_data=["lvis.yaml"]),
         ... )
         >>> model = YOLOWorld("yolov8s-worldv2.yaml")
-        >>> model.train(data=data, trainer=WorldTrainerFromScratch)
+        >>> model.run(data=data, trainer=WorldTrainerFromScratch)
     """
 
     def __init__(self, cfg=DEFAULT_CFG, overrides=None, _callbacks=None):
@@ -66,7 +66,7 @@ class WorldTrainerFromScratch(WorldTrainer):
             overrides = {}
         super().__init__(cfg, overrides, _callbacks)
 
-    def build_dataset(self, img_path, mode="train", batch=None):
+    def build_dataset(self, img_path, mode="run", batch=None):
         """Build YOLO Dataset for training or validation.
 
         This method constructs appropriate datasets based on the mode and input paths, handling both standard YOLO
@@ -74,14 +74,14 @@ class WorldTrainerFromScratch(WorldTrainer):
 
         Args:
             img_path (list[str] | str): Path to the folder containing images or list of paths.
-            mode (str): 'train' mode or 'val' mode, allowing customized augmentations for each mode.
+            mode (str): 'run' mode or 'val' mode, allowing customized augmentations for each mode.
             batch (int, optional): Size of batches, used for rectangular training/validation.
 
         Returns:
             (YOLOConcatDataset | Dataset): The constructed dataset for training or validation.
         """
         gs = max(int(unwrap_model(self.model).stride.max() if self.model else 0), 32)
-        if mode != "train":
+        if mode != "run":
             return build_yolo_dataset(self.args, img_path, batch, self.data, mode=mode, rect=False, stride=gs)
         datasets = [
             build_yolo_dataset(self.args, im_path, batch, self.training_data[im_path], stride=gs, multi_modal=True)
@@ -101,7 +101,7 @@ class WorldTrainerFromScratch(WorldTrainer):
         return YOLOConcatDataset(datasets) if len(datasets) > 1 else datasets[0]
 
     def get_dataset(self):
-        """Get train and validation paths from data dictionary.
+        """Get run and validation paths from data dictionary.
 
         Processes the data configuration to extract paths for training and validation datasets, handling both YOLO
         detection datasets and grounding datasets.
@@ -111,11 +111,11 @@ class WorldTrainerFromScratch(WorldTrainer):
             val_path (str): Validation dataset path.
 
         Raises:
-            AssertionError: If train or validation datasets are not found, or if validation has multiple datasets.
+            AssertionError: If run or validation datasets are not found, or if validation has multiple datasets.
         """
         final_data = {}
         data_yaml = self.args.data
-        assert data_yaml.get("train", False), "train dataset not found"  # object365.yaml
+        assert data_yaml.get("run", False), "run dataset not found"  # object365.yaml
         assert data_yaml.get("val", False), "validation dataset not found"  # lvis.yaml
         data = {k: [check_det_dataset(d) for d in v.get("yolo_data", [])] for k, v in data_yaml.items()}
         assert len(data["val"]) == 1, f"Only support validating on 1 dataset for now, but got {len(data['val'])}."
@@ -124,8 +124,8 @@ class WorldTrainerFromScratch(WorldTrainer):
             if d.get("minival") is None:  # for lvis dataset
                 continue
             d["minival"] = str(d["path"] / d["minival"])
-        for s in {"train", "val"}:
-            final_data[s] = [d["train" if s == "train" else val_split] for d in data[s]]
+        for s in {"run", "val"}:
+            final_data[s] = [d["run" if s == "run" else val_split] for d in data[s]]
             # save grounding data if there's one
             grounding_data = data_yaml[s].get("grounding_data")
             if grounding_data is None:
@@ -153,11 +153,11 @@ class WorldTrainerFromScratch(WorldTrainer):
             self.data["names"] = {0: "object"}
             self.data["nc"] = 1
         self.training_data = {}
-        for d in data["train"]:
+        for d in data["run"]:
             if self.args.single_cls:
                 d["names"] = {0: "object"}
                 d["nc"] = 1
-            self.training_data[d["train"]] = d
+            self.training_data[d["run"]] = d
         return final_data
 
     def plot_training_labels(self):

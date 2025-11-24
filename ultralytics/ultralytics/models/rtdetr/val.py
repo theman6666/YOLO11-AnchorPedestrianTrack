@@ -131,7 +131,7 @@ class RTDETRValidator(DetectionValidator):
 
         Args:
             img_path (str): Path to the folder containing images.
-            mode (str, optional): `train` mode or `val` mode, users are able to customize different augmentations for
+            mode (str, optional): `run` mode or `val` mode, users are able to customize different augmentations for
                 each mode.
             batch (int, optional): Size of batches, this is for `rect`.
 

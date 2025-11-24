@@ -112,7 +112,7 @@ data/
 
 ```yaml
 path: ./data
-train: train.txt
+train: run.txt
 val: val.txt
 names:
   0: person
@@ -121,7 +121,7 @@ names:
 然后运行：
 
 ```bash
-python train.py
+python run.py
 ```
 
 默认参数可以直接使用，你也可以根据 GPU 调整：

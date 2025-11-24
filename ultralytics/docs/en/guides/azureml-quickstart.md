@@ -74,7 +74,7 @@ yolo predict model=yolo11n.pt source='https://ultralytics.com/images/bus.jpg'
 Train a detection model for 10 [epochs](https://www.ultralytics.com/glossary/epoch) with an initial learning_rate of 0.01:
 
 ```bash
-yolo train data=coco8.yaml model=yolo11n.pt epochs=10 lr0=0.01
+yolo run data=coco8.yaml model=yolo11n.pt epochs=10 lr0=0.01
 ```
 
 You can find more [instructions to use the Ultralytics CLI here](../quickstart.md#use-ultralytics-with-cli).
@@ -131,7 +131,7 @@ from ultralytics import YOLO
 model = YOLO("yolo11n.pt")  # load an official YOLO11n model
 
 # Use the model
-model.train(data="coco8.yaml", epochs=3)  # train the model
+model.train(data="coco8.yaml", epochs=3)  # run the model
 metrics = model.val()  # evaluate model performance on the validation set
 results = model("https://ultralytics.com/images/bus.jpg")  # predict on an image
 path = model.export(format="onnx")  # export the model to ONNX format
@@ -170,7 +170,7 @@ Running YOLO11 on AzureML for model training involves several steps:
 
 3. **Run YOLO11 Tasks**: Use the Ultralytics CLI to train your model:
     ```bash
-    yolo train data=coco8.yaml model=yolo11n.pt epochs=10 lr0=0.01
+    yolo run data=coco8.yaml model=yolo11n.pt epochs=10 lr0=0.01
     ```
 
 For more details, you can refer to the [instructions to use the Ultralytics CLI](../quickstart.md#use-ultralytics-with-cli).

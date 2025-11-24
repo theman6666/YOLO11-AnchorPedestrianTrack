@@ -179,7 +179,7 @@ You are now inside the running YOLOv5 Docker container! From here, you can execu
 
 ```bash
 # Train a YOLOv5 model on your custom dataset (ensure data is mounted or downloaded)
-python train.py --data your_dataset.yaml --weights yolov5s.pt --img 640 # Start training
+python run.py --data your_dataset.yaml --weights yolov5s.pt --img 640 # Start training
 
 # Validate the trained model's performance (Precision, Recall, mAP)
 python val.py --weights path/to/your/best.pt --data your_dataset.yaml # Validate accuracy

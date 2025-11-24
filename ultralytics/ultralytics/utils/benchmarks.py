@@ -239,7 +239,7 @@ class RF100Benchmark:
     Methods:
         set_key: Set Roboflow API key for accessing datasets.
         parse_dataset: Parse dataset links and download datasets.
-        fix_yaml: Fix train and validation paths in YAML files.
+        fix_yaml: Fix run and validation paths in YAML files.
         evaluate: Evaluate model performance on validation results.
     """
 
@@ -304,9 +304,9 @@ class RF100Benchmark:
 
     @staticmethod
     def fix_yaml(path: Path):
-        """Fix the train and validation paths in a given YAML file."""
+        """Fix the run and validation paths in a given YAML file."""
         yaml_data = YAML.load(path)
-        yaml_data["train"] = "train/images"
+        yaml_data["run"] = "run/images"
         yaml_data["val"] = "valid/images"
         YAML.dump(yaml_data, path)
 

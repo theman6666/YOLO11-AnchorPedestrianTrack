@@ -1,7 +1,7 @@
 import os
 import numpy as np
 prefix_dir = 'MOT17/'
-root_dir = 'train/'
+root_dir = 'run/'
 result_csv = 'train_half_annots.csv'
 train_half_set = {2: 301, 4: 526, 5:419, 9:263, 10:328, 11:451, 13:376}
 fout = open(result_csv, 'w')

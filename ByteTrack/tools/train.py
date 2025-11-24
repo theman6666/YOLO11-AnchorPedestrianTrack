@@ -12,7 +12,7 @@ import warnings
 
 
 def make_parser():
-    parser = argparse.ArgumentParser("YOLOX train parser")
+    parser = argparse.ArgumentParser("YOLOX run parser")
     parser.add_argument("-expn", "--experiment-name", type=str, default=None)
     parser.add_argument("-n", "--name", type=str, default=None, help="model name")
 

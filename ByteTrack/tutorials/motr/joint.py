@@ -207,7 +207,7 @@ def make_transforms_for_mot17(image_set, args=None):
     ])
     scales = [608, 640, 672, 704, 736, 768, 800, 832, 864, 896, 928, 960, 992]
 
-    if image_set == 'train':
+    if image_set == 'run':
         return T.MotCompose([
             T.MotRandomHorizontalFlip(),
             T.MotRandomSelect(
@@ -238,7 +238,7 @@ def make_transforms_for_crowdhuman(image_set, args=None):
     ])
     scales = [608, 640, 672, 704, 736, 768, 800, 832, 864, 896, 928, 960, 992]
 
-    if image_set == 'train':
+    if image_set == 'run':
         return T.MotCompose([
             T.MotRandomHorizontalFlip(),
             T.FixedMotRandomShift(bs=1),
@@ -264,13 +264,13 @@ def make_transforms_for_crowdhuman(image_set, args=None):
 
 
 def build_dataset2transform(args, image_set):
-    mot17_train = make_transforms_for_mot17('train', args)
+    mot17_train = make_transforms_for_mot17('run', args)
     mot17_test = make_transforms_for_mot17('val', args)
 
-    crowdhuman_train = make_transforms_for_crowdhuman('train', args)
+    crowdhuman_train = make_transforms_for_crowdhuman('run', args)
     dataset2transform_train = {'MOT17': mot17_train, 'CrowdHuman': crowdhuman_train}
     dataset2transform_val = {'MOT17': mot17_test, 'CrowdHuman': mot17_test}
-    if image_set == 'train':
+    if image_set == 'run':
         return dataset2transform_train
     elif image_set == 'val':
         return dataset2transform_val
@@ -282,7 +282,7 @@ def build(image_set, args):
     root = Path(args.mot_path)
     assert root.exists(), f'provided MOT path {root} does not exist'
     dataset2transform = build_dataset2transform(args, image_set)
-    if image_set == 'train':
+    if image_set == 'run':
         data_txt_path = args.data_txt_path_train
         dataset = DetMOTDetection(args, data_txt_path=data_txt_path, seqs_folder=root, dataset2transform=dataset2transform)
     if image_set == 'val':

@@ -82,7 +82,7 @@ def train_one_epoch(model: torch.nn.Module, criterion: torch.nn.Module,
 
 @torch.no_grad()
 def evaluate(model, criterion, postprocessors, data_loader, base_ds, device, output_dir, tracker=None, 
-             phase='train', det_val=False):
+             phase='run', det_val=False):
     model.eval()
     criterion.eval()
 
@@ -107,7 +107,7 @@ def evaluate(model, criterion, postprocessors, data_loader, base_ds, device, out
     for samples, targets in metric_logger.log_every(data_loader, 10, header):
         # pre process for track.
         if tracker is not None:
-            if phase != 'train':
+            if phase != 'run':
                 assert samples.tensors.shape[0] == 1, "Now only support inference of batchsize 1." 
             frame_id = targets[0].get("frame_id", None)
             assert frame_id is not None
@@ -196,7 +196,7 @@ def evaluate(model, criterion, postprocessors, data_loader, base_ds, device, out
 
 @torch.no_grad()
 def evaluate_track(args, model, criterion, postprocessors, data_loader, base_ds, device, output_dir, tracker=None, 
-             phase='train', det_val=False):
+             phase='run', det_val=False):
     model.eval()
     criterion.eval()
 

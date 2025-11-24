@@ -48,7 +48,7 @@ With the setup complete, you are ready to [train](../../modes/train.md), [valida
 
 ```bash
 # Train a YOLOv5 model on your dataset (e.g., yolov5s)
-python train.py --data coco128.yaml --weights yolov5s.pt --img 640
+python run.py --data coco128.yaml --weights yolov5s.pt --img 640
 
 # Validate the trained model to check Precision, Recall, and mAP
 python val.py --weights yolov5s.pt --data coco128.yaml
@@ -96,7 +96,7 @@ To train YOLOv5 on your custom dataset within GCP, follow these general steps:
 
     ```bash
     # Example: Train YOLOv5s on a custom dataset for 100 epochs
-    python train.py --img 640 --batch 16 --epochs 100 --data custom_dataset.yaml --weights yolov5s.pt
+    python run.py --img 640 --batch 16 --epochs 100 --data custom_dataset.yaml --weights yolov5s.pt
     ```
 
 For comprehensive instructions on preparing data and training with custom datasets, consult the [Ultralytics YOLOv5 Train documentation](../../modes/train.md).
@@ -114,7 +114,7 @@ For efficient data management, especially with large datasets or numerous experi
 gsutil cp -r gs://your-data-bucket/my_dataset ./datasets/
 
 # Example: Copy trained model weights from your VM to a GCS bucket
-gsutil cp -r ./runs/train/exp/weights gs://your-models-bucket/yolov5_custom_weights/
+gsutil cp -r ./runs/run/exp/weights gs://your-models-bucket/yolov5_custom_weights/
 ```
 
 This approach allows you to store large datasets and trained models securely and cost-effectively in the cloud, minimizing the storage requirements on your VM instance.

@@ -85,7 +85,7 @@ With the setup complete, you can now train, validate, perform inference, and exp
 
     ```bash
     # Start training using yolov5s pretrained weights on the COCO128 dataset
-    python train.py --data coco128.yaml --weights yolov5s.pt --img 640 --epochs 10 --batch 16
+    python run.py --data coco128.yaml --weights yolov5s.pt --img 640 --epochs 10 --batch 16
     ```
 
 - **Validate** the trained model's performance using metrics like [Precision](https://www.ultralytics.com/glossary/precision), [Recall](https://www.ultralytics.com/glossary/recall), and [mAP](https://www.ultralytics.com/glossary/mean-average-precision-map). See the [Validation Mode](../../modes/val.md) guide for options.

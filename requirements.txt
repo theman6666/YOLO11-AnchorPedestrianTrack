@@ -1,0 +1,6 @@
+# Install PyTorch with CUDA 12.1 support
+--find-links https://download.pytorch.org/whl/cu121
+
+torch==2.3.0+cu121
+torchvision==0.18.0+cu121
+torchaudio==2.3.0+cu121

@@ -8,7 +8,7 @@ import math
 import numpy as np
 import torch
 import torch.nn as nn
-
+from .cbam import CBAM
 __all__ = (
     "CBAM",
     "ChannelAttention",

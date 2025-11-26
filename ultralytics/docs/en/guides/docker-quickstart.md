@@ -181,17 +181,17 @@ Here's how to execute the Ultralytics Docker container:
 
 ```bash
 # Run without GPU
-sudo docker prepare -it --ipc=host $t
+sudo docker run -it --ipc=host $t
 ```
 
 ### Using GPUs
 
 ```bash
 # Run with all GPUs
-sudo docker prepare -it --ipc=host --runtime=nvidia --gpus all $t
+sudo docker run -it --ipc=host --runtime=nvidia --gpus all $t
 
 # Run specifying which GPUs to use
-sudo docker prepare -it --ipc=host --runtime=nvidia --gpus '"device=2,3"' $t
+sudo docker run -it --ipc=host --runtime=nvidia --gpus '"device=2,3"' $t
 ```
 
 The `-it` flag assigns a pseudo-TTY and keeps stdin open, allowing you to interact with the container. The `--ipc=host` flag enables sharing of host's IPC namespace, essential for sharing memory between processes. The `--gpus` flag allows the container to access the host's GPUs.
@@ -202,7 +202,7 @@ To work with files on your local machine within the container, you can use Docke
 
 ```bash
 # Mount a local directory into the container
-sudo docker prepare -it --ipc=host --runtime=nvidia --gpus all -v /path/on/host:/path/in/container $t
+sudo docker run -it --ipc=host --runtime=nvidia --gpus all -v /path/on/host:/path/in/container $t
 ```
 
 Replace `/path/on/host` with the directory path on your local machine and `/path/in/container` with the desired path inside the Docker container.
@@ -308,7 +308,7 @@ Using Ultralytics Docker images ensures a consistent environment across differen
 First, ensure that the [NVIDIA Container Toolkit](#installing-nvidia-container-toolkit) is installed and configured. Then, use the following command to run Ultralytics YOLO with GPU support:
 
 ```bash
-sudo docker prepare -it --ipc=host --runtime=nvidia --gpus all ultralytics/ultralytics:latest # all GPUs
+sudo docker run -it --ipc=host --runtime=nvidia --gpus all ultralytics/ultralytics:latest # all GPUs
 ```
 
 This command sets up a Docker container with GPU access. For additional details, see the Docker Quickstart Guide.
@@ -318,7 +318,7 @@ This command sets up a Docker container with GPU access. For additional details,
 To visualize YOLO prediction results with a GUI in a Docker container, you need to allow Docker to access your display server. For systems running X11, the command is:
 
 ```bash
-xhost +local:docker && docker prepare -e DISPLAY=$DISPLAY \
+xhost +local:docker && docker run -e DISPLAY=$DISPLAY \
   -v /tmp/.X11-unix:/tmp/.X11-unix \
   -v ~/.Xauthority:/root/.Xauthority \
   -it --ipc=host ultralytics/ultralytics:latest
@@ -327,7 +327,7 @@ xhost +local:docker && docker prepare -e DISPLAY=$DISPLAY \
 For systems running Wayland, use:
 
 ```bash
-xhost +local:docker && docker prepare -e DISPLAY=$DISPLAY \
+xhost +local:docker && docker run -e DISPLAY=$DISPLAY \
   -v $XDG_RUNTIME_DIR/$WAYLAND_DISPLAY:/tmp/$WAYLAND_DISPLAY \
   --net=host -it --ipc=host ultralytics/ultralytics:latest
 ```
@@ -339,7 +339,7 @@ More information can be found in the [Run graphical user interface (GUI) applica
 Yes, you can mount local directories into the Ultralytics Docker container using the `-v` flag:
 
 ```bash
-sudo docker prepare -it --ipc=host --runtime=nvidia --gpus all -v /path/on/host:/path/in/container ultralytics/ultralytics:latest
+sudo docker run -it --ipc=host --runtime=nvidia --gpus all -v /path/on/host:/path/in/container ultralytics/ultralytics:latest
 ```
 
 Replace `/path/on/host` with the directory on your local machine and `/path/in/container` with the desired path inside the container. This setup allows you to work with your local files within the container. For more information, refer to the [Note on File Accessibility](#note-on-file-accessibility) section.

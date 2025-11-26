@@ -922,7 +922,7 @@ def attempt_compile(
         model (torch.nn.Module): Model to compile.
         device (torch.device): Inference device used for warmup and autocast decisions.
         imgsz (int, optional): Square input size to create a dummy tensor with shape (1, 3, imgsz, imgsz) for warmup.
-        use_autocast (bool, optional): Whether to prepare warmup under autocast on CUDA or MPS devices.
+        use_autocast (bool, optional): Whether to run warmup under autocast on CUDA or MPS devices.
         warmup (bool, optional): Whether to execute a single dummy forward pass to warm up the compiled model.
         mode (bool | str, optional): torch.compile mode. True → "default", False → no compile, or a string like
             "default", "reduce-overhead", "max-autotune-no-cudagraphs".

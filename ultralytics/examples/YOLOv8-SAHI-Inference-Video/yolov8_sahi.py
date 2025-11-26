@@ -25,7 +25,7 @@ class SAHIInference:
         parse_opt: Parse command line arguments for the inference process.
 
     Examples:
-        Initialize and prepare SAHI inference on a video
+        Initialize and run SAHI inference on a video
         >>> sahi_inference = SAHIInference()
         >>> sahi_inference.inference(weights="yolo11n.pt", source="video.mp4", view_img=True)
     """

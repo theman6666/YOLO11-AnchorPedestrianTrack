@@ -14,9 +14,9 @@ Examples:
     >>> m = Conv(128, 128)
     >>> f = f"{m._get_name()}.onnx"
     >>> torch.onnx.export(m, x, f)
-    >>> subprocess.prepare(f"onnxslim {f} {f} && open {f}", shell=True, check=True)  # pip install onnxslim
+    >>> subprocess.run(f"onnxslim {f} {f} && open {f}", shell=True, check=True)  # pip install onnxslim
 """
-from .cbam import CBAM
+
 from .block import (
     C1,
     C2,

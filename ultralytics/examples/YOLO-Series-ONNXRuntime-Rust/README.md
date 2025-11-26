@@ -38,7 +38,7 @@ This repository provides a [Rust](https://rust-lang.org/) demo showcasing key [U
 - **Option 2: Automatic Download**
   - Use the `--features auto` flag with Cargo to let the build script handle downloading the library automatically:
     ```bash
-    cargo prepare -r --example yolo --features auto
+    cargo run -r --example yolo --features auto
     ```
 
 </details>
@@ -59,36 +59,36 @@ Run the examples using Cargo. The `--` separates Cargo arguments from the exampl
 
 ```bash
 # Run a custom model (e.g., YOLOv8 detection)
-cargo prepare -r -- --task detect --ver v8 --nc 6 --model path/to/your/model.onnx
+cargo run -r -- --task detect --ver v8 --nc 6 --model path/to/your/model.onnx
 
 # Classify examples
-cargo prepare -r -- --task classify --ver v5 --scale s --width 224 --height 224 --nc 1000  # YOLOv5 Classification
-cargo prepare -r -- --task classify --ver v8 --scale n --width 224 --height 224 --nc 1000  # YOLOv8 Classification
-cargo prepare -r -- --task classify --ver v11 --scale n --width 224 --height 224 --nc 1000 # YOLO11 Classification
+cargo run -r -- --task classify --ver v5 --scale s --width 224 --height 224 --nc 1000  # YOLOv5 Classification
+cargo run -r -- --task classify --ver v8 --scale n --width 224 --height 224 --nc 1000  # YOLOv8 Classification
+cargo run -r -- --task classify --ver v11 --scale n --width 224 --height 224 --nc 1000 # YOLO11 Classification
 
 # Detect examples
-cargo prepare -r -- --task detect --ver v5 --scale n     # YOLOv5 Detection
-cargo prepare -r -- --task detect --ver v6 --scale n     # YOLOv6 Detection
-cargo prepare -r -- --task detect --ver v7 --scale t     # YOLOv7 Detection
-cargo prepare -r -- --task detect --ver v8 --scale n     # YOLOv8 Detection
-cargo prepare -r -- --task detect --ver v9 --scale t     # YOLOv9 Detection
-cargo prepare -r -- --task detect --ver v10 --scale n    # YOLOv10 Detection
-cargo prepare -r -- --task detect --ver v11 --scale n    # YOLO11 Detection
-cargo prepare -r -- --task detect --ver rtdetr --scale l # RT-DETR Detection
+cargo run -r -- --task detect --ver v5 --scale n     # YOLOv5 Detection
+cargo run -r -- --task detect --ver v6 --scale n     # YOLOv6 Detection
+cargo run -r -- --task detect --ver v7 --scale t     # YOLOv7 Detection
+cargo run -r -- --task detect --ver v8 --scale n     # YOLOv8 Detection
+cargo run -r -- --task detect --ver v9 --scale t     # YOLOv9 Detection
+cargo run -r -- --task detect --ver v10 --scale n    # YOLOv10 Detection
+cargo run -r -- --task detect --ver v11 --scale n    # YOLO11 Detection
+cargo run -r -- --task detect --ver rtdetr --scale l # RT-DETR Detection
 
 # Pose examples
-cargo prepare -r -- --task pose --ver v8 --scale n  # YOLOv8-Pose Estimation
-cargo prepare -r -- --task pose --ver v11 --scale n # YOLO11-Pose Estimation
+cargo run -r -- --task pose --ver v8 --scale n  # YOLOv8-Pose Estimation
+cargo run -r -- --task pose --ver v11 --scale n # YOLO11-Pose Estimation
 
 # Segment examples
-cargo prepare -r -- --task segment --ver v5 --scale n                              # YOLOv5-Segment
-cargo prepare -r -- --task segment --ver v8 --scale n                              # YOLOv8-Segment
-cargo prepare -r -- --task segment --ver v11 --scale n                             # YOLO11-Segment
-cargo prepare -r -- --task segment --ver v8 --model path/to/FastSAM-s-dyn-f16.onnx # FastSAM Segmentation
+cargo run -r -- --task segment --ver v5 --scale n                              # YOLOv5-Segment
+cargo run -r -- --task segment --ver v8 --scale n                              # YOLOv8-Segment
+cargo run -r -- --task segment --ver v11 --scale n                             # YOLO11-Segment
+cargo run -r -- --task segment --ver v8 --model path/to/FastSAM-s-dyn-f16.onnx # FastSAM Segmentation
 
 # OBB (Oriented Bounding Box) examples
-cargo prepare -r -- --ver v8 --task obb --scale n --width 1024 --height 1024 --source images/dota.png  # YOLOv8-OBB
-cargo prepare -r -- --ver v11 --task obb --scale n --width 1024 --height 1024 --source images/dota.png # YOLO11-OBB
+cargo run -r -- --ver v8 --task obb --scale n --width 1024 --height 1024 --source images/dota.png  # YOLOv8-OBB
+cargo run -r -- --ver v11 --task obb --scale n --width 1024 --height 1024 --source images/dota.png # YOLO11-OBB
 ```
 
 **Use `cargo run -- --help` to see all available options.**

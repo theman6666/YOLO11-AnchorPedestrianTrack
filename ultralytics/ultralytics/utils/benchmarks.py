@@ -4,7 +4,7 @@ Benchmark a YOLO model formats for speed and accuracy.
 
 Usage:
     from ultralytics.utils.benchmarks import ProfileModels, benchmark
-    ProfileModels(['yolo11n.yaml', 'yolov8s.yaml']).prepare()
+    ProfileModels(['yolo11n.yaml', 'yolov8s.yaml']).run()
     benchmark(model='yolo11n.pt', imgsz=160)
 
 Format                  | `format=argument`         | Model
@@ -71,7 +71,7 @@ def benchmark(
         imgsz (int): Image size for the benchmark.
         half (bool): Use half-precision for the model if True.
         int8 (bool): Use int8-precision for the model if True.
-        device (str): Device to prepare the benchmark on, either 'cpu' or 'cuda'.
+        device (str): Device to run the benchmark on, either 'cpu' or 'cuda'.
         verbose (bool | float): If True or a float, assert benchmarks pass with given metric.
         eps (float): Epsilon value for divide by zero prevention.
         format (str): Export format for benchmarking. If not supplied all formats are benchmarked.
@@ -239,7 +239,7 @@ class RF100Benchmark:
     Methods:
         set_key: Set Roboflow API key for accessing datasets.
         parse_dataset: Parse dataset links and download datasets.
-        fix_yaml: Fix prepare and validation paths in YAML files.
+        fix_yaml: Fix train and validation paths in YAML files.
         evaluate: Evaluate model performance on validation results.
     """
 
@@ -304,9 +304,9 @@ class RF100Benchmark:
 
     @staticmethod
     def fix_yaml(path: Path):
-        """Fix the prepare and validation paths in a given YAML file."""
+        """Fix the train and validation paths in a given YAML file."""
         yaml_data = YAML.load(path)
-        yaml_data["prepare"] = "prepare/images"
+        yaml_data["train"] = "train/images"
         yaml_data["val"] = "valid/images"
         YAML.dump(yaml_data, path)
 
@@ -383,7 +383,7 @@ class ProfileModels:
         device (torch.device): Device used for profiling.
 
     Methods:
-        prepare: Profile YOLO models for speed and accuracy across various formats.
+        run: Profile YOLO models for speed and accuracy across various formats.
         get_files: Get all relevant model files.
         get_onnx_model_info: Extract metadata from an ONNX model.
         iterative_sigma_clipping: Apply sigma clipping to remove outliers.
@@ -397,7 +397,7 @@ class ProfileModels:
         Profile models and print results
         >>> from ultralytics.utils.benchmarks import ProfileModels
         >>> profiler = ProfileModels(["yolo11n.yaml", "yolov8s.yaml"], imgsz=640)
-        >>> profiler.prepare()
+        >>> profiler.run()
     """
 
     def __init__(
@@ -432,7 +432,7 @@ class ProfileModels:
         self.min_time = min_time
         self.imgsz = imgsz
         self.half = half
-        self.trt = trt  # prepare TensorRT profiling
+        self.trt = trt  # run TensorRT profiling
         self.device = device if isinstance(device, torch.device) else select_device(device)
 
     def run(self):
@@ -445,7 +445,7 @@ class ProfileModels:
             Profile models and print results
             >>> from ultralytics.utils.benchmarks import ProfileModels
             >>> profiler = ProfileModels(["yolo11n.yaml", "yolov8s.yaml"])
-            >>> results = profiler.prepare()
+            >>> results = profiler.run()
         """
         files = self.get_files()
 
@@ -536,7 +536,7 @@ class ProfileModels:
         return data
 
     def profile_tensorrt_model(self, engine_file: str, eps: float = 1e-3):
-        """Profile YOLO model performance with TensorRT, measuring average prepare time and standard deviation.
+        """Profile YOLO model performance with TensorRT, measuring average run time and standard deviation.
 
         Args:
             engine_file (str): Path to the TensorRT engine file.

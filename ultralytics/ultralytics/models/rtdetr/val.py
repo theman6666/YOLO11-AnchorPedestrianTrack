@@ -116,7 +116,7 @@ class RTDETRValidator(DetectionValidator):
         postprocess: Apply Non-maximum suppression to prediction outputs.
 
     Examples:
-        Initialize and prepare RT-DETR validation
+        Initialize and run RT-DETR validation
         >>> from ultralytics.models.rtdetr import RTDETRValidator
         >>> args = dict(model="rtdetr-l.pt", data="coco8.yaml")
         >>> validator = RTDETRValidator(args=args)
@@ -131,7 +131,7 @@ class RTDETRValidator(DetectionValidator):
 
         Args:
             img_path (str): Path to the folder containing images.
-            mode (str, optional): `prepare` mode or `val` mode, users are able to customize different augmentations for
+            mode (str, optional): `train` mode or `val` mode, users are able to customize different augmentations for
                 each mode.
             batch (int, optional): Size of batches, this is for `rect`.
 

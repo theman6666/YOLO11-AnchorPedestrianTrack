@@ -61,7 +61,7 @@ class RTDETR:
         main: Execute the complete object detection pipeline.
 
     Examples:
-        Initialize RT-DETR detector and prepare inference
+        Initialize RT-DETR detector and run inference
         >>> detector = RTDETR("rtdetr-l.onnx", "image.jpg", conf_thres=0.5)
         >>> output_image = detector.main()
         >>> cv2.imshow("Detections", output_image)

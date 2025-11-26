@@ -16,7 +16,7 @@ class YOLOEVPDetectPredictor(DetectionPredictor):
 
     Attributes:
         model (torch.nn.Module): The YOLO model for inference.
-        device (torch.device): Device to prepare the model on (CPU or CUDA).
+        device (torch.device): Device to run the model on (CPU or CUDA).
         prompts (dict | torch.Tensor): Visual prompts containing class indices and bounding boxes or masks.
 
     Methods:

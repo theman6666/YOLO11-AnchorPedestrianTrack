@@ -1,6 +1,6 @@
 ---
-description: Explore detailed guides on Ultralytics callbacks, including pretrain, model save, prepare start/end, and more. Enhance your ML training workflows with ease.
-keywords: Ultralytics, callbacks, pretrain, model save, prepare start, prepare end, validation, predict, export, training, machine learning
+description: Explore detailed guides on Ultralytics callbacks, including pretrain, model save, train start/end, and more. Enhance your ML training workflows with ease.
+keywords: Ultralytics, callbacks, pretrain, model save, train start, train end, validation, predict, export, training, machine learning
 ---
 
 # Reference for `ultralytics/utils/callbacks/hub.py`

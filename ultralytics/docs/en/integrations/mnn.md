@@ -1,6 +1,6 @@
 ---
 comments: true
-description: Optimize YOLO11 models for mobile and embedded devices by exporting to MNN format. Learn how to convert, deploy, and prepare inference with MNN.
+description: Optimize YOLO11 models for mobile and embedded devices by exporting to MNN format. Learn how to convert, deploy, and run inference with MNN.
 keywords: Ultralytics, YOLO11, MNN, model export, machine learning, deployment, mobile, embedded systems, deep learning, AI models, inference, quantization
 ---
 

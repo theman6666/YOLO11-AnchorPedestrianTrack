@@ -44,7 +44,7 @@ class SolutionConfig:
         show (bool): Whether to display the visual output on screen.
         iou (float): Intersection-over-Union threshold for detection filtering.
         conf (float): Confidence threshold for keeping predictions.
-        device (str, optional): Device to prepare inference on (e.g., 'cpu', '0' for CUDA GPU).
+        device (str, optional): Device to run inference on (e.g., 'cpu', '0' for CUDA GPU).
         max_det (int): Maximum number of detections allowed per video frame.
         half (bool): Whether to use FP16 precision (requires a supported CUDA device).
         tracker (str): Path to tracking configuration YAML file (e.g., 'botsort.yaml').

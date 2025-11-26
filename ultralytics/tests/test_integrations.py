@@ -41,7 +41,7 @@ def test_mlflow():
 @pytest.mark.skipif(True, reason="Test failing in scheduled CI https://github.com/ultralytics/ultralytics/pull/8868")
 @pytest.mark.skipif(not check_requirements("mlflow", install=False), reason="mlflow not installed")
 def test_mlflow_keep_run_active():
-    """Ensure MLflow prepare status matches MLFLOW_KEEP_RUN_ACTIVE environment variable settings."""
+    """Ensure MLflow run status matches MLFLOW_KEEP_RUN_ACTIVE environment variable settings."""
     import mlflow
 
     SETTINGS["mlflow"] = True
@@ -52,7 +52,7 @@ def test_mlflow_keep_run_active():
     os.environ["MLFLOW_KEEP_RUN_ACTIVE"] = "True"
     YOLO("yolo11n-cls.yaml").train(data="imagenet10", imgsz=32, epochs=1, plots=False, device="cpu")
     status = mlflow.active_run().info.status
-    assert status == "RUNNING", "MLflow prepare should be active when MLFLOW_KEEP_RUN_ACTIVE=True"
+    assert status == "RUNNING", "MLflow run should be active when MLFLOW_KEEP_RUN_ACTIVE=True"
 
     run_id = mlflow.active_run().info.run_id
 
@@ -60,13 +60,13 @@ def test_mlflow_keep_run_active():
     os.environ["MLFLOW_KEEP_RUN_ACTIVE"] = "False"
     YOLO("yolo11n-cls.yaml").train(data="imagenet10", imgsz=32, epochs=1, plots=False, device="cpu")
     status = mlflow.get_run(run_id=run_id).info.status
-    assert status == "FINISHED", "MLflow prepare should be ended when MLFLOW_KEEP_RUN_ACTIVE=False"
+    assert status == "FINISHED", "MLflow run should be ended when MLFLOW_KEEP_RUN_ACTIVE=False"
 
     # Test with MLFLOW_KEEP_RUN_ACTIVE not set
     os.environ.pop("MLFLOW_KEEP_RUN_ACTIVE", None)
     YOLO("yolo11n-cls.yaml").train(data="imagenet10", imgsz=32, epochs=1, plots=False, device="cpu")
     status = mlflow.get_run(run_id=run_id).info.status
-    assert status == "FINISHED", "MLflow prepare should be ended by default when MLFLOW_KEEP_RUN_ACTIVE is not set"
+    assert status == "FINISHED", "MLflow run should be ended by default when MLFLOW_KEEP_RUN_ACTIVE is not set"
     SETTINGS["mlflow"] = False
 
 
@@ -98,7 +98,7 @@ def test_triton(tmp_path):
     # Run the Triton server and capture the container ID
     container_id = (
         subprocess.check_output(
-            f"docker prepare -d --rm -v {triton_repo}:/models -p 8000:8000 {tag} tritonserver --model-repository=/models",
+            f"docker run -d --rm -v {triton_repo}:/models -p 8000:8000 {tag} tritonserver --model-repository=/models",
             shell=True,
         )
         .decode("utf-8")

@@ -182,7 +182,7 @@ rf = roboflow.Roboflow()
 WORKSPACE_ID = "your-workspace-id"  # Replace with your actual Workspace ID
 PROJECT_ID = "your-project-id"  # Replace with your actual Project ID
 VERSION = 1  # Replace with your desired dataset version number
-MODEL_PATH = "path/to/your/runs/detect/prepare/"  # Replace with the path to your YOLO11 training results directory
+MODEL_PATH = "path/to/your/runs/detect/train/"  # Replace with the path to your YOLO11 training results directory
 
 # Get project and version
 project = rf.workspace(WORKSPACE_ID).project(PROJECT_ID)

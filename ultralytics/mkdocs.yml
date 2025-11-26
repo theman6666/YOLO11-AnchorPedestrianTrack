@@ -201,7 +201,7 @@ nav:
       - Quickstart: quickstart.md
       - Modes:
           - modes/index.md
-          - Train: modes/prepare.md
+          - Train: modes/train.md
           - Val: modes/val.md
           - Predict: modes/predict.md
           - Export: modes/export.md
@@ -248,7 +248,7 @@ nav:
           - Advanced Customization: usage/engine.md
       - Modes:
           - Modes: modes/index.md
-          - Train: modes/prepare.md
+          - Train: modes/train.md
           - Val: modes/val.md
           - Predict: modes/predict.md
           - Export: modes/export.md
@@ -271,7 +271,7 @@ nav:
           - guides/index.md
   - Modes:
       - Modes: modes/index.md
-      - Train: modes/prepare.md
+      - Train: modes/train.md
       - Val: modes/val.md
       - Predict: modes/predict.md
       - Export: modes/export.md
@@ -293,7 +293,7 @@ nav:
       - OBB: tasks/obb.md
       - Modes:
           - modes/index.md
-          - Train: modes/prepare.md
+          - Train: modes/train.md
           - Val: modes/val.md
           - Predict: modes/predict.md
           - Export: modes/export.md
@@ -492,6 +492,7 @@ nav:
       - MNN: integrations/mnn.md
       - NCNN: integrations/ncnn.md
       - Rockchip RKNN: integrations/rockchip-rknn.md
+      - Axelera: integrations/axelera.md
       - Neural Magic: integrations/neural-magic.md
       - Seeed Studio reCamera: integrations/seeedstudio-recamera.md
       - Gradio: integrations/gradio.md
@@ -585,7 +586,7 @@ nav:
           - rtdetr:
               - model: reference/models/rtdetr/model.md
               - predict: reference/models/rtdetr/predict.md
-              - train: reference/models/rtdetr/prepare.md
+              - train: reference/models/rtdetr/train.md
               - val: reference/models/rtdetr/val.md
           - sam:
               - amg: reference/models/sam/amg.md
@@ -607,31 +608,31 @@ nav:
           - yolo:
               - classify:
                   - predict: reference/models/yolo/classify/predict.md
-                  - train: reference/models/yolo/classify/prepare.md
+                  - train: reference/models/yolo/classify/train.md
                   - val: reference/models/yolo/classify/val.md
               - detect:
                   - predict: reference/models/yolo/detect/predict.md
-                  - train: reference/models/yolo/detect/prepare.md
+                  - train: reference/models/yolo/detect/train.md
                   - val: reference/models/yolo/detect/val.md
               - model: reference/models/yolo/model.md
               - obb:
                   - predict: reference/models/yolo/obb/predict.md
-                  - train: reference/models/yolo/obb/prepare.md
+                  - train: reference/models/yolo/obb/train.md
                   - val: reference/models/yolo/obb/val.md
               - pose:
                   - predict: reference/models/yolo/pose/predict.md
-                  - train: reference/models/yolo/pose/prepare.md
+                  - train: reference/models/yolo/pose/train.md
                   - val: reference/models/yolo/pose/val.md
               - segment:
                   - predict: reference/models/yolo/segment/predict.md
-                  - train: reference/models/yolo/segment/prepare.md
+                  - train: reference/models/yolo/segment/train.md
                   - val: reference/models/yolo/segment/val.md
               - world:
-                  - train: reference/models/yolo/world/prepare.md
+                  - train: reference/models/yolo/world/train.md
                   - train_world: reference/models/yolo/world/train_world.md
               - yoloe:
                   - predict: reference/models/yolo/yoloe/predict.md
-                  - train: reference/models/yolo/yoloe/prepare.md
+                  - train: reference/models/yolo/yoloe/train.md
                   - train_seg: reference/models/yolo/yoloe/train_seg.md
                   - val: reference/models/yolo/yoloe/val.md
       - nn:

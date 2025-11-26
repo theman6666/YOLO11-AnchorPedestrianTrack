@@ -155,7 +155,7 @@ def test_predict_gray_and_4ch(tmp_path):
     for f in source_rgba, source_grayscale, source_non_utf, source_spaces:
         for source in Image.open(f), cv2.imread(str(f)), f:
             results = model(source, save=True, verbose=True, imgsz=32)
-            assert len(results) == 1  # verify that an image was prepare
+            assert len(results) == 1  # verify that an image was run
         f.unlink()  # cleanup
 
 
@@ -657,7 +657,7 @@ def test_yolo_world():
 
     model = YOLO("yolov8s-worldv2.yaml")  # no YOLO11n-world model yet
     model.train(
-        data={"prepare": {"yolo_data": ["dota8.yaml"]}, "val": {"yolo_data": ["dota8.yaml"]}},
+        data={"train": {"yolo_data": ["dota8.yaml"]}, "val": {"yolo_data": ["dota8.yaml"]}},
         epochs=1,
         imgsz=32,
         cache="disk",
@@ -735,7 +735,7 @@ def test_yoloe():
 def test_yolov10():
     """Test YOLOv10 model training, validation, and prediction functionality."""
     model = YOLO("yolov10n.yaml")
-    # prepare/val/predict
+    # train/val/predict
     model.train(data="coco8.yaml", epochs=1, imgsz=32, close_mosaic=1, cache="disk")
     model.val(data="coco8.yaml", imgsz=32)
     model.predict(imgsz=32, save_txt=True, save_crop=True, augment=True)
@@ -761,8 +761,8 @@ def test_grayscale(task: str, model: str, data: str, tmp_path) -> None:
     data = check_det_dataset(data)
     data["channels"] = 1  # add additional channels key for grayscale
     YAML.save(data=data, file=grayscale_data)
-    # remove npy files in prepare/val splits if exists, might be created by previous tests
-    for split in {"prepare", "val"}:
+    # remove npy files in train/val splits if exists, might be created by previous tests
+    for split in {"train", "val"}:
         for npy_file in (Path(data["path"]) / data[split]).glob("*.npy"):
             npy_file.unlink()
 

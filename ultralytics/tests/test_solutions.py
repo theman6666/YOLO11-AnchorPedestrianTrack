@@ -313,7 +313,7 @@ def test_similarity_search_app_init():
     """Test SearchApp initializes with required attributes."""
     app = solutions.SearchApp(device="cpu")
     assert hasattr(app, "searcher")
-    assert hasattr(app, "prepare")
+    assert hasattr(app, "run")
 
 
 @pytest.mark.skipif(not TORCH_2_4, reason=f"VisualAISearch requires torch>=2.4 (found torch=={TORCH_VERSION})")

@@ -71,7 +71,7 @@ yolo export model=yolov8m-seg.pt format=onnx simplify dynamic
 This command will perform inference using the specified ONNX model on the source image using the CPU.
 
 ```bash
-cargo prepare --release -- --model MODEL_PATH.onnx --source SOURCE_IMAGE.jpg
+cargo run --release -- --model MODEL_PATH.onnx --source SOURCE_IMAGE.jpg
 ```
 
 #### Using GPU Acceleration
@@ -79,13 +79,13 @@ cargo prepare --release -- --model MODEL_PATH.onnx --source SOURCE_IMAGE.jpg
 Set `--cuda` to use the CUDA execution provider for faster inference on NVIDIA GPUs.
 
 ```bash
-cargo prepare --release -- --cuda --model MODEL_PATH.onnx --source SOURCE_IMAGE.jpg
+cargo run --release -- --cuda --model MODEL_PATH.onnx --source SOURCE_IMAGE.jpg
 ```
 
 Set `--trt` to use the TensorRT execution provider. You can also set `--fp16` simultaneously to leverage the TensorRT FP16 engine for potentially even greater speed, especially on compatible hardware.
 
 ```bash
-cargo prepare --release -- --trt --fp16 --model MODEL_PATH.onnx --source SOURCE_IMAGE.jpg
+cargo run --release -- --trt --fp16 --model MODEL_PATH.onnx --source SOURCE_IMAGE.jpg
 ```
 
 #### Specifying Device and Batch Size
@@ -93,13 +93,13 @@ cargo prepare --release -- --trt --fp16 --model MODEL_PATH.onnx --source SOURCE_
 Set `--device_id` to select a specific GPU device. If the specified device ID is invalid (e.g., setting `device_id 1` when only one GPU exists), `ort` will automatically fall back to the `CPU` execution provider without causing a panic.
 
 ```bash
-cargo prepare --release -- --cuda --device_id 0 --model MODEL_PATH.onnx --source SOURCE_IMAGE.jpg
+cargo run --release -- --cuda --device_id 0 --model MODEL_PATH.onnx --source SOURCE_IMAGE.jpg
 ```
 
 Set `--batch` to perform inference with a specific batch size.
 
 ```bash
-cargo prepare --release -- --cuda --batch 2 --model MODEL_PATH.onnx --source SOURCE_IMAGE.jpg
+cargo run --release -- --cuda --batch 2 --model MODEL_PATH.onnx --source SOURCE_IMAGE.jpg
 ```
 
 If you're using `--trt` with a model exported with dynamic batch dimensions, you can explicitly specify the minimum, optimal, and maximum batch sizes for TensorRT optimization using `--batch-min`, `--batch`, and `--batch-max`. Refer to the [TensorRT Execution Provider documentation](https://onnxruntime.ai/docs/execution-providers/TensorRT-ExecutionProvider.html#explicit-shape-range-for-dynamic-shape-input) for details.
@@ -109,7 +109,7 @@ If you're using `--trt` with a model exported with dynamic batch dimensions, you
 Set `--height` and `--width` to perform inference with dynamic image sizes. **Note:** The ONNX model must have been exported with dynamic input shapes (`dynamic=True`).
 
 ```bash
-cargo prepare --release -- --cuda --width 480 --height 640 --model MODEL_PATH_dynamic.onnx --source SOURCE_IMAGE.jpg
+cargo run --release -- --cuda --width 480 --height 640 --model MODEL_PATH_dynamic.onnx --source SOURCE_IMAGE.jpg
 ```
 
 #### Profiling Performance
@@ -117,7 +117,7 @@ cargo prepare --release -- --cuda --width 480 --height 640 --model MODEL_PATH_dy
 Set `--profile` to measure the time consumed in each stage of the inference pipeline (preprocessing, H2D transfer, inference, D2H transfer, postprocessing). **Note:** Models often require a few "warm-up" runs (1-3 iterations) before reaching optimal performance. Ensure you run the command enough times to get a stable performance evaluation.
 
 ```bash
-cargo prepare --release -- --trt --fp16 --profile --model MODEL_PATH.onnx --source SOURCE_IMAGE.jpg
+cargo run --release -- --trt --fp16 --profile --model MODEL_PATH.onnx --source SOURCE_IMAGE.jpg
 ```
 
 Example Profile Output (yolov8m.onnx, batch=1, 3 runs, trt, fp16, RTX 3060Ti):
@@ -160,7 +160,7 @@ You can view all available command-line arguments by running:
 # git clone https://github.com/ultralytics/ultralytics
 # cd ultralytics/examples/YOLOv8-ONNXRuntime-Rust
 
-cargo prepare --release -- --help
+cargo run --release -- --help
 ```
 
 ## 🖼️ Examples
@@ -172,7 +172,7 @@ cargo prepare --release -- --help
 Running a dynamic shape ONNX classification model on the `CPU` with a specific image size (`--height 224 --width 224`). The plotted result image will be saved in the `runs` directory.
 
 ```bash
-cargo prepare --release -- --model ../assets/weights/yolov8m-cls-dyn.onnx --source ../assets/images/dog.jpg --height 224 --width 224 --plot --profile
+cargo run --release -- --model ../assets/weights/yolov8m-cls-dyn.onnx --source ../assets/images/dog.jpg --height 224 --width 224 --plot --profile
 ```
 
 Example output:
@@ -206,7 +206,7 @@ Summary:
 Using the `CUDA` execution provider and a dynamic image size (`--height 640 --width 480`).
 
 ```bash
-cargo prepare --release -- --cuda --model ../assets/weights/yolov8m-dynamic.onnx --source ../assets/images/bus.jpg --plot --height 640 --width 480
+cargo run --release -- --cuda --model ../assets/weights/yolov8m-dynamic.onnx --source ../assets/images/bus.jpg --plot --height 640 --width 480
 ```
 
 ### Pose Detection
@@ -214,7 +214,7 @@ cargo prepare --release -- --cuda --model ../assets/weights/yolov8m-dynamic.onnx
 Using the `TensorRT` execution provider.
 
 ```bash
-cargo prepare --release -- --trt --model ../assets/weights/yolov8m-pose.onnx --source ../assets/images/bus.jpg --plot
+cargo run --release -- --trt --model ../assets/weights/yolov8m-pose.onnx --source ../assets/images/bus.jpg --plot
 ```
 
 ### Instance Segmentation
@@ -222,7 +222,7 @@ cargo prepare --release -- --trt --model ../assets/weights/yolov8m-pose.onnx --s
 Using the `TensorRT` execution provider with an FP16 model (`--fp16`).
 
 ```bash
-cargo prepare --release -- --trt --fp16 --model ../assets/weights/yolov8m-seg.onnx --source ../assets/images/0172.jpg --plot
+cargo run --release -- --trt --fp16 --model ../assets/weights/yolov8m-seg.onnx --source ../assets/images/0172.jpg --plot
 ```
 
 ## 🤝 Contributing

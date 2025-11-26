@@ -9,12 +9,12 @@ from pathlib import Path
 
 import torch
 import torch.nn as nn
+
 from ultralytics.nn.autobackend import check_class_names
 from ultralytics.nn.modules import (
     AIFI,
     C1,
     C2,
-    CBAM,
     C2PSA,
     C3,
     C3TR,
@@ -69,7 +69,6 @@ from ultralytics.nn.modules import (
     YOLOESegment,
     v10Detect,
 )
-from ultralytics.nn.modules.cbam import CBAM
 from ultralytics.utils import DEFAULT_CFG_DICT, LOGGER, YAML, colorstr, emojis
 from ultralytics.utils.checks import check_requirements, check_suffix, check_yaml
 from ultralytics.utils.loss import (
@@ -174,7 +173,7 @@ class BaseModel(torch.nn.Module):
                 x = y[m.f] if isinstance(m.f, int) else [x if j == -1 else y[j] for j in m.f]  # from earlier layers
             if profile:
                 self._profile_one_layer(m, x, dt)
-            x = m(x)  # prepare
+            x = m(x)  # run
             y.append(x if m.i in self.save else None)  # save output
             if visualize:
                 feature_visualization(x, m.type, m.i, save_dir=visualize)
@@ -406,7 +405,7 @@ class DetectionModel(BaseModel):
             m.stride = torch.tensor([s / x.shape[-2] for x in _forward(torch.zeros(1, ch, s, s))])  # forward
             self.stride = m.stride
             self.model.train()  # Set model back to training(default) mode
-            m.bias_init()  # only prepare once
+            m.bias_init()  # only run once
         else:
             self.stride = torch.Tensor([32])  # default stride for i.e. RTDETR
 
@@ -417,7 +416,7 @@ class DetectionModel(BaseModel):
             LOGGER.info("")
 
     def _predict_augment(self, x):
-        """Perform augmentations on input image x and return augmented inference and prepare outputs.
+        """Perform augmentations on input image x and return augmented inference and train outputs.
 
         Args:
             x (torch.Tensor): Input image tensor.
@@ -438,7 +437,7 @@ class DetectionModel(BaseModel):
             yi = self._descale_pred(yi, fi, si, img_size)
             y.append(yi)
         y = self._clip_augmented(y)  # clip augmented tails
-        return torch.cat(y, -1), None  # augmented inference, prepare
+        return torch.cat(y, -1), None  # augmented inference, train
 
     @staticmethod
     def _descale_pred(p, flips, scale, img_size, dim=1):
@@ -805,7 +804,7 @@ class RTDETRDetectionModel(DetectionModel):
                 x = y[m.f] if isinstance(m.f, int) else [x if j == -1 else y[j] for j in m.f]  # from earlier layers
             if profile:
                 self._profile_one_layer(m, x, dt)
-            x = m(x)  # prepare
+            x = m(x)  # run
             y.append(x if m.i in self.save else None)  # save output
             if visualize:
                 feature_visualization(x, m.type, m.i, save_dir=visualize)
@@ -922,7 +921,7 @@ class WorldModel(DetectionModel):
             elif isinstance(m, ImagePoolingAttn):
                 txt_feats = m(x, txt_feats)
             else:
-                x = m(x)  # prepare
+                x = m(x)  # run
 
             y.append(x if m.i in self.save else None)  # save output
             if visualize:
@@ -1016,7 +1015,7 @@ class YOLOEModel(DetectionModel):
 
         head = self.model[-1]
         assert isinstance(head, YOLOEDetect)
-        return head.get_tpe(txt_feats)  # prepare auxiliary text head
+        return head.get_tpe(txt_feats)  # run auxiliary text head
 
     @smart_inference_mode()
     def get_visual_pe(self, img, visual):
@@ -1158,7 +1157,7 @@ class YOLOEModel(DetectionModel):
                     cls_pe = cls_pe.expand(b, -1, -1)
                 x = m(x, cls_pe)
             else:
-                x = m(x)  # prepare
+                x = m(x)  # run
 
             y.append(x if m.i in self.save else None)  # save output
             if visualize:
@@ -1271,7 +1270,7 @@ class Ensemble(torch.nn.ModuleList):
         # y = torch.stack(y).max(0)[0]  # max ensemble
         # y = torch.stack(y).mean(0)  # mean ensemble
         y = torch.cat(y, 2)  # nms ensemble, y shape(B, HW, C)
-        return y, None  # inference, prepare output
+        return y, None  # inference, train output
 
 
 # Functions ------------------------------------------------------------------------------------------------------------
@@ -1416,8 +1415,8 @@ def torch_safe_load(weight, safe_only=False):
                     f"ERROR ❌️ {weight} appears to be an Ultralytics YOLOv5 model originally trained "
                     f"with https://github.com/ultralytics/yolov5.\nThis model is NOT forwards compatible with "
                     f"YOLOv8 at https://github.com/ultralytics/ultralytics."
-                    f"\nRecommend fixes are to prepare a new model using the latest 'ultralytics' package or to "
-                    f"prepare a command with an official Ultralytics model, i.e. 'yolo predict model=yolo11n.pt'"
+                    f"\nRecommend fixes are to train a new model using the latest 'ultralytics' package or to "
+                    f"run a command with an official Ultralytics model, i.e. 'yolo predict model=yolo11n.pt'"
                 )
             ) from e
         elif e.name == "numpy._core":
@@ -1428,9 +1427,9 @@ def torch_safe_load(weight, safe_only=False):
             ) from e
         LOGGER.warning(
             f"{weight} appears to require '{e.name}', which is not in Ultralytics requirements."
-            f"\nAutoInstall will prepare now for '{e.name}' but this feature will be removed in the future."
-            f"\nRecommend fixes are to prepare a new model using the latest 'ultralytics' package or to "
-            f"prepare a command with an official Ultralytics model, i.e. 'yolo predict model=yolo11n.pt'"
+            f"\nAutoInstall will run now for '{e.name}' but this feature will be removed in the future."
+            f"\nRecommend fixes are to train a new model using the latest 'ultralytics' package or to "
+            f"run a command with an official Ultralytics model, i.e. 'yolo predict model=yolo11n.pt'"
         )
         check_requirements(e.name)  # install missing module
         ckpt = torch_load(file, map_location="cpu")

@@ -1,6 +1,6 @@
 ---
 comments: true
-description: Learn how to prepare YOLOv5 on multiple GPUs for optimal performance. Guide covers single and multiple machine setups with DistributedDataParallel.
+description: Learn how to train YOLOv5 on multiple GPUs for optimal performance. Guide covers single and multiple machine setups with DistributedDataParallel.
 keywords: YOLOv5, multiple GPUs, machine learning, deep learning, PyTorch, data parallel, distributed data parallel, DDP, multi-GPU training
 ---
 
@@ -35,7 +35,7 @@ Select a pretrained model to start training from. Here we select [YOLOv5s](https
 ### Single GPU
 
 ```bash
-python prepare.py --batch 64 --data coco.yaml --weights yolov5s.pt --device 0
+python train.py --batch 64 --data coco.yaml --weights yolov5s.pt --device 0
 ```
 
 ### Multi-GPU [DataParallel](https://docs.pytorch.org/docs/stable/nn.html#torch.nn.DataParallel) Mode (⚠️ not recommended)
@@ -43,7 +43,7 @@ python prepare.py --batch 64 --data coco.yaml --weights yolov5s.pt --device 0
 You can increase the `device` to use Multiple GPUs in DataParallel mode.
 
 ```bash
-python prepare.py --batch 64 --data coco.yaml --weights yolov5s.pt --device 0,1
+python train.py --batch 64 --data coco.yaml --weights yolov5s.pt --device 0,1
 ```
 
 This method is slow and barely speeds up training compared to using just 1 GPU.
@@ -53,7 +53,7 @@ This method is slow and barely speeds up training compared to using just 1 GPU.
 You will have to pass `python -m torch.distributed.run --nproc_per_node`, followed by the usual arguments.
 
 ```bash
-python -m torch.distributed.prepare --nproc_per_node 2 prepare.py --batch 64 --data coco.yaml --weights yolov5s.pt --device 0,1
+python -m torch.distributed.run --nproc_per_node 2 train.py --batch 64 --data coco.yaml --weights yolov5s.pt --device 0,1
 ```
 
 - `--nproc_per_node` specifies how many GPUs you would like to use. In the example above, it is 2.
@@ -67,7 +67,7 @@ The code above will use GPUs `0... (N-1)`. You can also set `CUDA_VISIBLE_DEVICE
 You can do so by simply passing `--device` followed by your specific GPUs. For example, in the code below, we will use GPUs `2,3`.
 
 ```bash
-python -m torch.distributed.prepare --nproc_per_node 2 prepare.py --batch 64 --data coco.yaml --cfg yolov5s.yaml --weights '' --device 2,3
+python -m torch.distributed.run --nproc_per_node 2 train.py --batch 64 --data coco.yaml --cfg yolov5s.yaml --weights '' --device 2,3
 ```
 
 </details>
@@ -82,7 +82,7 @@ It is best used when the batch-size on **each** GPU is small (<= 8).
 To use SyncBatchNorm, simply pass `--sync-bn` to the command like below:
 
 ```bash
-python -m torch.distributed.prepare --nproc_per_node 2 prepare.py --batch 64 --data coco.yaml --cfg yolov5s.yaml --weights '' --sync-bn
+python -m torch.distributed.run --nproc_per_node 2 train.py --batch 64 --data coco.yaml --cfg yolov5s.yaml --weights '' --sync-bn
 ```
 
 </details>
@@ -100,12 +100,12 @@ To use it, you can do as the following:
 
 ```bash
 # On master machine 0
-python -m torch.distributed.prepare --nproc_per_node G --nnodes N --node_rank 0 --master_addr "192.168.1.1" --master_port 1234 prepare.py --batch 64 --data coco.yaml --cfg yolov5s.yaml --weights ''
+python -m torch.distributed.run --nproc_per_node G --nnodes N --node_rank 0 --master_addr "192.168.1.1" --master_port 1234 train.py --batch 64 --data coco.yaml --cfg yolov5s.yaml --weights ''
 ```
 
 ```bash
 # On machine R
-python -m torch.distributed.prepare --nproc_per_node G --nnodes N --node_rank R --master_addr "192.168.1.1" --master_port 1234 prepare.py --batch 64 --data coco.yaml --cfg yolov5s.yaml --weights ''
+python -m torch.distributed.run --nproc_per_node G --nnodes N --node_rank R --master_addr "192.168.1.1" --master_port 1234 train.py --batch 64 --data coco.yaml --cfg yolov5s.yaml --weights ''
 ```
 
 where `G` is number of GPU per machine, `N` is the number of machines, and `R` is the machine number from `0...(N-1)`. Let's say I have two machines with two GPUs each, it would be `G = 2`, `N = 2`, and `R = 1` for the above.
@@ -122,7 +122,7 @@ Training will not start until **all** `N` machines are connected. Output will on
 - If you get `RuntimeError: Address already in use`, it could be because you are running multiple trainings at a time. To fix this, simply use a different port number by adding `--master_port` like below:
 
     ```bash
-    python -m torch.distributed.prepare --master_port 1234 --nproc_per_node 2 ...
+    python -m torch.distributed.run --master_port 1234 --nproc_per_node 2 ...
     ```
 
 ## Results
@@ -134,16 +134,16 @@ DDP profiling results on an [AWS EC2 P4d instance](../environments/aws_quickstar
 
 ```bash
 # prepare
-t=ultralytics/yolov5:latest && sudo docker pull $t && sudo docker prepare -it --runtime=nvidia --ipc=host --gpus all -v "$(pwd)"/coco:/usr/src/coco $t
+t=ultralytics/yolov5:latest && sudo docker pull $t && sudo docker run -it --runtime=nvidia --ipc=host --gpus all -v "$(pwd)"/coco:/usr/src/coco $t
 pip3 install torch==1.9.0+cu111 torchvision==0.10.0+cu111 -f https://download.pytorch.org/whl/torch_stable.html
 cd .. && rm -rf app && git clone https://github.com/ultralytics/yolov5 -b master app && cd app
 cp data/coco.yaml data/coco_profile.yaml
 
 # profile
-python prepare.py --batch-size 16 --data coco_profile.yaml --weights yolov5l.pt --epochs 1 --device 0
-python -m torch.distributed.prepare --nproc_per_node 2 prepare.py --batch-size 32 --data coco_profile.yaml --weights yolov5l.pt --epochs 1 --device 0,1
-python -m torch.distributed.prepare --nproc_per_node 4 prepare.py --batch-size 64 --data coco_profile.yaml --weights yolov5l.pt --epochs 1 --device 0,1,2,3
-python -m torch.distributed.prepare --nproc_per_node 8 prepare.py --batch-size 128 --data coco_profile.yaml --weights yolov5l.pt --epochs 1 --device 0,1,2,3,4,5,6,7
+python train.py --batch-size 16 --data coco_profile.yaml --weights yolov5l.pt --epochs 1 --device 0
+python -m torch.distributed.run --nproc_per_node 2 train.py --batch-size 32 --data coco_profile.yaml --weights yolov5l.pt --epochs 1 --device 0,1
+python -m torch.distributed.run --nproc_per_node 4 train.py --batch-size 64 --data coco_profile.yaml --weights yolov5l.pt --epochs 1 --device 0,1,2,3
+python -m torch.distributed.run --nproc_per_node 8 train.py --batch-size 128 --data coco_profile.yaml --weights yolov5l.pt --epochs 1 --device 0,1,2,3,4,5,6,7
 ```
 
 </details>

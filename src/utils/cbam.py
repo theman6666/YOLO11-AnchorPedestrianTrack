@@ -1,3 +1,13 @@
+# -*- coding: utf-8 -*-
+"""
+CBAM (Convolutional Block Attention Module) implementation for YOLO11
+Author: theman6666 386763479@qq.com
+Date: 2025-11-24 22:22:49
+LastEditors: theman6666 386763479@qq.com
+LastEditTime: 2025-11-26 09:14:07
+FilePath: YOLO11-AnchorPedestrianTrack/src/utils/cbam.py
+Description: CBAM attention mechanism for improving YOLO11 performance
+"""
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -51,10 +61,18 @@ class CBAM(nn.Module):
 
 # Small helper: insert CBAM after a block output
 class CBAMWrapper(nn.Module):
-    def __init__(self, module, in_channels):
+    def __init__(self, module, cbam_module):
         super(CBAMWrapper, self).__init__()
         self.module = module
-        self.cbam = CBAM(in_channels)
+        self.cbam = cbam_module
+        
+        # 复制原模块的属性以保持兼容性
+        if hasattr(module, 'f'):
+            self.f = module.f
+        if hasattr(module, 'i'):
+            self.i = module.i
+        if hasattr(module, 'type'):
+            self.type = module.type
 
     def forward(self, x):
         x = self.module(x)

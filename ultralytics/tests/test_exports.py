@@ -182,7 +182,7 @@ def test_export_coreml():
     # Check captured output for errors
     output = stdout.getvalue() + stderr.getvalue()
     assert "Error" not in output, f"CoreML export produced errors: {output}"
-    assert "You will not be able to prepare predict()" not in output, "CoreML export has predict() error"
+    assert "You will not be able to run predict()" not in output, "CoreML export has predict() error"
 
 
 @pytest.mark.skipif(not checks.IS_PYTHON_MINIMUM_3_10, reason="TFLite export requires Python>=3.10")

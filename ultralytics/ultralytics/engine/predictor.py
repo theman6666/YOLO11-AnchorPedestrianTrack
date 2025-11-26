@@ -227,7 +227,7 @@ class BasePredictor:
     def predict_cli(self, source=None, model=None):
         """Method used for Command Line Interface (CLI) prediction.
 
-        This function is designed to prepare predictions using the CLI. It sets up the source and model, then processes the
+        This function is designed to run predictions using the CLI. It sets up the source and model, then processes the
         inputs in a streaming manner. This method ensures that no outputs accumulate in memory by consuming the
         generator without storing results.
 

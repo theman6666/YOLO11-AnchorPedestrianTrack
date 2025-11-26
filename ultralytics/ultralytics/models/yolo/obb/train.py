@@ -29,7 +29,7 @@ class OBBTrainer(yolo.detect.DetectionTrainer):
         >>> from ultralytics.models.yolo.obb import OBBTrainer
         >>> args = dict(model="yolo11n-obb.pt", data="dota8.yaml", epochs=3)
         >>> trainer = OBBTrainer(overrides=args)
-        >>> trainer.prepare()
+        >>> trainer.train()
     """
 
     def __init__(self, cfg=DEFAULT_CFG, overrides: dict | None = None, _callbacks: list[Any] | None = None):

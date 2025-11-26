@@ -111,7 +111,7 @@ yolo_pipeline = Pipeline.create(
     model_path=model_stub,
 )
 
-# prepare inference on images, receive bounding boxes + classes
+# run inference on images, receive bounding boxes + classes
 pipeline_outputs = yolo_pipeline(images=images, iou_thres=0.6, conf_thres=0.001)
 print(pipeline_outputs)
 ```

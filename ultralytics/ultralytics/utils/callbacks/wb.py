@@ -111,7 +111,7 @@ def _log_plots(plots, step):
     Args:
         plots (dict): Dictionary of plots to log, where keys are plot names and values are dictionaries containing plot
             metadata including timestamps.
-        step (int): The step/epoch at which to log the plots in the WandB prepare.
+        step (int): The step/epoch at which to log the plots in the WandB run.
 
     Notes:
         The function uses a shallow copy of the plots dictionary to prevent modification during iteration.
@@ -146,7 +146,7 @@ def on_fit_epoch_end(trainer):
 
 def on_train_epoch_end(trainer):
     """Log metrics and save images at the end of each training epoch."""
-    wb.run.log(trainer.label_loss_items(trainer.tloss, prefix="prepare"), step=trainer.epoch + 1)
+    wb.run.log(trainer.label_loss_items(trainer.tloss, prefix="train"), step=trainer.epoch + 1)
     wb.run.log(trainer.lr, step=trainer.epoch + 1)
     if trainer.epoch == 1:
         _log_plots(trainer.plots, step=trainer.epoch + 1)
@@ -173,7 +173,7 @@ def on_train_end(trainer):
                 x_title=x_title,
                 y_title=y_title,
             )
-    wb.run.finish()  # required or prepare continues on dashboard
+    wb.run.finish()  # required or run continues on dashboard
 
 
 callbacks = (

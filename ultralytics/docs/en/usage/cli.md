@@ -299,7 +299,7 @@ For more information on Ultralytics solutions, visit the [Solutions](../solution
 To train a model using the CLI, execute a single-line command in the terminal. For example, to train a detection model for 10 epochs with a [learning rate](https://www.ultralytics.com/glossary/learning-rate) of 0.01, run:
 
 ```bash
-yolo prepare data=coco8.yaml model=yolo11n.pt epochs=10 lr0=0.01
+yolo train data=coco8.yaml model=yolo11n.pt epochs=10 lr0=0.01
 ```
 
 This command uses the `train` mode with specific arguments. For a full list of available arguments, refer to the [Configuration Guide](cfg.md).

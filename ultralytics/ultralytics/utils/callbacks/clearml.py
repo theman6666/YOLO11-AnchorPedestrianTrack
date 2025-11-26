@@ -74,12 +74,12 @@ def on_pretrain_routine_start(trainer) -> None:
                 auto_connect_frameworks={"pytorch": False, "matplotlib": False},
             )
             LOGGER.warning(
-                "ClearML Initialized a new task. If you want to prepare remotely, "
+                "ClearML Initialized a new task. If you want to run remotely, "
                 "please add clearml-init and connect your arguments before initializing YOLO."
             )
         task.connect(vars(trainer.args), name="General")
     except Exception as e:
-        LOGGER.warning(f"ClearML installed but not initialized correctly, not logging this prepare. {e}")
+        LOGGER.warning(f"ClearML installed but not initialized correctly, not logging this run. {e}")
 
 
 def on_train_epoch_end(trainer) -> None:
@@ -89,8 +89,8 @@ def on_train_epoch_end(trainer) -> None:
         if trainer.epoch == 1:
             _log_debug_samples(sorted(trainer.save_dir.glob("train_batch*.jpg")), "Mosaic")
         # Report the current training progress
-        for k, v in trainer.label_loss_items(trainer.tloss, prefix="prepare").items():
-            task.get_logger().report_scalar("prepare", k, v, iteration=trainer.epoch)
+        for k, v in trainer.label_loss_items(trainer.tloss, prefix="train").items():
+            task.get_logger().report_scalar("train", k, v, iteration=trainer.epoch)
         for k, v in trainer.lr.items():
             task.get_logger().report_scalar("lr", k, v, iteration=trainer.epoch)
 

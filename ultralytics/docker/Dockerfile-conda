@@ -37,10 +37,10 @@ ADD https://github.com/ultralytics/assets/releases/download/v8.3.0/yolo11n.pt .
 # t=ultralytics/ultralytics:latest-conda && sudo docker build -f docker/Dockerfile-conda -t $t . && sudo docker push $t
 
 # Run
-# t=ultralytics/ultralytics:latest-conda && sudo docker prepare -it --ipc=host $t
+# t=ultralytics/ultralytics:latest-conda && sudo docker run -it --ipc=host $t
 
 # Pull and Run
-# t=ultralytics/ultralytics:latest-conda && sudo docker pull $t && sudo docker prepare -it --ipc=host $t
+# t=ultralytics/ultralytics:latest-conda && sudo docker pull $t && sudo docker run -it --ipc=host $t
 
 # Pull and Run with local volume mounted
-# t=ultralytics/ultralytics:latest-conda && sudo docker pull $t && sudo docker prepare -it --ipc=host -v "$(pwd)"/shared/datasets:/datasets $t
+# t=ultralytics/ultralytics:latest-conda && sudo docker pull $t && sudo docker run -it --ipc=host -v "$(pwd)"/shared/datasets:/datasets $t

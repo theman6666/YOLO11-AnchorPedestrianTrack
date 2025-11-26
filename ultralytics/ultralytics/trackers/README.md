@@ -79,14 +79,14 @@ Tracking configuration shares properties with the Predict mode, such as `conf` (
 # Python
 from ultralytics import YOLO
 
-# Configure the tracking parameters and prepare the tracker
+# Configure the tracking parameters and run the tracker
 model = YOLO("yolo11n.pt")
 results = model.track(source="https://youtu.be/LNwODJXcvt4", conf=0.3, iou=0.5, show=True)
 ```
 
 ```bash
 # CLI
-# Configure tracking parameters and prepare the tracker using the command line interface
+# Configure tracking parameters and run the tracker using the command line interface
 yolo track model=yolo11n.pt source="https://youtu.be/LNwODJXcvt4" conf=0.3 iou=0.5 show
 ```
 
@@ -98,14 +98,14 @@ Ultralytics allows you to use a modified tracker configuration file. Create a co
 # Python
 from ultralytics import YOLO
 
-# Load the model and prepare the tracker with a custom configuration file
+# Load the model and run the tracker with a custom configuration file
 model = YOLO("yolo11n.pt")
 results = model.track(source="https://youtu.be/LNwODJXcvt4", tracker="custom_tracker.yaml")
 ```
 
 ```bash
 # CLI
-# Load the model and prepare the tracker with a custom configuration file using the command line interface
+# Load the model and run the tracker with a custom configuration file using the command line interface
 yolo track model=yolo11n.pt source="https://youtu.be/LNwODJXcvt4" tracker='custom_tracker.yaml'
 ```
 

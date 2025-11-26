@@ -13,7 +13,7 @@ from ultralytics.utils import MACOS, RANK
 from ultralytics.utils.checks import check_requirements
 
 # Initialize default log file
-DEFAULT_LOG_PATH = Path("prepare.log")
+DEFAULT_LOG_PATH = Path("train.log")
 if RANK in {-1, 0} and DEFAULT_LOG_PATH.exists():
     DEFAULT_LOG_PATH.unlink(missing_ok=True)
 

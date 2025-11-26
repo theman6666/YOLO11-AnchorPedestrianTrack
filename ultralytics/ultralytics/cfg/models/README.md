@@ -14,7 +14,7 @@ Model `*.yaml` configuration files can be directly utilized in the [Command Line
 
 ```bash
 # Train a YOLO11n detection model using the coco8 dataset for 100 epochs
-yolo task=detect mode=prepare model=yolo11n.yaml data=coco8.yaml epochs=100 imgsz=640
+yolo task=detect mode=train model=yolo11n.yaml data=coco8.yaml epochs=100 imgsz=640
 ```
 
 These files are [Python](https://www.python.org/)-compatible, accepting the same [configuration arguments](https://docs.ultralytics.com/usage/cfg/) as shown in the CLI example:

@@ -26,7 +26,7 @@ class FastSAM(Model):
         task_map: Returns mapping of segment task to predictor and validator classes.
 
     Examples:
-        Initialize FastSAM model and prepare prediction
+        Initialize FastSAM model and run prediction
         >>> from ultralytics import FastSAM
         >>> model = FastSAM("FastSAM-x.pt")
         >>> results = model.predict("ultralytics/assets/bus.jpg")

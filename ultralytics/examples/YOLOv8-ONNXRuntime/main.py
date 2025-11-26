@@ -40,7 +40,7 @@ class YOLOv8:
         main: Perform inference using an ONNX model and return the output image with drawn detections.
 
     Examples:
-        Initialize YOLOv8 detector and prepare inference
+        Initialize YOLOv8 detector and run inference
         >>> detector = YOLOv8("yolov8n.onnx", "image.jpg", 0.5, 0.5)
         >>> output_image = detector.main()
     """

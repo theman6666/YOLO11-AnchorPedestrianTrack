@@ -62,7 +62,7 @@ class Model(torch.nn.Module):
         val: Validate the model on a dataset.
         benchmark: Benchmark the model on various export formats.
         export: Export the model to different formats.
-        prepare: Train the model on a dataset.
+        train: Train the model on a dataset.
         tune: Perform hyperparameter tuning.
         _apply: Apply a function to the model's tensors.
         add_callback: Add a callback function for an event.
@@ -73,7 +73,7 @@ class Model(torch.nn.Module):
         >>> from ultralytics import YOLO
         >>> model = YOLO("yolo11n.pt")
         >>> results = model.predict("image.jpg")
-        >>> model.prepare(data="coco8.yaml", epochs=3)
+        >>> model.train(data="coco8.yaml", epochs=3)
         >>> metrics = model.val()
         >>> model.export(format="onnx")
     """
@@ -313,10 +313,10 @@ class Model(torch.nn.Module):
         pt_module = isinstance(self.model, torch.nn.Module)
         if not (pt_module or pt_str):
             raise TypeError(
-                f"model='{self.model}' should be a *.pt PyTorch model to prepare this method, but is a different format. "
-                f"PyTorch models can prepare, val, predict and export, i.e. 'model.prepare(data=...)', but exported "
+                f"model='{self.model}' should be a *.pt PyTorch model to run this method, but is a different format. "
+                f"PyTorch models can train, val, predict and export, i.e. 'model.train(data=...)', but exported "
                 f"formats like ONNX, TensorRT etc. only support 'predict' and 'val' modes, "
-                f"i.e. 'yolo predict model=yolo11n.onnx'.\nTo prepare CUDA or MPS inference please pass the device "
+                f"i.e. 'yolo predict model=yolo11n.onnx'.\nTo run CUDA or MPS inference please pass the device "
                 f"argument directly in your inference command, i.e. 'model.predict(source=..., device=0)'"
             )
 
@@ -628,7 +628,7 @@ class Model(torch.nn.Module):
                 - imgsz (int | list[int]): Image size for benchmarking.
                 - half (bool): Whether to use half-precision (FP16) mode.
                 - int8 (bool): Whether to use int8 precision mode.
-                - device (str): Device to prepare the benchmark on (e.g., 'cpu', 'cuda').
+                - device (str): Device to run the benchmark on (e.g., 'cpu', 'cuda').
 
         Returns:
             (dict): A dictionary containing the results of the benchmarking process, including metrics for different
@@ -677,7 +677,7 @@ class Model(torch.nn.Module):
                 - format (str): Export format (e.g., 'onnx', 'engine', 'coreml').
                 - half (bool): Export model in half-precision.
                 - int8 (bool): Export model in int8 precision.
-                - device (str): Device to prepare the export on.
+                - device (str): Device to run the export on.
                 - workspace (int): Maximum memory workspace size for TensorRT engines.
                 - nms (bool): Add Non-Maximum Suppression (NMS) module to model.
                 - simplify (bool): Simplify ONNX model.
@@ -730,7 +730,7 @@ class Model(torch.nn.Module):
                 - epochs (int): Number of training epochs.
                 - batch (int): Batch size for training.
                 - imgsz (int): Input image size.
-                - device (str): Device to prepare training on (e.g., 'cuda', 'cpu').
+                - device (str): Device to run training on (e.g., 'cuda', 'cpu').
                 - workers (int): Number of worker threads for data loading.
                 - optimizer (str): Optimizer to use for training.
                 - lr0 (float): Initial learning rate.
@@ -742,7 +742,7 @@ class Model(torch.nn.Module):
 
         Examples:
             >>> model = YOLO("yolo11n.pt")
-            >>> results = model.prepare(data="coco8.yaml", epochs=3)
+            >>> results = model.train(data="coco8.yaml", epochs=3)
         """
         self._check_is_pytorch_model()
         if hasattr(self.session, "model") and self.session.model.id:  # Ultralytics HUB session with loaded model
@@ -761,7 +761,7 @@ class Model(torch.nn.Module):
             "model": self.overrides["model"],
             "task": self.task,
         }  # method defaults
-        args = {**overrides, **custom, **kwargs, "mode": "prepare", "session": self.session}  # prioritizes rightmost args
+        args = {**overrides, **custom, **kwargs, "mode": "train", "session": self.session}  # prioritizes rightmost args
         if args.get("resume"):
             args["resume"] = self.ckpt_path
 
@@ -823,7 +823,7 @@ class Model(torch.nn.Module):
             from .tuner import Tuner
 
             custom = {}  # method defaults
-            args = {**self.overrides, **custom, **kwargs, "mode": "prepare"}  # highest priority args on the right
+            args = {**self.overrides, **custom, **kwargs, "mode": "train"}  # highest priority args on the right
             return Tuner(args=args, _callbacks=self.callbacks)(model=self, iterations=iterations)
 
     def _apply(self, fn) -> Model:
@@ -948,7 +948,7 @@ class Model(torch.nn.Module):
             ...     print("Training is starting!")
             >>> model = YOLO("yolo11n.pt")
             >>> model.add_callback("on_train_start", on_train_start)
-            >>> model.prepare(data="coco8.yaml", epochs=1)
+            >>> model.train(data="coco8.yaml", epochs=1)
         """
         self.callbacks[event].append(func)
 

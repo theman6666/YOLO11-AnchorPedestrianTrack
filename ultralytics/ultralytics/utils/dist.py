@@ -89,7 +89,7 @@ def generate_ddp_command(trainer):
     if not trainer.resume:
         shutil.rmtree(trainer.save_dir)  # remove the save_dir
     file = generate_ddp_file(trainer)
-    dist_cmd = "torch.distributed.prepare" if TORCH_1_9 else "torch.distributed.launch"
+    dist_cmd = "torch.distributed.run" if TORCH_1_9 else "torch.distributed.launch"
     port = find_free_network_port()
     cmd = [
         sys.executable,

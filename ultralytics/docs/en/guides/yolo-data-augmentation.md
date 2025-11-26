@@ -92,7 +92,7 @@ You can define all training parameters, including augmentations, in a YAML confi
 ```yaml
 # train_custom.yaml
 # 'mode' is required only for CLI usage
-mode: prepare
+mode: train
 data: coco8.yaml
 model: yolo11n.pt
 epochs: 100

@@ -89,7 +89,7 @@ class DetectionValidator(BaseValidator):
         )  # is COCO
         self.is_lvis = isinstance(val, str) and "lvis" in val and not self.is_coco  # is LVIS
         self.class_map = converter.coco80_to_coco91_class() if self.is_coco else list(range(1, len(model.names) + 1))
-        self.args.save_json |= self.args.val and (self.is_coco or self.is_lvis) and not self.training  # prepare final val
+        self.args.save_json |= self.args.val and (self.is_coco or self.is_lvis) and not self.training  # run final val
         self.names = model.names
         self.nc = len(model.names)
         self.end2end = getattr(model, "end2end", False)
@@ -292,7 +292,7 @@ class DetectionValidator(BaseValidator):
 
         Args:
             img_path (str): Path to the folder containing images.
-            mode (str): `prepare` mode or `val` mode, users are able to customize different augmentations for each mode.
+            mode (str): `train` mode or `val` mode, users are able to customize different augmentations for each mode.
             batch (int, optional): Size of batches, this is for `rect`.
 
         Returns:
@@ -503,5 +503,5 @@ class DetectionValidator(BaseValidator):
                 if self.is_lvis:
                     stats["fitness"] = stats["metrics/mAP50-95(B)"]  # always use box mAP50-95 for fitness
             except Exception as e:
-                LOGGER.warning(f"faster-coco-eval unable to prepare: {e}")
+                LOGGER.warning(f"faster-coco-eval unable to run: {e}")
         return stats

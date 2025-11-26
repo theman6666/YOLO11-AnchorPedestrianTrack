@@ -1,7 +1,7 @@
 ---
 comments: true
-description: Get started with Ultralytics HUB! Learn to upload datasets, prepare YOLO models, and manage projects easily with our user-friendly platform.
-keywords: Ultralytics HUB, Quickstart, YOLO models, dataset upload, project management, prepare models, machine learning
+description: Get started with Ultralytics HUB! Learn to upload datasets, train YOLO models, and manage projects easily with our user-friendly platform.
+keywords: Ultralytics HUB, Quickstart, YOLO models, dataset upload, project management, train models, machine learning
 ---
 
 # Ultralytics HUB Quickstart

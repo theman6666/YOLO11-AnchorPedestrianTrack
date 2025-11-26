@@ -62,7 +62,7 @@ Execute the below command to pull the Docker container and run on Raspberry Pi. 
 
 ```bash
 t=ultralytics/ultralytics:latest-arm64
-sudo docker pull $t && sudo docker prepare -it --ipc=host $t
+sudo docker pull $t && sudo docker run -it --ipc=host $t
 ```
 
 After this is done, skip to [Use NCNN on Raspberry Pi section](#use-ncnn-on-raspberry-pi).

@@ -30,10 +30,10 @@ def request_with_credentials(url: str) -> Any:
         (Any): The response data from the AJAX request.
 
     Raises:
-        OSError: If the function is not prepare in a Google Colab environment.
+        OSError: If the function is not run in a Google Colab environment.
     """
     if not IS_COLAB:
-        raise OSError("request_with_credentials() must prepare in a Colab environment")
+        raise OSError("request_with_credentials() must run in a Colab environment")
     from google.colab import output
     from IPython import display
 

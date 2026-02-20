@@ -1,8 +1,8 @@
-# YOLO11-AnchorPedestrianTrack
+﻿# YOLO11-AnchorPedestrianTrack
 
 **基于改进 Anchor 的 YOLO11 行人检测与 ByteTrack 多目标跟踪系统**
 
-------
+---
 
 ## 📘 项目简介（Introduction）
 
@@ -11,7 +11,7 @@
 
 本项目源于本科毕业设计，包含从 **模型训练 → 检测 → 跟踪 → 可视化展示** 的完整工程流程，结构清晰、模块化设计，易于复现与二次开发。
 
-------
+---
 
 ## 🚀 核心功能（Features）
 
@@ -31,9 +31,9 @@
   - `utils/`：可视化、Anchor 生成器
   - 清晰、干净的项目结构，适合 GitHub 展示与毕业答辩
 - 🛡️ **不包含数据集（避免版权问题）**
-   请自行准备 VOC/YOLO 格式行人数据集。
+  请自行准备 VOC/YOLO 格式行人数据集。
 
-------
+---
 
 ## 📂 项目结构（Project Structure）
 
@@ -63,7 +63,7 @@ YOLO11-AnchorPedestrianTrack/
 │── .gitignore
 ```
 
-------
+---
 
 ## 📦 环境准备（Environment Setup）
 
@@ -81,7 +81,7 @@ pip install -r requirements.txt
 - NumPy
 - ByteTrack 相关包
 
-------
+---
 
 ## 📁 数据集（Dataset）
 
@@ -104,7 +104,7 @@ data/
 
 如果你需要，我可以帮你自动生成 **train/val 划分脚本** 或 **VOC → YOLO 格式转换脚本**。
 
-------
+---
 
 ## 🧪 模型训练（Training）
 
@@ -134,7 +134,7 @@ python prepare.py
 
 我可以为你写一份优化过的 **4090 训练配置**。
 
-------
+---
 
 ## 🔍 行人检测（Detection）
 
@@ -152,14 +152,14 @@ python detect.py --source video.mp4
 
 检测结果会显示边框与置信度。
 
-------
+---
 
 ## 🎥 行人跟踪（Tracking）
 
 运行：
 
 ```bash
-python track.py --source video.mp4
+python tracker.py --source video.mp4
 ```
 
 功能：
@@ -168,29 +168,12 @@ python track.py --source video.mp4
 - 每帧绘制 ID + Bounding Box
 - 适合用于论文展示（可以加 IDF1 等指标）
 
-我可以帮你添加 **FPS 显示、轨迹轨迹线条、ID 颜色随机** 等增强效果。
-
-------
-
-## 📊 系统流程图（可用于论文）
-
-如果你需要，我可以帮你画以下图：
-
-- 系统总体架构图
-- YOLO11 Anchor 改进模块图
-- ByteTrack 跟踪流程图
-- 系统部署流程图
-
-这些对毕业答辩非常加分。
-
-------
-
 ## 👤 作者信息（Author）
 
 本项目由 **Zeng Jiajun（曾嘉俊，来自广州商学院的一个智能科学与技术专业的学生）** 独立开发，作为本科毕业设计使用。
  代码结构清晰可复现，仅用于学习、研究与展示。
 
-------
+---
 
 ## 📜 开源协议（License）
 
@@ -202,4 +185,3 @@ MIT 许可允许：
 - 自由使用、复制、修改、分发本项目
 - 商业用途
 - 保留版权声明即可
-

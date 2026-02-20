@@ -4,6 +4,7 @@
 基于YOLO11+ByteTrack的行人检测与跟踪系统 - 混合解决方案训练脚本
 论文: 基于YOLO11+ByteTrack的行人检测与跟踪系统设计与实现
 
+
 本脚本自动检测ultralytics源代码完整性，并选择最佳的导入方式：
 1. 优先使用本地ultralytics（如果完整且包含我们的CBAM修改）
 2. 如果本地不完整，自动切换到系统ultralytics + 动态CBAM插入
@@ -35,11 +36,11 @@ def check_local_ultralytics_completeness():
         'ultralytics/ultralytics/nn/tasks.py',
         'ultralytics/ultralytics/models/__init__.py',
         'ultralytics/ultralytics/engine/__init__.py',
-        'ultralytics/ultralytics/data/__init__.py',  # 这个是缺失的关键模块
+        'ultralytics/ultralytics/data/__init__.py',
         'ultralytics/ultralytics/utils/__init__.py',
     ]
     
-    missing_modules = []
+    missing_modules = []        # 计算缺失的模块
     for module in required_modules:
         if not os.path.exists(module):
             missing_modules.append(module)
@@ -105,8 +106,8 @@ from src.utils.losses import FocalLoss, siou_loss
 DATA_YAML = "./dataset/dataset.yaml"
 # 检查多个可能的模型文件，优先使用yolo11s.pt
 POSSIBLE_MODELS = [
-    "models/yolo11s.pt",  # 优先使用s版本，更快
-    "models/yolo11m.pt",
+    "models/yolo11s.pt",  # 优先使用s版本，更快但准确度没有YOLO11m.pt高
+    "models/yolo11m.pt",  # 这个的速度没有那么快，但是准确度更好
     "models/yolo11n.pt",
     "yolo11s.pt",
     "yolo11m.pt",

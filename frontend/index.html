@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>行人检测与跟踪系统</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #1e1e1e;
+            color: #ffffff;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        header {
+            width: 100%;
+            background-color: #2d2d2d;
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+        h1 { margin: 0; color: #00bcd4; }
+        .container {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        .video-box {
+            border: 2px solid #00bcd4;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0, 188, 212, 0.4);
+        }
+        img {
+            display: block;
+            max-width: 100%;
+            height: auto;
+        }
+        .status-bar {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #333;
+            border-radius: 8px;
+            width: 80%;
+            max-width: 800px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>基于 YOLO11 + ByteTrack 的行人跟踪系统</h1>
+    </header>
+
+    <div class="container">
+        <div class="video-box">
+            <!-- 这里直接指向后端的视频流路由 -->
+            <img src="{{ url_for('video_feed') }}" alt="实时监控流" width="800">
+        </div>
+
+        <div class="status-bar">
+            <p>系统状态: <span style="color: #00ff00;">运行中</span> | 算法: YOLO11 + CBAM + ByteTrack</p>
+        </div>
+    </div>
+</body>
+</html>

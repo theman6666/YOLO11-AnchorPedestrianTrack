@@ -1,187 +1,214 @@
 ﻿# YOLO11-AnchorPedestrianTrack
 
-**基于改进 Anchor 的 YOLO11 行人检测与 ByteTrack 多目标跟踪系统**
+基于 `YOLO11 + CBAM + ByteTrack + Flask` 的行人检测与多目标跟踪项目，包含数据预处理、训练、实时跟踪和网页可视化。
 
----
+## 1. 项目目标
 
-## 📘 项目简介（Introduction）
+本项目用于行人场景下的目标检测与跟踪，支持：
 
-本项目实现了一个基于 **改进 YOLO11 模型（Anchor 重设计）** 与 **ByteTrack 多目标跟踪算法** 的行人检测与跟踪系统。
- 系统主要用于 **视频监控、自动驾驶、安防场景中的行人识别与ID连续跟踪**。
+- 基于 YOLO11 的行人检测（类别 `person`）
+- 基于 ByteTrack 的多目标跟踪（ID 连续）
+- 在视频流中叠加 `Person Count` 和 `FPS`
+- 通过 Flask 网页实时展示结果
 
-本项目源于本科毕业设计，包含从 **模型训练 → 检测 → 跟踪 → 可视化展示** 的完整工程流程，结构清晰、模块化设计，易于复现与二次开发。
+## 2. 当前代码结构（按实际仓库）
 
----
-
-## 🚀 核心功能（Features）
-
-- 🔧 **改进 YOLO11 模型结构**
-  - 使用 K-Means 自动生成最适配行人的 Anchor
-  - 提升小体积行人、遮挡行人的检测效果
-- 🎯 **ByteTrack 多目标跟踪集成**
-  - 利用高/低置信度双阶段关联
-  - 实现 ID 稳定、连续、不易丢失
-- 🧪 **训练、测试、跟踪脚本完整提供**
-  - `train.py`：模型训练
-  - `detect.py`：单图/视频目标检测
-  - `track.py`：行人检测 + 多目标跟踪（ID 输出）
-- 📦 **模块化设计（适合工程化与论文复现）**
-  - `src/`：数据加载、跟踪工具
-  - `models/`：YOLO11 Anchor 改进模型
-  - `utils/`：可视化、Anchor 生成器
-  - 清晰、干净的项目结构，适合 GitHub 展示与毕业答辩
-- 🛡️ **不包含数据集（避免版权问题）**
-  请自行准备 VOC/YOLO 格式行人数据集。
-
----
-
-## 📂 项目结构（Project Structure）
-
-```
+```text
 YOLO11-AnchorPedestrianTrack/
-│── src/               # 数据加载、工具函数、跟踪相关模块
-│   ├── dataloader.py
-│   ├── model_utils.py
-│   └── tracker_utils.py
-│
-│── models/            # YOLO11 Anchor 改进模型结构
-│   └── yolov11_anchor.py
-│
-│── utils/             # Anchor 生成工具、可视化工具、公共代码
-│   ├── anchor_generator.py
-│   ├── visualizer.py
-│   └── common.py
-│
-│── data/              # 数据集目录（为空，带 .gitkeep 占位）
-│   └── .gitkeep
-│
-│── train.py           # 模型训练脚本
-│── detect.py          # 检测脚本
-│── track.py           # 行人检测 + 跟踪脚本
-│── requirements.txt   # Python 依赖
-│── README.md
-│── .gitignore
+├─ src/
+│  ├─ prepare/
+│  │  ├─ transform_xml_to_txt.py      # VOC XML -> YOLO TXT
+│  │  ├─ take_train_and_valid.py      # 数据集划分（train/valid/test）
+│  │  ├─ cuda_test.py                 # CUDA 可用性测试
+│  │  └─ test_opencv.py               # OpenCV/摄像头测试（示例脚本）
+│  ├─ run/
+│  │  ├─ train.py                     # 训练入口（YOLO11 + CBAM 混合方案）
+│  │  ├─ tracker.py                   # 跟踪逻辑（ByteTrack + FPS/人数叠加）
+│  │  └─ app.py                       # Flask Web 服务入口
+│  └─ utils/
+│     ├─ cbam.py
+│     └─ losses.py
+├─ dataset/
+│  ├─ train/images, train/labels
+│  ├─ valid/images, valid/labels
+│  ├─ test/images,  test/labels
+│  └─ dataset.yaml
+├─ frontend/
+│  └─ index.html
+├─ models/                            # 模型配置/权重目录
+├─ result/                            # 训练产出目录
+├─ ultralytics/                       # 本地 ultralytics 源码（可选）
+└─ requirements.txt
 ```
 
----
+## 3. 环境要求
 
-## 📦 环境准备（Environment Setup）
+- Windows + Anaconda（推荐）
+- Python 3.10/3.11
+- NVIDIA GPU（可选，但训练强烈推荐）
+- CUDA 12.1（与当前 `requirements.txt` 中 torch 版本对应）
 
-### 1️⃣ 安装依赖
+## 4. 依赖安装
+
+在项目根目录执行：
 
 ```bash
 pip install -r requirements.txt
 ```
 
-主要依赖：
+`requirements.txt` 已包含：
 
-- PyTorch
-- Ultralytics（YOLO11）
-- OpenCV
-- NumPy
-- ByteTrack 相关包
+- `torch/torchvision/torchaudio`（CUDA 12.1）
+- `ultralytics`
+- `opencv-python`
+- `numpy`
+- `PyYAML`
+- `flask`
+- `scikit-learn`
 
----
+## 5. 数据准备流程
 
-## 📁 数据集（Dataset）
+### 5.1 标注转换（VOC XML -> YOLO TXT）
 
-由于版权限制，本项目不提供数据集。
- 请自行准备 **行人检测数据集（VOC 或 YOLO 格式）**，例如：
+脚本：`src/prepare/transform_xml_to_txt.py`
 
-- COCO 行人类别（person）
-- 自动驾驶/监控场景行人数据集
-- 商业购买的 VOC 行人数据集
+默认目录约定：
 
-目录结构示例：
-
-```
-data/
-│── images/
-│── labels/
-│── train.txt
-│── val.txt
-```
-
-如果你需要，我可以帮你自动生成 **train/val 划分脚本** 或 **VOC → YOLO 格式转换脚本**。
-
----
-
-## 🧪 模型训练（Training）
-
-在训练前，需要准备 `your_data.yaml`：
-
-```yaml
-path: ./data
-train: prepare.txt
-val: val.txt
-names:
-  0: person
-```
-
-然后运行：
-
-```bash
-python prepare.py
-```
-
-默认参数可以直接使用，你也可以根据 GPU 调整：
-
-- `epochs`
-- `imgsz`
-- `batch`
-- `optimizer`
-- `workers`
-
-我可以为你写一份优化过的 **4090 训练配置**。
-
----
-
-## 🔍 行人检测（Detection）
-
-对单张图片：
-
-```bash
-python detect.py --source test.jpg
-```
-
-对视频：
-
-```bash
-python detect.py --source video.mp4
-```
-
-检测结果会显示边框与置信度。
-
----
-
-## 🎥 行人跟踪（Tracking）
+- 输入图片：`data/images`
+- 输入标注：`data/Annotations`
+- 输出标签：`data/labels`
 
 运行：
 
 ```bash
-python tracker.py --source video.mp4
+python src/prepare/transform_xml_to_txt.py
 ```
 
-功能：
+### 5.2 数据集划分（train/valid/test）
 
-- 行人 ID 连续跟踪
-- 每帧绘制 ID + Bounding Box
-- 适合用于论文展示（可以加 IDF1 等指标）
+脚本：`src/prepare/take_train_and_valid.py`
 
-## 👤 作者信息（Author）
+默认比例：
 
-本项目由 **Zeng Jiajun（曾嘉俊，来自广州商学院的一个智能科学与技术专业的学生）** 独立开发，作为本科毕业设计使用。
- 代码结构清晰可复现，仅用于学习、研究与展示。
+- train: 70%
+- valid: 20%
+- test: 10%
 
----
+运行：
 
-## 📜 开源协议（License）
+```bash
+python src/prepare/take_train_and_valid.py
+```
 
-本项目基于 **MIT License** 开源。
- 详细内容请查看项目根目录的 `LICENSE` 文件。
+输出到 `dataset/` 目录下对应子目录。
 
-MIT 许可允许：
+### 5.3 数据配置文件
 
-- 自由使用、复制、修改、分发本项目
-- 商业用途
-- 保留版权声明即可
+文件：`dataset/dataset.yaml`
+
+当前示例配置：
+
+```yaml
+path: ./dataset
+train: train/images
+val: valid/images
+test: test/images
+nc: 1
+names: ['person']
+```
+
+## 6. 训练
+
+训练入口：
+
+```bash
+python src/run/train.py
+```
+
+说明：
+
+- 脚本会优先尝试使用仓库内 `ultralytics/`（如果结构完整）
+- 若本地源码不完整，则回退到系统安装的 `ultralytics`
+- 训练数据路径默认读取 `dataset/dataset.yaml`
+- 训练输出在 `result/hybrid_weights/` 下
+
+## 7. 实时跟踪与网页演示
+
+### 7.1 启动方式
+
+```bash
+python src/run/app.py
+```
+
+访问：
+
+- `http://127.0.0.1:5000`
+
+### 7.2 当前 Web 端行为
+
+- 首页模板：`frontend/index.html`
+- 视频流接口：`/video_feed`
+- 画面叠加信息由 `src/run/tracker.py` 提供：
+  - `Person Count`
+  - `FPS`（指数平滑）
+
+### 7.3 常用修改点
+
+文件：`src/run/app.py`
+
+- 模型权重路径：`model_path`
+- 视频输入源：`video_source`
+  - `0` 表示默认摄像头
+  - 也可改成视频文件路径
+- 服务端口：`PORT`
+
+## 8. 已处理的关键问题
+
+- `README` 编码问题：已调整为可在 Windows PowerShell 下正常显示
+- Flask 启动日志端口与真实端口不一致：已统一
+- 模板路径相对定位问题：已改为基于文件位置的绝对路径
+- `python src/run/app.py` 导入失败（`No module named run`）：已兼容脚本模式与模块模式
+- 视频流画面已支持 FPS 显示
+
+## 9. 常见问题（FAQ）
+
+### Q1: 为什么静止后检测框偶尔消失？
+
+常见原因：
+
+- `conf` 阈值较高导致检测帧被过滤
+- ByteTrack 关联阈值与轨迹缓存策略导致短暂丢轨
+
+可调参数位置：`src/run/tracker.py`
+
+- `self.conf_threshold`
+- `self.iou_threshold`
+- `self.tracker_config`（可切换到自定义 `bytetrack.yaml`）
+
+### Q2: 为什么能打开网页但看不到视频？
+
+排查顺序：
+
+1. 检查摄像头是否被其他软件占用
+2. 将 `video_source=0` 改为本地视频路径测试
+3. 确认模型权重路径存在且可加载
+4. 检查 `opencv-python`、`ultralytics` 是否安装成功
+
+### Q3: `favicon.ico 404` 是错误吗？
+
+不是。浏览器会自动请求网站图标，不影响检测/跟踪主功能。
+
+## 10. 毕设建议（可直接用于答辩材料）
+
+建议最少补齐这三组证据：
+
+1. 定量指标：
+   `mAP50/mAP50-95`（检测）+ `IDF1/MOTA`（跟踪）
+2. 对比实验：
+   基线 YOLO11 vs 加 Anchor/CBAM vs 加 ByteTrack
+3. 可视化展示：
+   实时网页演示 + 典型成功/失败案例分析
+
+## 11. 许可证
+
+本项目采用 `MIT License`，详见 `LICENSE`。

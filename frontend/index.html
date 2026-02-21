@@ -3,68 +3,287 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>行人检测与跟踪系统</title>
+    <title>YOLO11 + ByteTrack 行人检测分析系统</title>
     <style>
+        :root {
+            --bg: #f3f5f8;
+            --paper: #ffffff;
+            --ink: #1c2430;
+            --muted: #607086;
+            --line: #d6dde6;
+            --accent: #1f4e79;
+            --accent-soft: #eaf1f8;
+            --ok: #1b7f5f;
+            --warn: #9f6b00;
+            --shadow: 0 10px 30px rgba(17, 31, 52, 0.08);
+            --radius: 12px;
+        }
+
+        * { box-sizing: border-box; }
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #1e1e1e;
-            color: #ffffff;
             margin: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            color: var(--ink);
+            background:
+                linear-gradient(90deg, rgba(31,78,121,0.03) 1px, transparent 1px) 0 0/36px 36px,
+                linear-gradient(rgba(31,78,121,0.03) 1px, transparent 1px) 0 0/36px 36px,
+                var(--bg);
+            font-family: "Segoe UI", "Microsoft YaHei", Arial, sans-serif;
         }
-        header {
+
+        .page { max-width: 1180px; margin: 0 auto; padding: 28px 20px 36px; }
+
+        .hero {
+            background: linear-gradient(135deg, #ffffff 0%, #f9fbfe 100%);
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 22px;
+            margin-bottom: 16px;
+        }
+
+        .hero h1 {
+            margin: 0;
+            color: var(--accent);
+            font-weight: 650;
+            font-size: 28px;
+            font-family: "Microsoft YaHei", "Segoe UI", sans-serif;
+        }
+
+        .hero p {
+            margin: 10px 0 0;
+            color: var(--muted);
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+        .badge-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+
+        .badge {
+            font-size: 12px;
+            border: 1px solid #c7d3e0;
+            color: #335b82;
+            background: var(--accent-soft);
+            border-radius: 999px;
+            padding: 5px 10px;
+        }
+
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 14px; }
+
+        .card {
+            background: var(--paper);
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 16px;
+        }
+
+        .card h2 {
+            margin: 0;
+            font-size: 17px;
+            font-weight: 650;
+            color: #203852;
+        }
+
+        .sub { margin: 6px 0 14px; font-size: 13px; color: var(--muted); }
+
+        label { display: block; font-size: 13px; color: #35506f; margin-bottom: 6px; font-weight: 600; }
+
+        input[type="number"], input[type="file"], button {
             width: 100%;
-            background-color: #2d2d2d;
-            padding: 20px 0;
-            text-align: center;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-        }
-        h1 { margin: 0; color: #00bcd4; }
-        .container {
-            margin-top: 30px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-        }
-        .video-box {
-            border: 2px solid #00bcd4;
             border-radius: 10px;
+            border: 1px solid #c8d3df;
+            padding: 10px 12px;
+            font-size: 14px;
+            background: #fff;
+            color: var(--ink);
+            margin-bottom: 10px;
+        }
+
+        button {
+            background: linear-gradient(180deg, #2f5f8f 0%, #224a72 100%);
+            color: #fff;
+            font-weight: 600;
+            border-color: #224a72;
+            cursor: pointer;
+        }
+
+        button.secondary { background: #fff; color: #23496f; border-color: #aec1d4; }
+
+        .preview {
+            min-height: 230px;
+            border: 1px dashed #b7c6d6;
+            border-radius: 10px;
+            background: linear-gradient(180deg, #f9fbfe 0%, #f5f8fb 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
             overflow: hidden;
-            box-shadow: 0 0 20px rgba(0, 188, 212, 0.4);
+            color: #7b8ea2;
+            font-size: 13px;
+            padding: 8px;
         }
-        img {
-            display: block;
-            max-width: 100%;
-            height: auto;
+
+        .preview img, .preview video { width: 100%; height: auto; display: block; border-radius: 8px; }
+
+        .meta { margin-top: 10px; font-size: 13px; color: #35506f; min-height: 18px; }
+
+        .status {
+            margin-top: 14px;
+            border: 1px solid #d8c38c;
+            background: #fff9eb;
+            color: var(--warn);
+            border-radius: 10px;
+            padding: 10px 12px;
+            font-size: 14px;
         }
-        .status-bar {
-            margin-top: 20px;
-            padding: 15px;
-            background-color: #333;
-            border-radius: 8px;
-            width: 80%;
-            max-width: 800px;
-            text-align: center;
-        }
+
+        .status.ok { border-color: #9dd8c0; background: #edf9f3; color: var(--ok); }
     </style>
 </head>
 <body>
-    <header>
-        <h1>基于 YOLO11 + ByteTrack 的行人跟踪系统</h1>
-    </header>
+    <div class="page">
+        <section class="hero">
+            <h1>行人检测与跟踪系统</h1>
+            <p>基于 YOLO11 + CBAM + ByteTrack，支持摄像头实时推理、图片检测和离线视频分析。</p>
+            <div class="badge-row">
+                <span class="badge">目标类别：行人</span>
+                <span class="badge">跟踪算法：ByteTrack</span>
+                <span class="badge">输出：人数统计 + FPS + 标注结果</span>
+            </div>
+        </section>
 
-    <div class="container">
-        <div class="video-box">
-            <!-- 这里直接指向后端的视频流路由 -->
-            <img src="{{ url_for('video_feed') }}" alt="实时监控流" width="800">
+        <div class="grid">
+            <section class="card">
+                <h2>摄像头实时检测</h2>
+                <div class="sub">实时视频流分析，画面叠加跟踪 ID 与 FPS。</div>
+                <label for="cameraId">摄像头编号</label>
+                <input id="cameraId" type="number" value="0" min="0">
+                <button id="startCameraBtn" type="button">启动摄像头</button>
+                <button id="stopCameraBtn" type="button" class="secondary">停止摄像头</button>
+                <div class="preview">
+                    <img id="cameraStream" alt="摄像头画面" />
+                </div>
+            </section>
+
+            <section class="card">
+                <h2>单张图片检测</h2>
+                <div class="sub">上传单张图片并输出检测标注结果。</div>
+                <input id="imageFile" type="file" accept="image/*">
+                <button id="detectImageBtn" type="button">开始图片检测</button>
+                <div class="preview">
+                    <img id="imageResult" alt="图片检测结果" />
+                </div>
+                <div id="imageMeta" class="meta"></div>
+            </section>
+
+            <section class="card">
+                <h2>离线视频分析</h2>
+                <div class="sub">上传视频并输出带跟踪轨迹与标注的结果视频。</div>
+                <input id="videoFile" type="file" accept="video/*">
+                <button id="detectVideoBtn" type="button">开始视频检测</button>
+                <div class="preview">
+                    <video id="videoResult" controls></video>
+                </div>
+                <div id="videoMeta" class="meta"></div>
+            </section>
         </div>
 
-        <div class="status-bar">
-            <p>系统状态: <span style="color: #00ff00;">运行中</span> | 算法: YOLO11 + CBAM + ByteTrack</p>
-        </div>
+        <div id="status" class="status">系统就绪。</div>
     </div>
+
+    <script>
+        const cameraIdInput = document.getElementById("cameraId");
+        const startCameraBtn = document.getElementById("startCameraBtn");
+        const stopCameraBtn = document.getElementById("stopCameraBtn");
+        const cameraStream = document.getElementById("cameraStream");
+
+        const imageFileInput = document.getElementById("imageFile");
+        const detectImageBtn = document.getElementById("detectImageBtn");
+        const imageResult = document.getElementById("imageResult");
+        const imageMeta = document.getElementById("imageMeta");
+
+        const videoFileInput = document.getElementById("videoFile");
+        const detectVideoBtn = document.getElementById("detectVideoBtn");
+        const videoResult = document.getElementById("videoResult");
+        const videoMeta = document.getElementById("videoMeta");
+
+        const statusEl = document.getElementById("status");
+
+        function setStatus(message, ok = false) {
+            statusEl.textContent = message;
+            statusEl.className = ok ? "status ok" : "status";
+        }
+
+        startCameraBtn.addEventListener("click", () => {
+            const cameraId = Number(cameraIdInput.value || 0);
+            cameraStream.src = `/video_feed?camera_id=${cameraId}&t=${Date.now()}`;
+            setStatus(`摄像头 ${cameraId} 已启动。`, true);
+        });
+
+        stopCameraBtn.addEventListener("click", () => {
+            cameraStream.src = "";
+            setStatus("摄像头已停止。");
+        });
+
+        detectImageBtn.addEventListener("click", async () => {
+            const file = imageFileInput.files[0];
+            if (!file) {
+                setStatus("请先选择一张图片。");
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append("file", file);
+
+            setStatus("正在进行图片检测...");
+            try {
+                const response = await fetch("/detect/image", { method: "POST", body: formData });
+                const data = await response.json();
+                if (!response.ok || !data.ok) {
+                    throw new Error(data.message || "图片检测失败。");
+                }
+
+                imageResult.src = `${data.image_url}?t=${Date.now()}`;
+                imageMeta.textContent = `检测到行人数：${data.count}`;
+                setStatus(data.message || "图片检测完成。", true);
+            } catch (error) {
+                setStatus(error.message || "图片检测出错。");
+            }
+        });
+
+        detectVideoBtn.addEventListener("click", async () => {
+            const file = videoFileInput.files[0];
+            if (!file) {
+                setStatus("请先选择一个视频文件。");
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append("file", file);
+
+            setStatus("正在进行视频检测，耗时可能较长，请稍候。");
+            try {
+                const response = await fetch("/detect/video", { method: "POST", body: formData });
+                const data = await response.json();
+                if (!response.ok || !data.ok) {
+                    throw new Error(data.message || "视频检测失败。");
+                }
+
+                videoResult.src = `${data.video_url}?t=${Date.now()}`;
+                videoResult.load();
+
+                if (data.stats) {
+                    videoMeta.textContent = `总帧数：${data.stats.frames}，平均 FPS：${data.stats.avg_fps}`;
+                } else {
+                    videoMeta.textContent = "";
+                }
+
+                setStatus(data.message || "视频检测完成。", true);
+            } catch (error) {
+                setStatus(error.message || "视频检测出错。");
+            }
+        });
+    </script>
 </body>
 </html>

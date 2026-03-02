@@ -32,6 +32,7 @@ Thumbs.db
 # ======================
 runs/
 results/
+result/
 logs/
 log/
 tensorboard/
@@ -107,3 +108,4 @@ track_outputs/
 
 # ======================
 .idea
+ultralytics/

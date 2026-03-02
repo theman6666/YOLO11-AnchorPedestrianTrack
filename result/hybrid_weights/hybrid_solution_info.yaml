@@ -1,8 +1,0 @@
-cbam_insert_layers:
-- 5
-- 8
-experiment_name: YOLO11m_CBAM_Hybrid_local
-strategy: 本地ultralytics + 配置文件CBAM
-ultralytics_mode: local
-ultralytics_path: D:\YOLO11-AnchorPedestrianTrack\ultralytics
-use_config_file: true

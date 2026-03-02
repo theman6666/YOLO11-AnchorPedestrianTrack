@@ -38,7 +38,7 @@ log/
 tensorboard/
 wandb/
 tb_logs/
-
+result/
 # ======================
 # Model Weights (DO NOT UPLOAD)
 # ======================
@@ -109,3 +109,5 @@ track_outputs/
 # ======================
 .idea
 ultralytics/
+
+*.png

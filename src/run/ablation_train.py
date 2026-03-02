@@ -70,7 +70,7 @@ ABLATION_EXPERIMENTS = {
 DATA_YAML = "./dataset/dataset.yaml"
 SAVE_DIR  = "result/ablation"
 EPOCHS    = 100
-BATCH     = 16
+BATCH     = 32
 IMGSZ     = 640
 WORKERS   = 8
 
@@ -196,7 +196,7 @@ def run_experiment(exp_name: str, cfg: dict, dry_run: bool) -> bool:
             exist_ok=True,
             save=True,
             save_period=20,
-            cache=False,
+            cache="ram",
             patience=30,
             verbose=False,
             val=True,
@@ -255,6 +255,7 @@ def print_summary(exp_names: list):
 # ══════════════════════════════════════════════════════════════════════════════
 
 def main():
+    global EPOCHS, BATCH, DATA_YAML
     parser = argparse.ArgumentParser(description="CBAM 消融实验")
     parser.add_argument("--exp", nargs="+",
                         choices=list(ABLATION_EXPERIMENTS.keys()),
@@ -265,7 +266,7 @@ def main():
     parser.add_argument("--data",   default=DATA_YAML)
     args = parser.parse_args()
 
-    global EPOCHS, BATCH, DATA_YAML
+    
     EPOCHS, BATCH, DATA_YAML = args.epochs, args.batch, args.data
 
     os.makedirs(SAVE_DIR, exist_ok=True)

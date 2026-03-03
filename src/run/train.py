@@ -106,8 +106,8 @@ from src.utils.losses import FocalLoss, siou_loss
 DATA_YAML = "./dataset/dataset.yaml"
 # 检查多个可能的模型文件，优先使用yolo11s.pt
 POSSIBLE_MODELS = [
-    "models/yolo11m.pt",  # 这个的速度没有那么快，但是准确度更好
     "models/yolo11s.pt",  # 使用s版本，更快但准确度没有YOLO11m.pt
+    "models/yolo11m.pt",  # 这个的准确率更高，但是没有那么快速
     "models/yolo11n.pt",
     "yolo11s.pt",
     "yolo11m.pt",

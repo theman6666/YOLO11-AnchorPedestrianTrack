@@ -9,10 +9,12 @@ from werkzeug.utils import secure_filename
 
 try:
     # python -m src.run.app
-    from run.tracker import PedestrianTracker
+    from src.utils.app_bytetrack import AppPedestrianTracker as PedestrianTracker
 except ModuleNotFoundError:
     # python src/run/app.py
-    from tracker import PedestrianTracker
+    import sys, os
+    sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
+    from utils.app_bytetrack import AppPedestrianTracker as PedestrianTracker
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
@@ -40,7 +42,7 @@ for folder in (
 app = Flask(__name__, template_folder=str(TEMPLATE_DIR))
 
 model_path = "result/hybrid_weights/YOLO11m_CBAM_Hybrid_local6/weights/best.pt"
-tracker = PedestrianTracker(model_path=model_path)
+tracker = PedestrianTracker(model_path=model_path, use_reid=True)
 
 
 def _allowed_file(filename: str, allowed_exts: set[str]) -> bool:

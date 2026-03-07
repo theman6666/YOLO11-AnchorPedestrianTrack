@@ -115,3 +115,5 @@ ultralytics/
 *.jpg
 *.doc
 *.docx
+
+.claude/

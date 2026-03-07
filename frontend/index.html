@@ -262,6 +262,8 @@
             const formData = new FormData();
             formData.append("file", file);
 
+            detectVideoBtn.disabled = true;
+            detectVideoBtn.textContent = "处理中，请稍候...";
             setStatus("正在进行视频检测，耗时可能较长，请稍候。");
             try {
                 const response = await fetch("/detect/video", { method: "POST", body: formData });
@@ -272,6 +274,7 @@
 
                 videoResult.src = `${data.video_url}?t=${Date.now()}`;
                 videoResult.load();
+                videoResult.play().catch(e => console.log("Auto-play prevented"));
 
                 if (data.stats) {
                     videoMeta.textContent = `总帧数：${data.stats.frames}，平均 FPS：${data.stats.avg_fps}`;
@@ -282,6 +285,9 @@
                 setStatus(data.message || "视频检测完成。", true);
             } catch (error) {
                 setStatus(error.message || "视频检测出错。");
+            } finally {
+                detectVideoBtn.disabled = false;
+                detectVideoBtn.textContent = "开始视频检测";
             }
         });
     </script>

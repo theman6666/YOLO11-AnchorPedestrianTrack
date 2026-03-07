@@ -166,6 +166,7 @@ def detect_video():
     input_path = UPLOAD_VIDEO_DIR / input_name
     file.save(str(input_path))
 
+    # 使用 MP4 格式（更兼容）
     output_name = f"det_{Path(input_name).stem}.mp4"
     output_path = RESULT_VIDEO_DIR / output_name
 

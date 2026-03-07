@@ -121,6 +121,10 @@ class PedestrianTracker:
         output_path = Path(output_path)
         output_path.parent.mkdir(parents=True, exist_ok=True)
 
+        # 重置跟踪状态
+        self.reset_tracking_state()
+
+        # 获取视频属性
         cap = cv2.VideoCapture(str(input_path))
         if not cap.isOpened():
             raise ValueError(f"Cannot open input video: {input_path}")
@@ -129,29 +133,39 @@ class PedestrianTracker:
         height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
         in_fps = cap.get(cv2.CAP_PROP_FPS)
         out_fps = in_fps if in_fps and in_fps > 1 else 25.0
+        cap.release()
 
-        fourcc = cv2.VideoWriter_fourcc(*"mp4v")
-        writer = cv2.VideoWriter(str(output_path), fourcc, out_fps, (width, height))
+        # 创建 VideoWriter - 使用 MJPG 编码（稳定兼容）
+        output_path_str = str(output_path)
+        fourcc = cv2.VideoWriter_fourcc(*"MJPG")
+        writer = cv2.VideoWriter(output_path_str, fourcc, out_fps, (width, height))
 
         if not writer.isOpened():
-            cap.release()
             raise ValueError(f"Cannot open output video writer: {output_path}")
 
-        self.reset_tracking_state()
+        # 对整个视频文件调用一次 track()，使用流式处理
         start = time.time()
         frames = 0
 
         try:
-            while True:
-                ok, frame = cap.read()
-                if not ok:
-                    break
+            results = self.model.track(
+                source=str(input_path),
+                tracker=self.tracker_config,
+                conf=self.conf_threshold,
+                iou=self.iou_threshold,
+                classes=[0],
+                verbose=False,
+                stream=True,
+            )
 
-                processed = self.process_tracked_frame(frame)
-                writer.write(processed)
+            for result in results:
+                annotated_frame = result.plot()
+                count = self._get_count(result)
+                fps = self._update_fps()
+                self._overlay_text(annotated_frame, count, fps=fps)
+                writer.write(annotated_frame)
                 frames += 1
         finally:
-            cap.release()
             writer.release()
 
         elapsed = max(time.time() - start, 1e-6)
@@ -160,6 +174,7 @@ class PedestrianTracker:
             "elapsed_sec": round(elapsed, 2),
             "avg_fps": round(frames / elapsed, 2),
             "output_path": str(output_path),
+            "output_ext": output_path.suffix,
         }
 
     # Backward-compatible name used by older code.

@@ -23,6 +23,8 @@ YOLO11-AnchorPedestrianTrack/
 │  │  └─ test_opencv.py               # OpenCV/摄像头测试（示例脚本）
 │  ├─ run/
 │  │  ├─ train.py                     # 训练入口（YOLO11 + CBAM 混合方案）
+│  │  ├─ ablation_train_YOLO11s.py     # 消融训练（YOLO11s）
+│  │  ├─ ablation_train_YOLO11m.py     # 消融训练（YOLO11m）
 │  │  ├─ tracker.py                   # 跟踪逻辑（ByteTrack + FPS/人数叠加）
 │  │  └─ app.py                       # Flask Web 服务入口
 │  └─ utils/
@@ -37,7 +39,9 @@ YOLO11-AnchorPedestrianTrack/
 │  └─ index.html
 ├─ models/                            # 模型配置/权重目录
 ├─ result/                            # 训练产出目录
+├─ runs/                              # Web 结果与上传缓存目录
 ├─ ultralytics/                       # 本地 ultralytics 源码（可选）
+├─ ByteTrack/                         # ByteTrack 源码（集成在仓库内）
 └─ requirements.txt
 ```
 
@@ -147,7 +151,10 @@ python src/run/app.py
 ### 7.2 当前 Web 端行为
 
 - 首页模板：`frontend/index.html`
-- 视频流接口：`/video_feed`
+- 摄像头实时流接口：`/video_feed?camera_id=0`
+- 图片检测接口：`POST /detect/image`（表单字段 `file`）
+- 视频检测接口：`POST /detect/video`（表单字段 `file`）
+- 结果文件访问：`/results/<path>`
 - 画面叠加信息由 `src/run/tracker.py` 提供：
   - `Person Count`
   - `FPS`（指数平滑）
@@ -157,18 +164,16 @@ python src/run/app.py
 文件：`src/run/app.py`
 
 - 模型权重路径：`model_path`
-- 视频输入源：`video_source`
-  - `0` 表示默认摄像头
-  - 也可改成视频文件路径
+- 摄像头编号：前端通过 `camera_id` 查询参数传入
 - 服务端口：`PORT`
 
 ## 8. 已处理的关键问题
 
-- `README` 编码问题：已调整为可在 Windows PowerShell 下正常显示
 - Flask 启动日志端口与真实端口不一致：已统一
 - 模板路径相对定位问题：已改为基于文件位置的绝对路径
 - `python src/run/app.py` 导入失败（`No module named run`）：已兼容脚本模式与模块模式
 - 视频流画面已支持 FPS 显示
+ - 控制台乱码：部分脚本/模板在 Windows PowerShell 下仍可能出现编码显示问题，建议使用 UTF-8 终端或编辑器
 
 ## 9. 常见问题（FAQ）
 

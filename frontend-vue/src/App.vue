@@ -3,9 +3,15 @@ import { ref, onMounted } from 'vue'
 import { Sun, Moon } from 'lucide-vue-next'
 import HeroSection from '@/components/layout/HeroSection.vue'
 import PanelGrid from '@/components/layout/PanelGrid.vue'
+import Card from '@/components/ui/Card.vue'
+import StatusMonitor from '@/components/layout/StatusMonitor.vue'
 
 // Reactive state for dark mode
 const isDark = ref(false)
+
+// Reactive state for status message (for future Phase 4/5 integration)
+const statusMessage = ref('系统就绪。')
+const statusIsOk = ref(false)
 
 // Toggle dark mode
 const toggleDarkMode = () => {
@@ -41,27 +47,42 @@ onMounted(() => {
 
       <!-- 3-Panel Grid -->
       <PanelGrid>
-        <!-- Camera Panel (placeholder) -->
-        <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-lg p-4">
-          <h2 class="text-xl font-semibold text-gray-900 dark:text-white">摄像头实时检测</h2>
-          <div class="text-sm text-gray-600 dark:text-gray-400 mt-1.5 mb-3.5">实时视频流分析，画面叠加跟踪 ID 与 FPS。</div>
+        <!-- Camera Panel -->
+        <Card
+          title="摄像头实时检测"
+          description="实时视频流分析，画面叠加跟踪 ID 与 FPS。"
+        >
           <!-- Content added in Phase 3 -->
-        </div>
+          <div class="text-gray-400 dark:text-gray-500 text-sm text-center py-8">
+            [摄像头面板内容待实现]
+          </div>
+        </Card>
 
-        <!-- Image Panel (placeholder) -->
-        <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-lg p-4">
-          <h2 class="text-xl font-semibold text-gray-900 dark:text-white">单张图片检测</h2>
-          <div class="text-sm text-gray-600 dark:text-gray-400 mt-1.5 mb-3.5">上传单张图片并输出检测标注结果。</div>
+        <!-- Image Panel -->
+        <Card
+          title="单张图片检测"
+          description="上传单张图片并输出检测标注结果。"
+        >
           <!-- Content added in Phase 3 -->
-        </div>
+          <div class="text-gray-400 dark:text-gray-500 text-sm text-center py-8">
+            [图片面板内容待实现]
+          </div>
+        </Card>
 
-        <!-- Video Panel (placeholder) -->
-        <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-lg p-4">
-          <h2 class="text-xl font-semibold text-gray-900 dark:text-white">离线视频分析</h2>
-          <div class="text-sm text-gray-600 dark:text-gray-400 mt-1.5 mb-3.5">上传视频并输出带跟踪轨迹与标注的结果视频。</div>
+        <!-- Video Panel -->
+        <Card
+          title="离线视频分析"
+          description="上传视频并输出带跟踪轨迹与标注的结果视频。"
+        >
           <!-- Content added in Phase 3 -->
-        </div>
+          <div class="text-gray-400 dark:text-gray-500 text-sm text-center py-8">
+            [视频面板内容待实现]
+          </div>
+        </Card>
       </PanelGrid>
+
+      <!-- Status Monitor -->
+      <StatusMonitor :message="statusMessage" :isOk="statusIsOk" />
     </div>
   </div>
 </template>

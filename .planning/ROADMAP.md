@@ -36,7 +36,10 @@
   3. Lucide icons render without errors in development build
   4. Development server successfully proxies API requests to Flask backend
   5. All dependencies install without conflicts and project builds successfully
-**Plans**: TBD
+**Plans**: 3 plans
+- [ ] 01-01-PLAN.md — Initialize Vue 3 + Vite project with TypeScript support
+- [ ] 01-02-PLAN.md — Configure Tailwind CSS with dark mode and integrate Lucide icons
+- [ ] 01-03-PLAN.md — Configure Axios API client and Vite proxy for Flask backend
 
 ### Phase 2: Styling Foundation
 **Goal**: Industrial dark mode design system with responsive layout matching existing 3-panel structure

@@ -70,7 +70,7 @@
 - [x] 03-02-PLAN.md — Create CameraPanel component with camera ID input and stream controls
 - [x] 03-03-PLAN.md — Create ImagePanel component with file upload and detection controls
 - [x] 03-04-PLAN.md — Create VideoPanel component with file upload and processing controls
-- [ ] 03-05-PLAN.md — Update App.vue to integrate all panel components with event handling
+- [x] 03-05-PLAN.md — Update App.vue to integrate all panel components with event handling
 **UI hint**: yes
 
 ### Phase 4: API & State Layer

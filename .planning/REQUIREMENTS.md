@@ -24,7 +24,7 @@ Requirements for initial Vue 3 refactoring. Each maps to roadmap phases.
 
 ### Components
 
-- [ ] **COMP-01**: App.vue root component with layout structure
+- [x] **COMP-01**: App.vue root component with layout structure
 - [x] **COMP-02**: CameraPanel component for real-time video stream
 - [ ] **COMP-03**: ImagePanel component for image upload and detection
 - [x] **COMP-04**: VideoPanel component for video upload and processing
@@ -125,7 +125,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | STYLE-02 | Phase 2 | Complete |
 | STYLE-03 | Phase 2 | Complete |
 | STYLE-04 | Phase 2 | Complete |
-| COMP-01 | Phase 3 | Pending |
+| COMP-01 | Phase 3 | Complete |
 | COMP-02 | Phase 3 | Complete |
 | COMP-03 | Phase 3 | Pending |
 | COMP-04 | Phase 3 | Complete |

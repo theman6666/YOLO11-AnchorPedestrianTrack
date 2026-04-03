@@ -31,7 +31,7 @@ Requirements for initial Vue 3 refactoring. Each maps to roadmap phases.
 - [ ] **COMP-05**: StatusMonitor component for system status messages
 - [ ] **COMP-06**: Hero section component with project title and badges
 - [ ] **COMP-07**: Preview container component for image/video results
-- [ ] **COMP-08**: File input component with drag-and-drop support
+- [x] **COMP-08**: File input component with drag-and-drop support
 
 ### API Integration
 
@@ -132,7 +132,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | COMP-05 | Phase 3 | Pending |
 | COMP-06 | Phase 3 | Pending |
 | COMP-07 | Phase 3 | Pending |
-| COMP-08 | Phase 3 | Pending |
+| COMP-08 | Phase 3 | Complete |
 | API-01 | Phase 4 | Pending |
 | API-02 | Phase 4 | Pending |
 | API-03 | Phase 4 | Pending |

@@ -78,6 +78,16 @@ Use these entry points:
 - `/gsd:execute-phase` for planned phase work
 
 Do not make direct repo edits outside a GSD workflow unless the user explicitly asks to bypass it.
+
+### GSD Execution Exception
+
+**When invoked via `/gsd:execute-phase`**, the following policies are temporarily suspended for GSD executor agents:
+
+- **Code Modification**: Executors may create, modify, and delete files as specified in PLAN.md tasks
+- **Command Execution**: Executors may run npm, git, and other shell commands required for task completion
+- **Git Commits**: Executors will create atomic commits after each task
+
+This exception applies **only** to GSD executor subagents (`gsd-executor`) running planned tasks. All other interactions must still follow the base policies above.
 <!-- GSD:workflow-end -->
 
 <!-- GSD:profile-start -->

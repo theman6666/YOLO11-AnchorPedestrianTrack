@@ -12,8 +12,8 @@ Requirements for initial Vue 3 refactoring. Each maps to roadmap phases.
 - [x] **SETUP-01**: Vue 3 + Vite project initialized with TypeScript support
 - [x] **SETUP-02**: Tailwind CSS configured with dark mode support
 - [x] **SETUP-03**: Lucide-Vue-Next icons library integrated
-- [ ] **SETUP-04**: Axios installed and configured for API communication
-- [ ] **SETUP-05**: Development server configured to proxy Flask backend API
+- [x] **SETUP-04**: Axios installed and configured for API communication
+- [x] **SETUP-05**: Development server configured to proxy Flask backend API
 
 ### Styling
 
@@ -119,8 +119,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | SETUP-01 | Phase 1 | Complete |
 | SETUP-02 | Phase 1 | Complete |
 | SETUP-03 | Phase 1 | Complete |
-| SETUP-04 | Phase 1 | Pending |
-| SETUP-05 | Phase 1 | Pending |
+| SETUP-04 | Phase 1 | Complete |
+| SETUP-05 | Phase 1 | Complete |
 | STYLE-01 | Phase 2 | Pending |
 | STYLE-02 | Phase 2 | Pending |
 | STYLE-03 | Phase 2 | Pending |

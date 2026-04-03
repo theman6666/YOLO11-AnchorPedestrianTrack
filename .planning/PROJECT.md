@@ -20,10 +20,13 @@ A maintainable, scalable frontend architecture that preserves all existing detec
 
 ### Active
 
-- [ ] Component-based architecture (CameraPanel, ImagePanel, VideoPanel, StatusMonitor)
 - [ ] Axios-based API communication layer
-- [ ] Responsive layout preserving existing 3-panel grid structure
 - [ ] State management for detection results and status messages
+
+### Validated
+
+- [x] Component-based architecture (CameraPanel, ImagePanel, VideoPanel, StatusMonitor) — Validated in Phase 3
+- [x] Responsive layout preserving existing 3-panel grid structure — Validated in Phase 2
 
 ### Validated
 
@@ -94,4 +97,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-03 after Phase 2 completion*
+*Last updated: 2026-04-03 after Phase 3 completion*

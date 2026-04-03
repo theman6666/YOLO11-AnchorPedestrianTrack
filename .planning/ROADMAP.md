@@ -52,7 +52,7 @@
   4. Typography and spacing are consistent across all sections
 **Plans**: 2 plans
 - [x] 02-01-PLAN.md — Create HeroSection and PanelGrid layout components with page container
-- [ ] 02-02-PLAN.md — Create reusable UI components (Card, PreviewArea, StatusMonitor)
+- [x] 02-02-PLAN.md — Create reusable UI components (Card, PreviewArea, StatusMonitor)
 **UI hint**: yes
 
 ### Phase 3: Component Architecture

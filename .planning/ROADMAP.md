@@ -67,9 +67,9 @@
   5. All components accept props and emit events according to their interface contracts
 **Plans**: 5 plans
 - [x] 03-01-PLAN.md — Create FileInput component with drag-drop visual and typed emits
-- [ ] 03-02-PLAN.md — Create CameraPanel component with camera ID input and stream controls
-- [ ] 03-03-PLAN.md — Create ImagePanel component with file upload and detection controls
-- [ ] 03-04-PLAN.md — Create VideoPanel component with file upload and processing controls
+- [x] 03-02-PLAN.md — Create CameraPanel component with camera ID input and stream controls
+- [x] 03-03-PLAN.md — Create ImagePanel component with file upload and detection controls
+- [x] 03-04-PLAN.md — Create VideoPanel component with file upload and processing controls
 - [ ] 03-05-PLAN.md — Update App.vue to integrate all panel components with event handling
 **UI hint**: yes
 

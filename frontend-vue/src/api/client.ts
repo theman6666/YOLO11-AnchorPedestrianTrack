@@ -1,4 +1,5 @@
-import axios, { AxiosError, AxiosResponse } from 'axios'
+import axios, { AxiosError } from 'axios'
+import type { AxiosResponse } from 'axios'
 import type { DetectionResponse, ApiError } from './types'
 
 // Create Axios instance with base URL from environment

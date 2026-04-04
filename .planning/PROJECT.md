@@ -18,10 +18,11 @@ A maintainable, scalable frontend architecture that preserves all existing detec
 - ✓ Flask backend API serving detection results — existing
 - ✓ Person count and FPS overlay on video streams — existing
 
-### Active
+### Validated
 
-- [ ] Axios-based API communication layer
-- [ ] State management for detection results and status messages
+- [x] Axios-based API communication layer — Validated in Phase 4
+- [x] State management for detection results and status messages — Validated in Phase 4
+- [x] Manual E2E test documentation for feature verification — Validated in Phase 5
 
 ### Validated
 
@@ -73,11 +74,11 @@ A maintainable, scalable frontend architecture that preserves all existing detec
 
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
-| Vue 3 + Vite | Modern build tooling, fast HMR, excellent ecosystem | — Pending |
-| Tailwind CSS | Rapid styling, dark mode support, industrial aesthetic | — Pending |
-| Component architecture | Code reuse, maintainability, testability | — Pending |
-| Axios for API | Clean promise-based HTTP, better than fetch for complex apps | — Pending |
-| Lucide icons | Modern, consistent icon set for industrial feel | — Pending |
+| Vue 3 + Vite | Modern build tooling, fast HMR, excellent ecosystem | ✓ Validated in Phase 1 |
+| Tailwind CSS | Rapid styling, dark mode support, industrial aesthetic | ✓ Validated in Phase 2 |
+| Component architecture | Code reuse, maintainability, testability | ✓ Validated in Phase 3 |
+| Axios for API | Clean promise-based HTTP, better than fetch for complex apps | ✓ Validated in Phase 4 |
+| Lucide icons | Modern, consistent icon set for industrial feel | ✓ Validated in Phase 1 |
 
 ## Evolution
 
@@ -97,4 +98,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-03 after Phase 3 completion*
+*Last updated: 2026-04-04 after Phase 5 completion*

@@ -37,3 +37,8 @@ __screenshots__/
 
 # Vite
 *.timestamp-*-*.mjs
+
+# Environment files (deployment-specific configuration)
+.env.development
+.env.production
+.env

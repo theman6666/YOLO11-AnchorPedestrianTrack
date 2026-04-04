@@ -7,6 +7,7 @@ import StatusMonitor from '@/components/layout/StatusMonitor.vue'
 import CameraPanel from '@/components/panels/CameraPanel.vue'
 import ImagePanel from '@/components/panels/ImagePanel.vue'
 import VideoPanel from '@/components/panels/VideoPanel.vue'
+import { detectImage, detectVideo } from '@/api/client'
 
 // Reactive state for dark mode
 const isDark = ref(false)

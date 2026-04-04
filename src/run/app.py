@@ -42,6 +42,25 @@ for folder in (
 
 app = Flask(__name__, template_folder=str(TEMPLATE_DIR))
 
+# CORS支持 - 处理跨域请求
+@app.before_request
+def handle_options_request():
+    """处理OPTIONS预检请求"""
+    if request.method == 'OPTIONS':
+        response = Response()
+        response.headers['Access-Control-Allow-Origin'] = '*'
+        response.headers['Access-Control-Allow-Methods'] = 'GET, POST, OPTIONS'
+        response.headers['Access-Control-Allow-Headers'] = 'Content-Type'
+        return response
+
+@app.after_request
+def add_cors_headers(response):
+    """添加CORS头到所有响应"""
+    response.headers['Access-Control-Allow-Origin'] = '*'
+    response.headers['Access-Control-Allow-Methods'] = 'GET, POST, OPTIONS'
+    response.headers['Access-Control-Allow-Headers'] = 'Content-Type'
+    return response
+
 model_path = "result/hybrid_weights/YOLO11m_CBAM_Hybrid_local6/weights/best.pt"
 tracker = PedestrianTracker(model_path=model_path)
 

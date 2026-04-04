@@ -35,11 +35,11 @@ Requirements for initial Vue 3 refactoring. Each maps to roadmap phases.
 
 ### API Integration
 
-- [ ] **API-01**: Axios instance configured with base URL and error handling
+- [x] **API-01**: Axios instance configured with base URL and error handling
 - [x] **API-02**: Video stream endpoint integration (`/video_feed`)
-- [ ] **API-03**: Image detection endpoint integration (`POST /detect/image`)
-- [ ] **API-04**: Video detection endpoint integration (`POST /detect/video`)
-- [ ] **API-05**: Result file serving integration (`/results/<path>`)
+- [x] **API-03**: Image detection endpoint integration (`POST /detect/image`)
+- [x] **API-04**: Video detection endpoint integration (`POST /detect/video`)
+- [x] **API-05**: Result file serving integration (`/results/<path>`)
 
 ### Features - Camera
 
@@ -69,10 +69,10 @@ Requirements for initial Vue 3 refactoring. Each maps to roadmap phases.
 ### State Management
 
 - [x] **STATE-01**: Reactive state for camera status (idle/running/stopped)
-- [ ] **STATE-02**: Reactive state for detection results (count, image URL, video URL)
-- [ ] **STATE-03**: Reactive state for system status messages
-- [ ] **STATE-04**: File input state management for selected files
-- [ ] **STATE-05**: Loading state for async operations
+- [x] **STATE-02**: Reactive state for detection results (count, image URL, video URL)
+- [x] **STATE-03**: Reactive state for system status messages
+- [x] **STATE-04**: File input state management for selected files
+- [x] **STATE-05**: Loading state for async operations
 
 ### Build & Deployment
 
@@ -133,11 +133,11 @@ Which phases cover which requirements. Updated during roadmap creation.
 | COMP-06 | Phase 3 | Pending |
 | COMP-07 | Phase 3 | Complete |
 | COMP-08 | Phase 3 | Complete |
-| API-01 | Phase 4 | Pending |
+| API-01 | Phase 4 | Complete |
 | API-02 | Phase 4 | Complete |
-| API-03 | Phase 4 | Pending |
-| API-04 | Phase 4 | Pending |
-| API-05 | Phase 4 | Pending |
+| API-03 | Phase 4 | Complete |
+| API-04 | Phase 4 | Complete |
+| API-05 | Phase 4 | Complete |
 | CAM-01 | Phase 5 | Pending |
 | CAM-02 | Phase 5 | Pending |
 | CAM-03 | Phase 5 | Pending |
@@ -155,10 +155,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 | VID-05 | Phase 5 | Pending |
 | VID-06 | Phase 5 | Pending |
 | STATE-01 | Phase 4 | Complete |
-| STATE-02 | Phase 4 | Pending |
-| STATE-03 | Phase 4 | Pending |
-| STATE-04 | Phase 4 | Pending |
-| STATE-05 | Phase 4 | Pending |
+| STATE-02 | Phase 4 | Complete |
+| STATE-03 | Phase 4 | Complete |
+| STATE-04 | Phase 4 | Complete |
+| STATE-05 | Phase 4 | Complete |
 | BUILD-01 | Phase 6 | Pending |
 | BUILD-02 | Phase 6 | Pending |
 | BUILD-03 | Phase 6 | Pending |

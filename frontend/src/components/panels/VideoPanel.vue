@@ -38,6 +38,15 @@ const handleFileChange = (file: File) => {
   selectedFile.value = file
 }
 
+// Helper function to format file size
+const formatFileSize = (bytes: number): string => {
+  if (bytes === 0) return '0 Bytes'
+  const k = 1024
+  const sizes = ['Bytes', 'KB', 'MB', 'GB']
+  const i = Math.floor(Math.log(bytes) / Math.log(k))
+  return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i]
+}
+
 const handleDetect = () => {
   if (selectedFile.value) {
     emit('detect', selectedFile.value)
@@ -59,6 +68,29 @@ const handleDetect = () => {
         label="选择视频文件"
         @change="handleFileChange"
       />
+
+      <!-- File Name Display -->
+      <div
+        v-if="selectedFile"
+        class="flex items-center justify-between bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg px-3 py-2"
+      >
+        <div class="flex-1 min-w-0">
+          <div class="text-sm font-medium text-gray-700 dark:text-gray-300 truncate">
+            {{ selectedFile.name }}
+          </div>
+          <div class="text-xs text-gray-500 dark:text-gray-400">
+            {{ formatFileSize(selectedFile.size) }}
+          </div>
+        </div>
+        <button
+          @click="selectedFile = null"
+          class="ml-2 text-sm text-red-500 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300"
+          type="button"
+          aria-label="Clear selection"
+        >
+          清除
+        </button>
+      </div>
 
       <!-- Detect Button -->
       <button

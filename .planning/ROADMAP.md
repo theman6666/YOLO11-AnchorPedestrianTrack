@@ -21,8 +21,8 @@
 | 2. Styling Foundation | 2/2 | Complete | 2026-04-03 |
 | 3. Component Architecture | 5/5 | Complete | 2026-04-03 |
 | 4. API & State Layer | 2/2 | Complete   | 2026-04-04 |
-| 5. Feature Verification & Testing | 1/1 | Not started | - |
-| 6. Build & Deployment | 0/2 | Not started | - |
+| 5. Feature Verification & Testing | 1/1 | Complete | 2026-04-04 |
+| 6. Build & Deployment | 2/3 + 1 gap | Gap closure | - |
 
 ## Phase Details
 
@@ -111,7 +111,10 @@
   2. Build output serves correctly through Flask static file routing
   3. Environment variable system allows API base URL configuration for different environments
   4. Build scripts work for both development and production deployments
-**Plans**: TBD
+**Plans**: 3 plans (2 complete + 1 gap closure)
+- [x] 06-01-PLAN.md — Configure environment variable system for dev/prod builds
+- [x] 06-02-PLAN.md — Create production build and integrate Flask SPA serving
+- [ ] 06-03-PLAN.md — Fix duplicate root route blocking SPA serving (gap closure)
 
 ---
 **Total Requirements:** 48

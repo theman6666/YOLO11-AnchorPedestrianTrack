@@ -98,37 +98,33 @@ const handleImageDetect = async (file: File) => {
   }
 }
 
-// Video panel event handler (Phase 4 will implement API call)
+// Video panel event handler
 const handleVideoDetect = async (file: File) => {
   console.log('Detect video:', file.name)
-  statusMessage.value = '正在进行视频检测，耗时可能较长，请稍候。'
-  statusIsOk.value = false
+
+  // Set loading state before API call (per D-09, D-13)
   processing.value.video = true
   videoErrorMessage.value = undefined
+  statusMessage.value = '正在进行视频检测，耗时可能较长，请稍候。'
+  statusIsOk.value = false
 
   try {
-    // Phase 4: Implement API call to /detect/video
-    // const formData = new FormData()
-    // formData.append('file', file)
-    // const response = await fetch('/detect/video', { method: 'POST', body: formData })
-    // const data = await response.json()
+    // Call API helper (per D-10)
+    const data = await detectVideo(file)
 
-    // Simulate API call for now
-    await new Promise(resolve => setTimeout(resolve, 2000))
-
-    // Phase 4: Update with real data
-    // videoResultUrl.value = data.video_url
-    // videoStats.value = data.stats
-    // statusMessage.value = data.message || '视频检测完成。'
-    // statusIsOk.value = true
-
-    statusMessage.value = '视频检测功能将在 Phase 4 实现。'
+    // Update reactive state with response (per D-11, D-17)
+    videoResultUrl.value = `${data.video_url}?t=${Date.now()}`
+    videoStats.value = data.stats
+    statusMessage.value = data.message || '视频检测完成。'
     statusIsOk.value = true
   } catch (error) {
-    statusMessage.value = '视频检测出错。'
+    // Handle error with hybrid approach (per D-04, D-06)
+    const errorMessage = error instanceof Error ? error.message : '视频检测出错。'
+    videoErrorMessage.value = errorMessage
+    statusMessage.value = errorMessage
     statusIsOk.value = false
-    videoErrorMessage.value = '视频检测出错。'
   } finally {
+    // Always clear loading state (per D-13, D-14)
     processing.value.video = false
   }
 }

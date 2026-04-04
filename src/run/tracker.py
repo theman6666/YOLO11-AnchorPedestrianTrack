@@ -135,9 +135,9 @@ class PedestrianTracker:
         out_fps = in_fps if in_fps and in_fps > 1 else 25.0
         cap.release()
 
-        # 创建 VideoWriter - 使用 mp4v 编码（MP4兼容）
+        # 创建 VideoWriter - 使用 avc1 编码（H.264，浏览器广泛支持）
         output_path_str = str(output_path)
-        fourcc = cv2.VideoWriter_fourcc(*"mp4v")
+        fourcc = cv2.VideoWriter_fourcc(*"avc1")
         writer = cv2.VideoWriter(output_path_str, fourcc, out_fps, (width, height))
 
         if not writer.isOpened():

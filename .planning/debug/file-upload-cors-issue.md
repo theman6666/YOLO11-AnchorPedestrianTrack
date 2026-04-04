@@ -1,5 +1,5 @@
 ---
-status: verifying
+status: verifying_ui_improvement
 trigger: "Investigate issue: file-upload-cors-issue"
 created: 2026-04-04T00:00:00Z
 updated: 2026-04-04T10:26:53Z
@@ -75,6 +75,10 @@ started: 在main分支没有出现过这个问题，在YOLOBOT分支出现了
   checked: Frontend rebuild with empty VITE_API_BASE_URL
   found: npm run build completed successfully, built JavaScript no longer contains localhost:5000
   implication: CORS issue should be resolved - file upload should work on first attempt
+- timestamp: 2026-04-04T10:55:08Z
+  checked: UI improvement for file selection feedback
+  found: Added file name display with size information to ImagePanel and VideoPanel components
+  implication: Users can now see which file is selected before clicking detect button, providing visual confirmation that file selection succeeded
 
 ## Resolution
 root_cause: .env.production has VITE_API_BASE_URL=http://localhost:5000, causing frontend to make API calls to localhost:5000 when served from IP address (192.168.2.13:5000), resulting in cross-origin requests blocked by CORS policy
@@ -85,4 +89,6 @@ verification:
 - Access via IP address (192.168.2.13:5000)
 - Test file upload - should work on first attempt
 - Verify no CORS errors in browser console
-files_changed: [frontend/.env.production, frontend/dist/ (rebuilt)]
+- ✅ UI improvement: File name displays after selection with size information
+- ✅ Clear button allows deselection without starting detection
+files_changed: [frontend/.env.production, frontend/dist/ (rebuilt), frontend/src/components/panels/ImagePanel.vue, frontend/src/components/panels/VideoPanel.vue]

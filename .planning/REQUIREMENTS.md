@@ -78,8 +78,8 @@ Requirements for initial Vue 3 refactoring. Each maps to roadmap phases.
 
 - [ ] **BUILD-01**: Production build configured for static asset serving
 - [ ] **BUILD-02**: Build output compatible with Flask static file serving
-- [ ] **BUILD-03**: Environment variables configuration for API base URL
-- [ ] **BUILD-04**: Build scripts defined for development and production
+- [x] **BUILD-03**: Environment variables configuration for API base URL
+- [x] **BUILD-04**: Build scripts defined for development and production
 
 ## v2 Requirements
 
@@ -161,8 +161,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | STATE-05 | Phase 4 | Complete |
 | BUILD-01 | Phase 6 | Pending |
 | BUILD-02 | Phase 6 | Pending |
-| BUILD-03 | Phase 6 | Pending |
-| BUILD-04 | Phase 6 | Pending |
+| BUILD-03 | Phase 6 | Complete |
+| BUILD-04 | Phase 6 | Complete |
 
 **Coverage:**
 - v1 requirements: 48 total

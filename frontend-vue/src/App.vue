@@ -67,37 +67,33 @@ const handleCameraStop = () => {
   statusIsOk.value = false
 }
 
-// Image panel event handler (Phase 4 will implement API call)
+// Image panel event handler
 const handleImageDetect = async (file: File) => {
   console.log('Detect image:', file.name)
-  statusMessage.value = '正在进行图片检测...'
-  statusIsOk.value = false
+
+  // Set loading state before API call (per D-09, D-13)
   processing.value.image = true
   imageErrorMessage.value = undefined
+  statusMessage.value = '正在进行图片检测...'
+  statusIsOk.value = false
 
   try {
-    // Phase 4: Implement API call to /detect/image
-    // const formData = new FormData()
-    // formData.append('file', file)
-    // const response = await fetch('/detect/image', { method: 'POST', body: formData })
-    // const data = await response.json()
+    // Call API helper (per D-10)
+    const data = await detectImage(file)
 
-    // Simulate API call for now
-    await new Promise(resolve => setTimeout(resolve, 1000))
-
-    // Phase 4: Update with real data
-    // imageResultUrl.value = data.image_url
-    // imagePersonCount.value = data.count
-    // statusMessage.value = data.message || '图片检测完成。'
-    // statusIsOk.value = true
-
-    statusMessage.value = '图片检测功能将在 Phase 4 实现。'
+    // Update reactive state with response (per D-11, D-16)
+    imageResultUrl.value = `${data.image_url}?t=${Date.now()}`
+    imagePersonCount.value = data.count ?? 0
+    statusMessage.value = data.message || '图片检测完成。'
     statusIsOk.value = true
   } catch (error) {
-    statusMessage.value = '图片检测出错。'
+    // Handle error with hybrid approach (per D-04, D-06)
+    const errorMessage = error instanceof Error ? error.message : '图片检测出错。'
+    imageErrorMessage.value = errorMessage
+    statusMessage.value = errorMessage
     statusIsOk.value = false
-    imageErrorMessage.value = '图片检测出错。'
   } finally {
+    // Always clear loading state (per D-13, D-14)
     processing.value.image = false
   }
 }

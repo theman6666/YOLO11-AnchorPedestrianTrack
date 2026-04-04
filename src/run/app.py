@@ -26,6 +26,9 @@ RESULT_IMAGE_DIR = RESULT_DIR / "images"
 RESULT_VIDEO_DIR = RESULT_DIR / "videos"
 PORT = 5000
 
+# Frontend Vue.js SPA dist directory
+DIST_DIR = PROJECT_ROOT / "frontend-vue" / "dist"
+
 ALLOWED_IMAGE_EXTS = {"jpg", "jpeg", "png", "bmp", "webp"}
 ALLOWED_VIDEO_EXTS = {"mp4", "avi", "mov", "mkv", "webm"}
 
@@ -186,6 +189,45 @@ def detect_video():
 @app.route("/results/<path:filename>")
 def serve_result(filename: str):
     return send_from_directory(str(RESULT_DIR), filename)
+
+
+# ========== SPA Serving Routes ==========
+
+# Serve SPA index.html at root
+@app.route("/")
+def serve_spa_index():
+    """Serve the Vue.js Single Page Application entry point."""
+    return send_from_directory(str(DIST_DIR), "index.html")
+
+
+# Serve static assets (JS, CSS, fonts, etc.)
+@app.route("/assets/<path:filename>")
+def serve_assets(filename):
+    """Serve static assets from the Vue.js build output."""
+    return send_from_directory(str(DIST_DIR / "assets"), filename)
+
+
+# Serve favicon
+@app.route("/favicon.ico")
+def serve_favicon():
+    """Serve the favicon from the Vue.js build output."""
+    return send_from_directory(str(DIST_DIR), "favicon.ico")
+
+
+# Catch-all route for SPA client-side routing
+@app.route("/<path:path>")
+def catch_all(path):
+    """
+    Catch-all route for SPA support.
+    Returns index.html for any non-API route to support client-side routing.
+    API routes (/video_feed, /detect, /results) are defined above and take priority.
+    """
+    # Check if the request is for an API route that should have been handled earlier
+    if path.startswith(('video_feed', 'detect', 'results')):
+        return f"API route /{path} not found", 404
+
+    # Return index.html for all other routes (SPA client-side routing)
+    return send_from_directory(str(DIST_DIR), "index.html")
 
 
 if __name__ == "__main__":

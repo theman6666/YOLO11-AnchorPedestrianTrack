@@ -43,6 +43,8 @@ const handleDetect = () => {
     emit('detect', selectedFile.value)
     // Reset input after detection starts
     fileInputRef.value?.reset()
+    // Clear selected file to prevent re-triggering
+    selectedFile.value = null
   }
 }
 </script>

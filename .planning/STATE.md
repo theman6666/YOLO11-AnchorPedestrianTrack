@@ -141,6 +141,7 @@ None yet — project in initialization phase.
 |---------|-------------|--------|-----------|--------|
 | 20260404-110241-fix-video-typeerror | 修复视频检测TypeError错误：移除process_video_file方法中的persist=True参数 | ✅ Completed | 2026-04-04 | dfab3f1 |
 | 20260404-111109-fix-cors-video-codec | 修复Flask CORS配置和视频编码器 | ✅ Completed | 2026-04-04 | e81ea36 |
+| 20260404-153712-fix-frontend-issues | 修复前端两个交互问题：摄像头停止后仍运行，文件上传后重复弹窗 | ✅ Completed | 2026-04-04 | - |
 
 ---
 

@@ -27,7 +27,7 @@ RESULT_VIDEO_DIR = RESULT_DIR / "videos"
 PORT = 5000
 
 # Frontend Vue.js SPA dist directory
-DIST_DIR = PROJECT_ROOT / "frontend-vue" / "dist"
+DIST_DIR = PROJECT_ROOT / "frontend" / "dist"
 
 ALLOWED_IMAGE_EXTS = {"jpg", "jpeg", "png", "bmp", "webp"}
 ALLOWED_VIDEO_EXTS = {"mp4", "avi", "mov", "mkv", "webm"}
@@ -78,7 +78,7 @@ def _timestamp_name(filename: str) -> str:
     return f"{timestamp}_{safe_name}"
 
 
-def _stream_camera(camera_id: int):
+def _stream_camera(camera_id: int, environ=None):
     tracker.reset_tracking_state()
     cap = cv2.VideoCapture(camera_id)
 
@@ -103,6 +103,9 @@ def _stream_camera(camera_id: int):
         return
 
     try:
+        # 计数器，每10帧检查一次连接状态（性能优化）
+        frame_counter = 0
+
         while True:
             success, frame = cap.read()
             if not success:
@@ -118,8 +121,25 @@ def _stream_camera(camera_id: int):
                 b"--frame\r\n"
                 b"Content-Type: image/jpeg\r\n\r\n" + frame_bytes + b"\r\n"
             )
+
+            # 每10帧检查一次连接是否仍然活动
+            frame_counter += 1
+            if frame_counter % 10 == 0 and environ:
+                try:
+                    # 检查socket连接是否仍然打开
+                    wsgi_input = environ.get('wsgi.input')
+                    if hasattr(wsgi_input, '_closed') and wsgi_input._closed:
+                        break
+                except:
+                    # 如果检查失败，继续运行（避免影响正常功能）
+                    pass
+
+    except GeneratorExit:
+        # 客户端断开连接时自动停止
+        pass
     finally:
         cap.release()
+        print(f"摄像头 {camera_id} 已释放")
 
 
 # OLD ROOT ROUTE REMOVED (2026-04-04)
@@ -146,7 +166,7 @@ def video_feed():
         return jsonify({"ok": False, "message": "camera_id must be an integer."}), 400
 
     return Response(
-        _stream_camera(camera_id),
+        _stream_camera(camera_id, request.environ),
         mimetype="multipart/x-mixed-replace; boundary=frame",
     )
 

@@ -103,9 +103,19 @@ def _stream_camera(camera_id: int):
         cap.release()
 
 
-@app.route("/")
-def index():
-    return render_template("index.html")
+# OLD ROOT ROUTE REMOVED (2026-04-04)
+# The following route was commented out to fix duplicate route handler issue.
+# Flask matches routes in definition order — this old route was shadowing
+# the new SPA serving route added in Phase 06-02.
+#
+# OLD CODE (REMOVED):
+#   @app.route("/")
+#   def index():
+#       return render_template("index.html")
+#
+# SPA is now served by serve_spa_index() function below,
+# which returns send_from_directory(str(DIST_DIR), "index.html")
+# to serve the Vue.js SPA from frontend-vue/dist/index.html
 
 
 @app.route("/video_feed")

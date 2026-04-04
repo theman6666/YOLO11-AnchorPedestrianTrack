@@ -10,7 +10,7 @@
 - [x] **Phase 2: Styling Foundation** - Design system with Tailwind CSS dark mode and responsive layout
 - [x] **Phase 3: Component Architecture** - Complete Vue 3 component library for all UI panels
 - [x] **Phase 4: API & State Layer** - Backend integration with Axios and reactive state management (completed 2026-04-04)
-- [ ] **Phase 5: Feature Implementation** - Camera streaming and image/video detection features
+- [ ] **Phase 5: Feature Verification & Testing** - Manual E2E test documentation for camera, image, and video features
 - [ ] **Phase 6: Build & Deployment** - Production build configuration and Flask integration
 
 ## Progress
@@ -21,7 +21,7 @@
 | 2. Styling Foundation | 2/2 | Complete | 2026-04-03 |
 | 3. Component Architecture | 5/5 | Complete | 2026-04-03 |
 | 4. API & State Layer | 2/2 | Complete   | 2026-04-04 |
-| 5. Feature Implementation | 0/4 | Not started | - |
+| 5. Feature Verification & Testing | 1/1 | Not started | - |
 | 6. Build & Deployment | 0/2 | Not started | - |
 
 ## Phase Details
@@ -87,17 +87,19 @@
 - [x] 04-01-PLAN.md — Integrate camera streaming with Flask /video_feed endpoint
 - [x] 04-02-PLAN.md — Integrate image and video detection API calls with error handling
 
-### Phase 5: Feature Implementation
-**Goal**: Complete camera streaming, image detection, and video detection features with full user workflows
+### Phase 5: Feature Verification & Testing
+**Goal**: Create comprehensive manual E2E test documentation to validate Phase 4's implemented features (all camera, image, and video functionality is already implemented)
 **Depends on**: Phase 4
 **Requirements**: CAM-01, CAM-02, CAM-03, CAM-04, CAM-05, IMG-01, IMG-02, IMG-03, IMG-04, IMG-05, VID-01, VID-02, VID-03, VID-04, VID-05, VID-06
 **Success Criteria** (what must be TRUE):
-  1. User can input camera ID, start stream, view live feed, and stop stream with status updates
-  2. User can upload image, trigger detection, view annotated result with person count
-  3. User can upload video, trigger detection, view processing state, and watch annotated video with statistics
-  4. Error messages display for failed operations or invalid file types
-  5. Buttons disable appropriately during processing to prevent duplicate requests
-**Plans**: TBD
+  1. Test environment setup document provides clear instructions for running Flask backend and Vite dev server
+  2. Camera streaming test suite validates all CAM-01 through CAM-05 requirements with step-by-step test cases
+  3. Image detection test suite validates all IMG-01 through IMG-05 requirements with step-by-step test cases
+  4. Video detection test suite validates all VID-01 through VID-06 requirements with step-by-step test cases
+  5. Edge cases and interaction state test suites cover all error scenarios and UI state transitions
+  6. Validation summary document provides requirements coverage matrix and test execution checklist
+**Plans**: 1 plan
+- [x] 05-01-PLAN.md — Create comprehensive test case documentation for manual E2E verification
 **UI hint**: yes
 
 ### Phase 6: Build & Deployment

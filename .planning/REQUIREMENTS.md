@@ -43,28 +43,28 @@ Requirements for initial Vue 3 refactoring. Each maps to roadmap phases.
 
 ### Features - Camera
 
-- [ ] **CAM-01**: User can input camera ID number
-- [ ] **CAM-02**: User can start camera stream
-- [ ] **CAM-03**: User can stop camera stream
-- [ ] **CAM-04**: Camera feed displays in preview area
-- [ ] **CAM-05**: Status message updates on camera start/stop
+- [x] **CAM-01**: User can input camera ID number
+- [x] **CAM-02**: User can start camera stream
+- [x] **CAM-03**: User can stop camera stream
+- [x] **CAM-04**: Camera feed displays in preview area
+- [x] **CAM-05**: Status message updates on camera start/stop
 
 ### Features - Image Detection
 
-- [ ] **IMG-01**: User can select image file for upload
-- [ ] **IMG-02**: User can trigger image detection
-- [ ] **IMG-03**: Detection results display annotated image
-- [ ] **IMG-04**: Person count displays after detection
-- [ ] **IMG-05**: Error handling for failed detection or invalid files
+- [x] **IMG-01**: User can select image file for upload
+- [x] **IMG-02**: User can trigger image detection
+- [x] **IMG-03**: Detection results display annotated image
+- [x] **IMG-04**: Person count displays after detection
+- [x] **IMG-05**: Error handling for failed detection or invalid files
 
 ### Features - Video Detection
 
-- [ ] **VID-01**: User can select video file for upload
-- [ ] **VID-02**: User can trigger video detection
-- [ ] **VID-03**: Processing state indication during detection
-- [ ] **VID-04**: Video results display annotated video with playback
-- [ ] **VID-05**: Video statistics display (frames, average FPS)
-- [ ] **VID-06**: Button disabled state during processing
+- [x] **VID-01**: User can select video file for upload
+- [x] **VID-02**: User can trigger video detection
+- [x] **VID-03**: Processing state indication during detection
+- [x] **VID-04**: Video results display annotated video with playback
+- [x] **VID-05**: Video statistics display (frames, average FPS)
+- [x] **VID-06**: Button disabled state during processing
 
 ### State Management
 
@@ -138,22 +138,22 @@ Which phases cover which requirements. Updated during roadmap creation.
 | API-03 | Phase 4 | Complete |
 | API-04 | Phase 4 | Complete |
 | API-05 | Phase 4 | Complete |
-| CAM-01 | Phase 5 | Pending |
-| CAM-02 | Phase 5 | Pending |
-| CAM-03 | Phase 5 | Pending |
-| CAM-04 | Phase 5 | Pending |
-| CAM-05 | Phase 5 | Pending |
-| IMG-01 | Phase 5 | Pending |
-| IMG-02 | Phase 5 | Pending |
-| IMG-03 | Phase 5 | Pending |
-| IMG-04 | Phase 5 | Pending |
-| IMG-05 | Phase 5 | Pending |
-| VID-01 | Phase 5 | Pending |
-| VID-02 | Phase 5 | Pending |
-| VID-03 | Phase 5 | Pending |
-| VID-04 | Phase 5 | Pending |
-| VID-05 | Phase 5 | Pending |
-| VID-06 | Phase 5 | Pending |
+| CAM-01 | Phase 5 | Complete |
+| CAM-02 | Phase 5 | Complete |
+| CAM-03 | Phase 5 | Complete |
+| CAM-04 | Phase 5 | Complete |
+| CAM-05 | Phase 5 | Complete |
+| IMG-01 | Phase 5 | Complete |
+| IMG-02 | Phase 5 | Complete |
+| IMG-03 | Phase 5 | Complete |
+| IMG-04 | Phase 5 | Complete |
+| IMG-05 | Phase 5 | Complete |
+| VID-01 | Phase 5 | Complete |
+| VID-02 | Phase 5 | Complete |
+| VID-03 | Phase 5 | Complete |
+| VID-04 | Phase 5 | Complete |
+| VID-05 | Phase 5 | Complete |
+| VID-06 | Phase 5 | Complete |
 | STATE-01 | Phase 4 | Complete |
 | STATE-02 | Phase 4 | Complete |
 | STATE-03 | Phase 4 | Complete |

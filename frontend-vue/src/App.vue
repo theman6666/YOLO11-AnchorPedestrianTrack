@@ -44,20 +44,27 @@ onMounted(() => {
   isDark.value = true
 })
 
-// Camera panel event handlers (Phase 4 will implement API calls)
+// Camera panel event handlers
 const handleCameraStart = (cameraId: number) => {
   console.log('Start camera:', cameraId)
+
+  // Set stream URL with timestamp to prevent browser caching (per D-02)
+  cameraStreamUrl.value = `/video_feed?camera_id=${cameraId}&t=${Date.now()}`
+
+  // Update status message (per D-15)
   statusMessage.value = `摄像头 ${cameraId} 已启动。`
   statusIsOk.value = true
-  // Phase 4: Set cameraStreamUrl.value = `/video_feed?camera_id=${cameraId}`
 }
 
 const handleCameraStop = () => {
   console.log('Stop camera')
+
+  // Clear stream URL to stop the feed (per D-03)
+  cameraStreamUrl.value = undefined
+
+  // Update status message (per D-15)
   statusMessage.value = '摄像头已停止。'
   statusIsOk.value = false
-  cameraStreamUrl.value = undefined
-  // Phase 4: Clear stream by setting src to empty string
 }
 
 // Image panel event handler (Phase 4 will implement API call)

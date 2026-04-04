@@ -36,7 +36,7 @@ Requirements for initial Vue 3 refactoring. Each maps to roadmap phases.
 ### API Integration
 
 - [ ] **API-01**: Axios instance configured with base URL and error handling
-- [ ] **API-02**: Video stream endpoint integration (`/video_feed`)
+- [x] **API-02**: Video stream endpoint integration (`/video_feed`)
 - [ ] **API-03**: Image detection endpoint integration (`POST /detect/image`)
 - [ ] **API-04**: Video detection endpoint integration (`POST /detect/video`)
 - [ ] **API-05**: Result file serving integration (`/results/<path>`)
@@ -68,7 +68,7 @@ Requirements for initial Vue 3 refactoring. Each maps to roadmap phases.
 
 ### State Management
 
-- [ ] **STATE-01**: Reactive state for camera status (idle/running/stopped)
+- [x] **STATE-01**: Reactive state for camera status (idle/running/stopped)
 - [ ] **STATE-02**: Reactive state for detection results (count, image URL, video URL)
 - [ ] **STATE-03**: Reactive state for system status messages
 - [ ] **STATE-04**: File input state management for selected files
@@ -134,7 +134,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | COMP-07 | Phase 3 | Complete |
 | COMP-08 | Phase 3 | Complete |
 | API-01 | Phase 4 | Pending |
-| API-02 | Phase 4 | Pending |
+| API-02 | Phase 4 | Complete |
 | API-03 | Phase 4 | Pending |
 | API-04 | Phase 4 | Pending |
 | API-05 | Phase 4 | Pending |
@@ -154,7 +154,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | VID-04 | Phase 5 | Pending |
 | VID-05 | Phase 5 | Pending |
 | VID-06 | Phase 5 | Pending |
-| STATE-01 | Phase 4 | Pending |
+| STATE-01 | Phase 4 | Complete |
 | STATE-02 | Phase 4 | Pending |
 | STATE-03 | Phase 4 | Pending |
 | STATE-04 | Phase 4 | Pending |

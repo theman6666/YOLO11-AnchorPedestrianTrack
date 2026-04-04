@@ -20,7 +20,7 @@
 | 1. Project Setup | 3/3 | Complete | 2026-04-03 |
 | 2. Styling Foundation | 2/2 | Complete | 2026-04-03 |
 | 3. Component Architecture | 5/5 | Complete | 2026-04-03 |
-| 4. API & State Layer | 0/2 | Planning | - |
+| 4. API & State Layer | 1/2 | In Progress|  |
 | 5. Feature Implementation | 0/4 | Not started | - |
 | 6. Build & Deployment | 0/2 | Not started | - |
 
@@ -84,7 +84,7 @@
   4. Application state updates reactively when API responses are received
   5. Loading states display during async operations and clear on completion
 **Plans**: 2 plans
-- [ ] 04-01-PLAN.md — Integrate camera streaming with Flask /video_feed endpoint
+- [x] 04-01-PLAN.md — Integrate camera streaming with Flask /video_feed endpoint
 - [ ] 04-02-PLAN.md — Integrate image and video detection API calls with error handling
 
 ### Phase 5: Feature Implementation

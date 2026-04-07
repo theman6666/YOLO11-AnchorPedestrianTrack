@@ -20,7 +20,6 @@ const emit = defineEmits<{
 }>()
 
 const inputRef = ref<HTMLInputElement | null>(null)
-
 const handleFileChange = (event: Event) => {
   const target = event.target as HTMLInputElement
   const file = target.files?.[0]
@@ -46,10 +45,7 @@ defineExpose({
     </label>
 
     <!-- Drag-drop visual overlay using PreviewArea -->
-    <div
-      class="relative group cursor-pointer"
-      @click="inputRef?.click()"
-    >
+    <div class="relative group cursor-pointer">
       <PreviewArea minHeight="120px">
         <div class="flex flex-col items-center justify-center space-y-2">
           <!-- Upload icon (use lucide-vue-next Upload icon) -->

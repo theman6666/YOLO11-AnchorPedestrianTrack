@@ -8,9 +8,12 @@ from ultralytics import YOLO
 
 class PedestrianTracker:
     def __init__(self, model_path: str):
-        self.model = YOLO(model_path)
+        # Use separate model instances for tracking and detection to avoid
+        # predictor callback state leaking between modes.
+        self.track_model = YOLO(model_path)
+        self.detect_model = YOLO(model_path)
 
-        self.tracker_config = "bytetrack.yaml"
+        self.tracker_config = str(Path(__file__).resolve().parent / "bytetrack.yaml")
         self.conf_threshold = 0.25
         self.iou_threshold = 0.5
 
@@ -24,7 +27,7 @@ class PedestrianTracker:
         self.prev_time = time.time()
         self.fps_ema = 0.0
 
-        predictor = getattr(self.model, "predictor", None)
+        predictor = getattr(self.track_model, "predictor", None)
         if predictor is not None and hasattr(predictor, "trackers"):
             predictor.trackers = None
 
@@ -80,9 +83,8 @@ class PedestrianTracker:
             return None
 
         with self._infer_lock:
-            results = self.model.track(
+            results = self.track_model.track(
                 source=frame,
-                persist=True,
                 tracker=self.tracker_config,
                 conf=self.conf_threshold,
                 iou=self.iou_threshold,
@@ -102,7 +104,7 @@ class PedestrianTracker:
             return None, 0
 
         with self._infer_lock:
-            results = self.model.predict(
+            results = self.detect_model.predict(
                 source=frame,
                 conf=self.conf_threshold,
                 iou=self.iou_threshold,
@@ -148,7 +150,7 @@ class PedestrianTracker:
         frames = 0
 
         try:
-            results = self.model.track(
+            results = self.track_model.track(
                 source=str(input_path),
                 tracker=self.tracker_config,
                 conf=self.conf_threshold,

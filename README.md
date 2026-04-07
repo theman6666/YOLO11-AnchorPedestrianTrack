@@ -51,6 +51,7 @@ YOLO11-AnchorPedestrianTrack/
 - Python 3.10/3.11
 - NVIDIA GPU（可选，但训练强烈推荐）
 - CUDA 12.1（与当前 `requirements.txt` 中 torch 版本对应）
+- FFmpeg（用于将检测结果转码为 H.264 MP4，确保浏览器可播放）
 
 ## 4. 依赖安装
 
@@ -158,6 +159,7 @@ python src/run/app.py
 - 画面叠加信息由 `src/run/tracker.py` 提供：
   - `Person Count`
   - `FPS`（指数平滑）
+- 视频检测结果会先写入临时 AVI（MJPG），再通过 FFmpeg 转为 H.264 MP4 以保证浏览器兼容性
 
 ### 7.3 常用修改点
 
@@ -188,7 +190,7 @@ python src/run/app.py
 
 - `self.conf_threshold`
 - `self.iou_threshold`
-- `self.tracker_config`（可切换到自定义 `bytetrack.yaml`）
+- `self.tracker_config`（默认使用 `src/utils/bytetrack.yaml`）
 
 ### Q2: 为什么能打开网页但看不到视频？
 

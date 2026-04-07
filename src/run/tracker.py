@@ -3,14 +3,18 @@ from pathlib import Path
 from threading import Lock
 
 import cv2
+import subprocess
 from ultralytics import YOLO
 
 
 class PedestrianTracker:
     def __init__(self, model_path: str):
-        self.model = YOLO(model_path)
+        # Use separate model instances for tracking and detection to avoid
+        # predictor callback state leaking between modes.
+        self.track_model = YOLO(model_path)
+        self.detect_model = YOLO(model_path)
 
-        self.tracker_config = "bytetrack.yaml"
+        self.tracker_config = str(Path(__file__).resolve().parents[1] / "utils" / "bytetrack.yaml")
         self.conf_threshold = 0.25
         self.iou_threshold = 0.5
 
@@ -24,9 +28,12 @@ class PedestrianTracker:
         self.prev_time = time.time()
         self.fps_ema = 0.0
 
-        predictor = getattr(self.model, "predictor", None)
+        predictor = getattr(self.track_model, "predictor", None)
         if predictor is not None and hasattr(predictor, "trackers"):
-            predictor.trackers = None
+            # Remove attribute so Ultralytics can re-initialize trackers even with persist=True.
+            del predictor.trackers
+        if predictor is not None and hasattr(predictor, "vid_path"):
+            del predictor.vid_path
 
     def _update_fps(self) -> float:
         now = time.time()
@@ -80,7 +87,7 @@ class PedestrianTracker:
             return None
 
         with self._infer_lock:
-            results = self.model.track(
+            results = self.track_model.track(
                 source=frame,
                 persist=True,
                 tracker=self.tracker_config,
@@ -102,7 +109,7 @@ class PedestrianTracker:
             return None, 0
 
         with self._infer_lock:
-            results = self.model.predict(
+            results = self.detect_model.predict(
                 source=frame,
                 conf=self.conf_threshold,
                 iou=self.iou_threshold,
@@ -136,7 +143,8 @@ class PedestrianTracker:
         cap.release()
 
         # 创建 VideoWriter - 使用 MJPG 编码（稳定兼容）
-        output_path_str = str(output_path)
+        temp_output_path = output_path.with_suffix(".avi")
+        output_path_str = str(temp_output_path)
         fourcc = cv2.VideoWriter_fourcc(*"MJPG")
         writer = cv2.VideoWriter(output_path_str, fourcc, out_fps, (width, height))
 
@@ -148,12 +156,13 @@ class PedestrianTracker:
         frames = 0
 
         try:
-            results = self.model.track(
+            results = self.track_model.track(
                 source=str(input_path),
                 tracker=self.tracker_config,
                 conf=self.conf_threshold,
                 iou=self.iou_threshold,
                 classes=[0],
+                persist=True,
                 verbose=False,
                 stream=True,
             )
@@ -169,6 +178,25 @@ class PedestrianTracker:
             writer.release()
 
         elapsed = max(time.time() - start, 1e-6)
+
+        # Transcode to H.264 MP4 so browsers can play it reliably.
+        try:
+            ffmpeg_cmd = [
+                "ffmpeg",
+                "-y",
+                "-i",
+                str(temp_output_path),
+                "-c:v",
+                "libx264",
+                "-pix_fmt",
+                "yuv420p",
+                str(output_path),
+            ]
+            subprocess.run(ffmpeg_cmd, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        finally:
+            if temp_output_path.exists():
+                temp_output_path.unlink()
+
         return {
             "frames": frames,
             "elapsed_sec": round(elapsed, 2),

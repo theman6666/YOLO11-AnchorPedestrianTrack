@@ -117,3 +117,5 @@ ultralytics/
 *.docx
 
 .claude/
+
+frontend/node_modules/

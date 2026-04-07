@@ -1,0 +1,14 @@
+# Ultralytics BYTETrack tracker config
+# https://docs.ultralytics.com/modes/track/#tracking-arguments
+
+tracker_type: bytetrack  # tracker type, ['botsort', 'bytetrack']
+track_high_thresh: 0.5   # threshold for high confidence detection
+track_low_thresh: 0.1    # threshold for low confidence detection
+new_track_thresh: 0.6    # threshold for new track initiation
+track_buffer: 30         # frames to buffer for lost tracks
+match_thresh: 0.8        # matching threshold for tracks
+fuse_score: True         # whether to fuse detection scores
+fuse_iou: True          # whether to fuse IoU for matching
+min_box_area: 10        # minimum bounding box area
+lost_buffer_size: 30    # buffer size for lost tracks
+aspect_ratio_thresh: 1.6  # aspect ratio threshold
